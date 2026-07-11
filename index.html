@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>부의 로드맵 — 한국 재테크·부업 프리미엄 가이드</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;700;900&display=swap');
+:root,[data-theme="light"]{
+  --bg:#faf9f6;--bg2:#ffffff;--bg3:#f2f0ea;--bg-elev:#ffffff;
+  --b:rgba(24,24,27,.07);--b2:rgba(24,24,27,.13);--b3:rgba(24,24,27,.03);
+  --t:#18181b;--t2:#5b6169;--t3:#9ca3ab;
+  --gold:#b8860b;--gold2:#d4a017;--gold-bg:rgba(184,134,11,.08);--gold-line:linear-gradient(90deg,#b8860b,#e6c35c);
+  --green:#15803d;--blue:#1d6fd0;--red:#c8362c;--purple:#6d43c4;--orange:#d97007;--teal:#0d9668;--pink:#c93872;--cyan:#0891a8;--indigo:#4f46e5;
+  --shadow-sm:0 1px 2px rgba(24,24,27,.04),0 1px 3px rgba(24,24,27,.06);
+  --shadow-md:0 2px 8px rgba(24,24,27,.06),0 4px 16px rgba(24,24,27,.05);
+  --shadow-lg:0 8px 30px rgba(24,24,27,.1);
+}
+[data-theme="dark"]{
+  --bg:#0b0e14;--bg2:#141922;--bg3:#1c222d;--bg-elev:#1a2029;
+  --b:rgba(255,255,255,.08);--b2:rgba(255,255,255,.16);--b3:rgba(255,255,255,.03);
+  --t:#eaeef4;--t2:#9aa4b1;--t3:#5a6472;
+  --gold:#e6c35c;--gold2:#f0d078;--gold-bg:rgba(230,195,92,.1);--gold-line:linear-gradient(90deg,#c9a227,#f0d078);
+  --green:#3fce6a;--blue:#5aa2f5;--red:#f56b60;--purple:#b088f5;--orange:#f5a03d;--teal:#2fd39a;--pink:#f56ba3;--cyan:#3fc9dd;--indigo:#8b82f5;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow-md:0 4px 16px rgba(0,0,0,.35);--shadow-lg:0 8px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.7;min-height:100vh;transition:background .35s,color .35s;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold-bg)}
+/* 상단바 */
+.topbar{position:sticky;top:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--b)}
+.brandmini{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:700;letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.brandmini .gem{color:var(--gold)}
+.topctl{display:flex;gap:8px}
+.tctl{font-size:12px;padding:6px 12px;border-radius:9px;border:1px solid var(--b2);background:var(--bg2);color:var(--t2);cursor:pointer;font-family:'Noto Sans KR',sans-serif;display:inline-flex;align-items:center;gap:5px;transition:all .18s;box-shadow:var(--shadow-sm)}
+.tctl:hover{border-color:var(--gold);color:var(--gold)}
+/* 히어로 */
+.hero{text-align:center;padding:60px 20px 44px;position:relative;overflow:hidden;border-bottom:1px solid var(--b)}
+.hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:820px;height:440px;background:radial-gradient(ellipse,var(--gold-bg) 0%,transparent 62%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:var(--gold-line);border-radius:2px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;font-weight:500;position:relative}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:clamp(28px,5.5vw,52px);font-weight:900;line-height:1.15;margin-bottom:18px;letter-spacing:-.01em;position:relative}
+.hero h1 em{font-style:normal;background:var(--gold-line);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:15px;color:var(--t2);max-width:540px;margin:0 auto 26px;line-height:1.75;position:relative;font-weight:300}
+.hero-sub b{font-weight:500;color:var(--t)}
+.hero-stats{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;position:relative}
+.hstat{text-align:center}
+.hstat b{display:block;font-family:'Noto Serif KR',serif;font-size:24px;font-weight:900;color:var(--gold);line-height:1}
+.hstat span{font-size:11px;color:var(--t3);letter-spacing:.03em}
+/* 탭 */
+.tab-wrap{max-width:1120px;margin:0 auto;padding:0 18px;position:sticky;top:52px;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
+.tab-nav{display:flex;align-items:stretch;gap:0;border-bottom:1px solid var(--b);position:relative}
+.tab-arrow{flex-shrink:0;width:32px;border:1px solid var(--b);background:var(--bg2);color:var(--t2);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .18s;margin-top:14px;border-radius:8px;z-index:2;box-shadow:var(--shadow-sm)}
+.tab-arrow:hover{color:var(--gold);border-color:var(--gold);background:var(--gold-bg)}
+.tab-arrow.hidden{opacity:0;pointer-events:none}
+.tab-arrow.left{margin-right:4px}
+.tab-arrow.right{margin-left:4px}
+.tab-bar{display:flex;gap:2px;padding:14px 0 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;flex:1;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{height:0;display:none}
+.tbtn{flex-shrink:0;font-size:12.5px;font-weight:500;padding:9px 15px;border:none;background:none;color:var(--t2);cursor:pointer;white-space:nowrap;font-family:'Noto Sans KR',sans-serif;transition:color .18s;position:relative}
+.tbtn::after{content:'';position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--gold-line);border-radius:2px;transform:scaleX(0);transition:transform .22s}
+.tbtn:hover{color:var(--t)}
+.tbtn.on{color:var(--gold)}
+.tbtn.on::after{transform:scaleX(1)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+.panel{display:none;padding:32px 0 70px}
+.panel.on{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.shi{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:var(--shadow-sm)}
+.sht{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:700}
+.shs{font-size:12px;color:var(--t2);margin-top:1px}
+.note{font-size:11.5px;color:var(--t2);background:var(--bg2);border:1px solid var(--b);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:16px;line-height:1.65;box-shadow:var(--shadow-sm)}
+.note b{color:var(--t);font-weight:500}
+/* 툴바 */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:18px;padding:13px 14px;background:var(--bg2);border:1px solid var(--b);border-radius:13px;box-shadow:var(--shadow-sm)}
+.search-in{flex:1;min-width:150px;background:var(--bg3);border:1px solid var(--b2);border-radius:9px;padding:9px 13px;color:var(--t);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .18s}
+.search-in:focus{border-color:var(--gold)}
+.fchip{font-size:11px;padding:6px 12px;border-radius:18px;border:1px solid var(--b2);color:var(--t2);cursor:pointer;background:none;font-family:'Noto Sans KR',sans-serif;transition:all .18s;user-select:none}
+.fchip:hover{border-color:var(--gold);color:var(--gold)}
+.fchip.on{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:500}
+.sort-sel{font-size:11px;padding:6px 11px;border-radius:9px;border:1px solid var(--b2);background:var(--bg3);color:var(--t2);font-family:'Noto Sans KR',sans-serif;cursor:pointer;outline:none}
+.cntbadge{font-size:11px;color:var(--t3);margin-left:auto;padding-left:8px}
+/* 카드 그리드 */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.ic{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:0;transition:transform .2s,border-color .2s,box-shadow .2s;display:flex;flex-direction:column;position:relative;box-shadow:var(--shadow-sm);overflow:hidden}
+.ic:hover{transform:translateY(-2px);border-color:var(--b2);box-shadow:var(--shadow-md)}
+.ic.started{border-color:var(--green)}
+.ic.started::before{content:'진행중';position:absolute;top:0;left:0;font-size:9px;font-weight:700;letter-spacing:.05em;color:#fff;background:var(--green);padding:3px 9px;border-radius:0 0 8px 0;z-index:2}
+.ic-accent{height:3px;background:var(--acc,var(--gold))}
+.ic-body{padding:17px 18px 0;display:flex;flex-direction:column;flex:1}
+.badges{position:absolute;top:12px;right:12px;display:flex;gap:9px;align-items:center;z-index:3}
+.chk{font-size:11px;cursor:pointer;color:var(--t3);user-select:none;display:inline-flex;align-items:center;gap:3px;transition:color .15s}
+.chk:hover{color:var(--green)}
+.chk.on{color:var(--green);font-weight:500}
+.star{font-size:17px;cursor:pointer;color:var(--t3);transition:all .15s;user-select:none;line-height:1}
+.star:hover{color:var(--gold);transform:scale(1.15)}
+.star.on{color:var(--gold)}
+.ict{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px;padding-right:64px}
+.icicon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.icnamewrap{flex:1;min-width:0}
+.icname{font-size:14.5px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.grade{font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px;letter-spacing:.03em}
+.grade.S{background:linear-gradient(135deg,#b8860b,#e6c35c);color:#fff}
+.grade.A{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold)}
+.grade.B{background:var(--bg3);color:var(--t2);border:1px solid var(--b2)}
+.ictag{font-size:10px;padding:2px 8px;border-radius:11px;font-weight:500;display:inline-block}
+.icearn{margin:0 0 12px;font-size:16px;font-weight:900;font-family:'Noto Serif KR',serif}
+.icearn small{font-size:11px;color:var(--t3);font-weight:400;font-family:'Noto Sans KR',sans-serif;margin-left:6px}
+.icdesc{font-size:12.5px;color:var(--t2);line-height:1.65;margin-bottom:13px}
+/* 시각 배지 (난이도/기간/비용) */
+.icbars{display:flex;flex-direction:column;gap:6px;margin-bottom:13px;padding:11px 12px;background:var(--bg3);border-radius:10px}
+.bar-row{display:flex;align-items:center;gap:8px;font-size:10.5px}
+.bar-lbl{color:var(--t3);width:42px;flex-shrink:0}
+.bar-track{flex:1;height:5px;background:var(--b);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.bar-val{color:var(--t2);font-weight:500;width:auto;flex-shrink:0;font-size:10px}
+.icsteps{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.step{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--t2)}
+.sn{width:19px;height:19px;border-radius:50%;background:var(--bg3);border:1px solid var(--b2);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;color:var(--t2)}
+.step b{color:var(--t);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding:13px 18px;border-top:1px solid var(--b);background:var(--b3)}
+.lbtn{font-size:11px;padding:6px 12px;border-radius:8px;background:var(--bg2);border:1px solid var(--b2);color:var(--t2);cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;gap:4px}
+.lbtn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.lbtn.pri{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:500}
+.cmpbtn{font-size:11px;padding:6px 10px;border-radius:8px;background:none;border:1px solid var(--b2);color:var(--t3);cursor:pointer;transition:all .18s;margin-left:auto}
+.cmpbtn:hover{border-color:var(--indigo);color:var(--indigo)}
+.cmpbtn.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.empty{text-align:center;padding:44px;color:var(--t3);font-size:13px;grid-column:1/-1}
+/* 진단 */
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:13px;margin-bottom:13px}
+.dc{background:var(--bg2);border:1px solid var(--b);border-radius:13px;padding:19px;box-shadow:var(--shadow-sm)}
+.dc label{font-size:11px;color:var(--t2);display:block;margin-bottom:9px;font-weight:500}
+.dc input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer;margin-bottom:6px}
+.dv{font-size:23px;font-weight:900;color:var(--gold);font-family:'Noto Serif KR',serif}
+.dvu{font-size:12px;color:var(--t2);font-weight:400;font-family:'Noto Sans KR',sans-serif}
+.cr{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:12px;padding:6px 14px;border-radius:20px;border:1px solid var(--b2);color:var(--t2);cursor:pointer;background:none;font-family:'Noto Sans KR',sans-serif;transition:all .18s;user-select:none}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+.chip.on{background:var(--gold-bg);border-color:var(--gold);color:var(--gold);font-weight:500}
+.run-btn{width:100%;padding:15px;background:linear-gradient(135deg,#b8860b,#d4a017);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:13px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:filter .18s,transform .1s;margin-top:8px;box-shadow:var(--shadow-md)}
+.run-btn:hover{filter:brightness(1.06)}
+.run-btn:active{transform:scale(.99)}
+.result{display:none;margin-top:38px;padding-top:34px;border-top:1px solid var(--b)}
+.result.on{display:block;animation:fade .4s ease}
+.rh{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:30px;padding-bottom:22px;border-bottom:1px solid var(--b)}
+.rht{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;line-height:1.3}
+.rht em{color:var(--gold);font-style:normal}
+.rhs{font-size:12px;color:var(--t2);margin-top:5px}
+.rhr{text-align:right}
+.rhrl{font-size:10px;color:var(--t3);margin-bottom:3px}
+.rhrn{font-size:28px;font-weight:900;color:var(--green);font-family:'Noto Serif KR',serif}
+.slabel{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:26px 0 14px;font-weight:500;padding-bottom:7px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px}
+.slabel::before{content:'';width:14px;height:2px;background:var(--gold-line);border-radius:2px}
+.tl{position:relative;padding-left:28px;margin-top:6px}
+.tl::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--gold),var(--b2));border-radius:2px}
+.tli{position:relative;margin-bottom:24px}
+.tld{position:absolute;left:-24px;top:6px;width:14px;height:14px;border-radius:50%;border:3px solid var(--bg)}
+.tlp{font-size:10px;color:var(--t3);letter-spacing:.05em;font-weight:500;margin-bottom:3px}
+.tlh{font-size:13.5px;font-weight:700;margin-bottom:3px}
+.tlb{font-size:12px;color:var(--t2);line-height:1.6}
+.tlbg{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:8px;background:var(--bg3)}
+.share{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;justify-content:center}
+.sbtn{font-size:13px;padding:10px 22px;border-radius:9px;border:1px solid var(--b2);background:var(--bg2);color:var(--t2);cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .18s;box-shadow:var(--shadow-sm)}
+.sbtn:hover{border-color:var(--gold);color:var(--gold)}
+.sbtn.pri{background:linear-gradient(135deg,#b8860b,#d4a017);color:#fff;border-color:transparent;font-weight:700}
+/* 대시보드 통계 */
+.statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:20px}
+.statcard{background:var(--bg2);border:1px solid var(--b);border-radius:13px;padding:17px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.statcard::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold-line)}
+.statv{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:900;color:var(--gold);line-height:1}
+.statl{font-size:11px;color:var(--t3);margin-top:6px}
+.goalbox{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.goalhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.goalset{display:flex;align-items:center;gap:8px}
+.goalset input{width:90px;background:var(--bg3);border:1px solid var(--b2);border-radius:9px;padding:7px 11px;color:var(--t);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none}
+.goalset input:focus{border-color:var(--gold)}
+.gauge{height:16px;background:var(--bg3);border-radius:9px;overflow:hidden;margin-bottom:9px}
+.gaugefill{height:100%;background:var(--gold-line);border-radius:9px;transition:width .6s cubic-bezier(.4,0,.2,1);width:0}
+.goalstat{font-size:12px;color:var(--t2)}
+.goalstat b{color:var(--gold);font-weight:700}
+/* 종합 시뮬레이터 */
+.simbox{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:22px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.simrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.simcard{background:var(--bg3);border-radius:11px;padding:15px;text-align:center}
+.simcard .yr{font-size:10px;color:var(--t3);letter-spacing:.05em}
+.simcard .amt{font-family:'Noto Serif KR',serif;font-size:19px;font-weight:900;margin-top:5px}
+/* 캘린더 */
+.calgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.calday{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:14px;box-shadow:var(--shadow-sm)}
+.calday h4{font-size:12px;font-weight:700;margin-bottom:9px;color:var(--gold);display:flex;align-items:center;gap:5px}
+.caltask{font-size:11.5px;color:var(--t2);padding:4px 0;line-height:1.4;display:flex;gap:6px;align-items:flex-start}
+.caltask::before{content:'•';color:var(--gold)}
+/* 챌린지 */
+.chal{background:var(--bg2);border:1px solid var(--b);border-radius:13px;padding:17px 19px;margin-bottom:12px;box-shadow:var(--shadow-sm)}
+.chalw{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.05em;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.chaltask{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--t2);padding:5px 0}
+.chalcheck{width:19px;height:19px;border-radius:6px;border:1.5px solid var(--b2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all .15s;margin-top:1px}
+.chalcheck.on{background:var(--green);border-color:var(--green);color:#fff}
+/* 비교 모달 */
+.cmpbar{position:fixed;bottom:0;left:0;right:0;z-index:70;background:var(--bg2);border-top:1px solid var(--b2);padding:12px 18px;display:none;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.1)}
+.cmpbar.on{display:flex}
+.cmpbar .lbl{font-size:12px;color:var(--t2);font-weight:500}
+.cmpbar .items{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.cmpitem{font-size:11px;padding:4px 10px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;gap:5px}
+.cmpitem b{cursor:pointer;color:var(--red)}
+.cmpgo{font-size:12px;padding:8px 16px;background:var(--indigo);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:500}
+.cmptable{width:100%;border-collapse:collapse;margin-top:8px;font-size:12px}
+.cmptable th,.cmptable td{padding:11px 10px;text-align:left;border-bottom:1px solid var(--b)}
+.cmptable th{color:var(--t3);font-weight:500;font-size:11px}
+.cmptable td{color:var(--t2)}
+.cmptable td b{color:var(--t);font-weight:500}
+/* 계산기 */
+.sb{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.sb h3{font-size:15px;font-weight:700;margin-bottom:18px;color:var(--t);font-family:'Noto Serif KR',serif}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.sf label{font-size:11px;color:var(--t2);display:block;margin-bottom:5px}
+.sf input{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:9px;padding:9px 11px;color:var(--t);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none}
+.sf input:focus{border-color:var(--gold)}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.rb{background:var(--bg3);border-radius:10px;padding:15px;text-align:center}
+.rbl{font-size:10px;color:var(--t3);margin-bottom:6px}
+.rbv{font-size:18px;font-weight:900;font-family:'Noto Serif KR',serif}
+.disc{text-align:center;padding:30px 18px;font-size:11px;color:var(--t3);line-height:1.75;border-top:1px solid var(--b);margin-top:44px}
+/* 오늘의 추천 */
+.todaybox{background:linear-gradient(135deg,var(--gold-bg),transparent);border:1px solid var(--gold);border-radius:14px;padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;box-shadow:var(--shadow-sm)}
+.today-badge{font-size:10px;font-weight:700;color:#fff;background:var(--gold-line);padding:4px 11px;border-radius:20px;letter-spacing:.03em;white-space:nowrap}
+.today-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.today-info{flex:1;min-width:150px}
+.today-name{font-size:15px;font-weight:700;font-family:'Noto Serif KR',serif;margin-bottom:2px}
+.today-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.today-go{font-size:12px;padding:8px 16px;border-radius:9px;background:var(--gold);color:#fff;border:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:500;white-space:nowrap}
+.today-go:hover{filter:brightness(1.08)}
+/* 통합검색 */
+.globalsearch{position:relative;margin-bottom:14px}
+.gsearch-in{width:100%;background:var(--bg2);border:1.5px solid var(--b2);border-radius:12px;padding:13px 44px 13px 16px;color:var(--t);font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .18s;box-shadow:var(--shadow-sm)}
+.gsearch-in:focus{border-color:var(--gold)}
+.gsearch-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--bg3);border:none;width:26px;height:26px;border-radius:50%;color:var(--t2);cursor:pointer;font-size:12px}
+.gsresult{margin-bottom:20px}
+.gsresult:empty{display:none}
+/* HOT 태그 */
+.hottag{font-size:9px;font-weight:700;padding:1px 6px;border-radius:5px;letter-spacing:.02em;margin-left:4px}
+.hottag.hot{background:rgba(200,54,44,.12);color:var(--red)}
+.hottag.new{background:rgba(13,150,104,.12);color:var(--teal)}
+.hottag.easy{background:rgba(29,111,208,.12);color:var(--blue)}
+/* 메모 */
+.memo-btn{font-size:11px;padding:6px 10px;border-radius:8px;background:none;border:1px solid var(--b2);color:var(--t3);cursor:pointer;transition:all .18s}
+.memo-btn:hover{border-color:var(--purple);color:var(--purple)}
+.memo-btn.has{border-color:var(--purple);color:var(--purple);background:rgba(109,67,196,.08)}
+.memo-area{margin:0 18px 14px;display:none}
+.memo-area.on{display:block}
+.memo-area textarea{width:100%;background:var(--bg3);border:1px solid var(--b2);border-radius:9px;padding:9px 11px;color:var(--t);font-size:12px;font-family:'Noto Sans KR',sans-serif;outline:none;resize:vertical;min-height:56px}
+.memo-area textarea:focus{border-color:var(--purple)}
+/* 레벨 */
+.levelbox{background:var(--bg2);border:1px solid var(--b);border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.level-emoji{width:56px;height:56px;border-radius:14px;background:var(--gold-bg);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.level-info{flex:1;min-width:180px}
+.level-name{font-size:17px;font-weight:900;font-family:'Noto Serif KR',serif}
+.level-name em{color:var(--gold);font-style:normal}
+.level-sub{font-size:12px;color:var(--t2);margin-top:2px}
+.level-bar{height:8px;background:var(--bg3);border-radius:5px;overflow:hidden;margin-top:8px}
+.level-fill{height:100%;background:var(--gold-line);border-radius:5px;transition:width .6s}
+.badges-row{display:flex;gap:8px;flex-wrap:wrap}
+.abadge{font-size:11px;padding:6px 12px;border-radius:20px;background:var(--bg3);color:var(--t3);border:1px solid var(--b);display:flex;align-items:center;gap:5px}
+.abadge.on{background:var(--gold-bg);color:var(--gold);border-color:var(--gold);font-weight:500}
+/* 용어사전 */
+.glosswrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.glosscard{background:var(--bg2);border:1px solid var(--b);border-radius:12px;padding:16px 18px;box-shadow:var(--shadow-sm)}
+.glossterm{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.glossdef{font-size:12.5px;color:var(--t2);line-height:1.6}
+@media(max-width:580px){.rh{flex-direction:column}.rhr{text-align:left}.simrow{grid-template-columns:1fr}.tab-wrap{position:static}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brandmini"><span class="gem">◆</span> AI 재테크 연구소</div>
+  <div class="topctl"><button class="tctl" id="dataBtn">💾 백업</button><button class="tctl" id="themeBtn">🌙 다크</button></div>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">Premium Wealth Roadmap · 2026 Edition</div>
+  <h1>한국에서 돈 버는<br><em>118가지 완전판</em></h1>
+  <p class="hero-sub">앱테크부터 AI 신종 부업, 투자·부동산·창작까지.<br><b>내 상황을 진단</b>하고 <b>정밀하게 설계</b>된 로드맵으로 시작하세요.</p>
+  <div class="hero-stats">
+    <div class="hstat"><b id="hsTotal">90</b><span>수익원</span></div>
+    <div class="hstat"><b>9</b><span>카테고리</span></div>
+    <div class="hstat"><b>100%</b><span>무료·무설치</span></div>
+  </div>
+</div>
+
+<div class="tab-wrap">
+  <div class="tab-nav">
+    <button class="tab-arrow left hidden" id="tabLeft" aria-label="이전 메뉴">◀</button>
+    <div class="tab-bar" id="tabBar">
+      <button class="tbtn on" data-tab="0">🎯 맞춤 진단</button>
+      <button class="tbtn" data-tab="1">📊 내 대시보드</button>
+      <button class="tbtn" data-tab="2">📱 앱테크</button>
+      <button class="tbtn" data-tab="3">🤖 AI·신종 부업</button>
+      <button class="tbtn" data-tab="4">💻 인터넷·크리에이터</button>
+      <button class="tbtn" data-tab="5">🛍️ 판매·리셀·창작</button>
+      <button class="tbtn" data-tab="6">📈 주식·투자</button>
+      <button class="tbtn" data-tab="7">🏠 부동산·실물</button>
+      <button class="tbtn" data-tab="8">💰 절약·전문 부업</button>
+      <button class="tbtn" data-tab="9">📖 용어사전</button>
+      <button class="tbtn" data-tab="10">🧮 계산기</button>
+    </div>
+    <button class="tab-arrow right" id="tabRight" aria-label="다음 메뉴">▶</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="panel on" id="p0">
+  <div class="todaybox" id="todayBox"></div>
+  <div class="globalsearch"><input class="gsearch-in" id="globalSearch" placeholder="🔍 110개 부업 전체에서 검색... (예: 재택, 앱, AI, 배당)" oninput="globalSearchRun()"><button class="gsearch-clear" id="gsClear" onclick="clearGlobalSearch()" style="display:none">✕</button></div>
+  <div class="gsresult" id="gsResult"></div>
+  <div id="diagMain">
+  <div class="sh"><div class="shi" style="background:var(--gold-bg)">🎯</div><div><div class="sht">나의 상황 진단</div><div class="shs">조건을 입력하면 우선순위·수익추정·5단계 로드맵을 설계합니다</div></div></div>
+  <div class="note">💡 진단 결과엔 각 수익원의 <b>실제 시작 링크·난이도·예상수익</b>이 함께 표시됩니다. 별표(☆) 즐겨찾기, 체크(○) 시작표시로 대시보드에서 관리하세요.</div>
+  <div class="dg">
+    <div class="dc"><label>월 실수령 소득</label><input type="range" id="ri" min="100" max="1200" step="10" value="300" oninput="V('vi',this.value)"><div class="dv"><span id="vi">300</span><span class="dvu"> 만원/월</span></div></div>
+    <div class="dc"><label>매월 투자 가능 여유자금</label><input type="range" id="rs" min="0" max="600" step="5" value="50" oninput="V('vs',this.value)"><div class="dv"><span id="vs">50</span><span class="dvu"> 만원/월</span></div></div>
+    <div class="dc"><label>현재 보유 종잣돈</label><input type="range" id="rk" min="0" max="20000" step="100" value="1000" oninput="V('vk',this.value)"><div class="dv"><span id="vk">1,000</span><span class="dvu"> 만원</span></div></div>
+    <div class="dc"><label>부업에 쓸 수 있는 시간</label><input type="range" id="rt" min="0" max="40" step="1" value="5" oninput="V('vt',this.value)"><div class="dv"><span id="vt">5</span><span class="dvu"> 시간/주</span></div></div>
+  </div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">나이대</label><div class="cr" id="ga"><button class="chip" data-v="20">20대</button><button class="chip on" data-v="30">30대</button><button class="chip" data-v="40">40대</button><button class="chip" data-v="50">50대 이상</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">투자 성향</label><div class="cr" id="gst"><button class="chip on" data-v="safe">안전 우선</button><button class="chip" data-v="bal">균형형</button><button class="chip" data-v="growth">고수익 추구</button></div></div>
+  <div class="dc" style="margin-bottom:22px"><label style="margin-bottom:11px;display:block">관심 분야 (복수 선택)</label><div class="cr" id="gin"><button class="chip on" data-v="stock">주식·ETF</button><button class="chip on" data-v="app">앱테크</button><button class="chip" data-v="ai">AI 부업</button><button class="chip" data-v="content">블로그·유튜브</button><button class="chip" data-v="store">온라인 판매</button><button class="chip" data-v="resell">중고·리셀</button><button class="chip" data-v="saving">절약</button><button class="chip" data-v="realty">부동산</button><button class="chip" data-v="dividend">배당</button><button class="chip" data-v="freelance">프리랜서</button></div></div>
+  <button class="run-btn" id="runBtn">내 맞춤 수익 로드맵 설계하기 →</button>
+  <div class="result" id="diagResult">
+    <div class="rh"><div><div class="rht" id="rT">결과</div><div class="rhs" id="rS"></div></div><div class="rhr"><div class="rhrl">월 추가 수익 잠재력</div><div class="rhrn" id="rP">—</div><div style="font-size:10px;color:var(--t3)">현실적 목표 기준</div></div></div>
+    <div class="slabel">추천 수익원 · 우선순위 순</div>
+    <div class="cg" id="rC"></div>
+    <div class="slabel" style="margin-top:30px">단계별 실행 로드맵</div>
+    <div class="tl" id="rTL"></div>
+    <div class="share"><button class="sbtn pri" id="copyBtn">결과 복사 → 카페 공유</button><button class="sbtn" id="resetBtn">다시 진단하기</button></div>
+  </div>
+  </div>
+</div>
+
+<div class="panel" id="p1">
+  <div class="sh"><div class="shi" style="background:var(--gold-bg)">📊</div><div><div class="sht">내 대시보드</div><div class="shs">레벨 · 통계 · 목표 · 종합 시뮬레이터 · 실행 캘린더 · 30일 챌린지</div></div></div>
+  <div class="levelbox" id="levelBox"></div>
+  <div class="statgrid" id="statGrid"></div>
+  <div class="goalbox">
+    <div class="goalhead"><div><div style="font-size:13px;font-weight:700;font-family:'Noto Serif KR',serif">이번 달 부업 목표</div><div style="font-size:11px;color:var(--t3);margin-top:2px">시작한 부업들의 예상 수익 합계로 진척도가 계산됩니다</div></div>
+      <div class="goalset">목표 <input type="number" id="goalInput" value="50" oninput="renderDash()"> 만원/월</div></div>
+    <div class="gauge"><div class="gaugefill" id="gaugeFill"></div></div>
+    <div class="goalstat">현재 예상 수익 <b id="goalCur">0원</b> / 목표 <span id="goalTgt">50만원</span> <span id="goalPct" style="margin-left:6px"></span></div>
+  </div>
+  <div class="simbox">
+    <div style="font-size:13px;font-weight:700;font-family:'Noto Serif KR',serif;margin-bottom:4px">💹 종합 수익 시뮬레이터</div>
+    <div style="font-size:11px;color:var(--t3)">시작한 부업 월수익을 전액 연 8% 복리 투자했을 때 예상 자산</div>
+    <div class="simrow"><div class="simcard"><div class="yr">1년 후</div><div class="amt" id="sim1" style="color:var(--green)">—</div></div><div class="simcard"><div class="yr">3년 후</div><div class="amt" id="sim3" style="color:var(--blue)">—</div></div><div class="simcard"><div class="yr">5년 후</div><div class="amt" id="sim5" style="color:var(--gold)">—</div></div></div>
+  </div>
+  <div class="slabel">✅ 진행 중인 부업</div>
+  <div class="cg" id="startedList"></div>
+  <div class="empty" id="startedEmpty">아직 시작한 부업이 없습니다. 각 카드의 "○ 시작함"을 체크하세요.</div>
+  <div class="slabel" style="margin-top:30px">🗓️ 맞춤 주간 실행 캘린더</div>
+  <div class="calgrid" id="calGrid"></div>
+  <div class="empty" id="calEmpty">즐겨찾기를 추가하면 요일별 실행 계획이 자동 배치됩니다.</div>
+  <div class="slabel" style="margin-top:30px">⭐ 즐겨찾기</div>
+  <div class="cg" id="favList"></div>
+  <div class="empty" id="favEmpty">즐겨찾기한 부업이 없습니다. 카드의 ☆를 눌러보세요.</div>
+  <div class="slabel" style="margin-top:30px">📅 30일 실행 챌린지</div>
+  <div id="challengeBox"></div>
+  <div class="empty" id="chalEmpty">즐겨찾기를 추가하면 4주 실행 플랜이 자동 생성됩니다.</div>
+</div>
+
+<div class="panel" id="p2"><div class="sh"><div class="shi" style="background:rgba(29,111,208,.12)">📱</div><div><div class="sht">앱테크·스마트폰 부업</div><div class="shs">5개 이상 조합 시 월 3~5만원 · 하루 10~20분</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s2" placeholder="🔎 검색..." oninput="filt(2)"><button class="fchip on" data-f2="all">전체</button><button class="fchip" data-f2="무료">0원</button><button class="fchip" data-f2="쉬움">쉬움</button><button class="fchip" data-f2="즉시">즉시형</button><select class="sort-sel" id="sort2" onchange="filt(2)"><option value="def">기본순</option><option value="earn">수익 높은순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt2"></span></div>
+  <div class="cg" id="list2"></div></div>
+<div class="panel" id="p3"><div class="sh"><div class="shi" style="background:rgba(8,145,168,.12)">🤖</div><div><div class="sht">AI·신종 부업 (2026 트렌드)</div><div class="shs">지금 가장 빠르게 성장하는 새 돈벌이 — 초기 진입자 유리</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s3" placeholder="🔎 검색..." oninput="filt(3)"><button class="fchip on" data-f3="all">전체</button><button class="fchip" data-f3="무료">0원</button><button class="fchip" data-f3="재택">재택</button><button class="fchip" data-f3="자동">자동화</button><select class="sort-sel" id="sort3" onchange="filt(3)"><option value="def">기본순</option><option value="earn">수익 높은순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt3"></span></div>
+  <div class="cg" id="list3"></div></div>
+<div class="panel" id="p4"><div class="sh"><div class="shi" style="background:rgba(13,150,104,.12)">💻</div><div><div class="sht">인터넷·크리에이터 부업</div><div class="shs">집에서 자동화·반복 수익 구조</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s4" placeholder="🔎 검색..." oninput="filt(4)"><button class="fchip on" data-f4="all">전체</button><button class="fchip" data-f4="무료">0원</button><button class="fchip" data-f4="재택">재택</button><button class="fchip" data-f4="자동">자동화</button><select class="sort-sel" id="sort4" onchange="filt(4)"><option value="def">기본순</option><option value="earn">수익 높은순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt4"></span></div>
+  <div class="cg" id="list4"></div></div>
+<div class="panel" id="p5"><div class="sh"><div class="shi" style="background:rgba(201,56,114,.12)">🛍️</div><div><div class="sht">판매·중고·리셀·창작</div><div class="shs">물건·창작물로 돈 벌기</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s5" placeholder="🔎 검색..." oninput="filt(5)"><button class="fchip on" data-f5="all">전체</button><button class="fchip" data-f5="무료">0원</button><button class="fchip" data-f5="자동">자동화</button><select class="sort-sel" id="sort5" onchange="filt(5)"><option value="def">기본순</option><option value="earn">수익 높은순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt5"></span></div>
+  <div class="cg" id="list5"></div></div>
+<div class="panel" id="p6"><div class="sh"><div class="shi" style="background:var(--gold-bg)">📈</div><div><div class="sht">주식·ETF·배당 투자</div><div class="shs">돈이 돈을 버는 복리의 마법</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s6" placeholder="🔎 검색..." oninput="filt(6)"><button class="fchip on" data-f6="all">전체</button><button class="fchip" data-f6="쉬움">쉬움</button><button class="fchip" data-f6="안전">안전형</button><select class="sort-sel" id="sort6" onchange="filt(6)"><option value="def">기본순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt6"></span></div>
+  <div class="cg" id="list6"></div></div>
+<div class="panel" id="p7"><div class="sh"><div class="shi" style="background:rgba(109,67,196,.12)">🏠</div><div><div class="sht">부동산·실물 자산</div><div class="shs">청약·리츠·조각투자·경매·저작권</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s7" placeholder="🔎 검색..." oninput="filt(7)"><button class="fchip on" data-f7="all">전체</button><button class="fchip" data-f7="무료">0원</button><select class="sort-sel" id="sort7" onchange="filt(7)"><option value="def">기본순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt7"></span></div>
+  <div class="cg" id="list7"></div></div>
+<div class="panel" id="p8"><div class="sh"><div class="shi" style="background:rgba(13,150,104,.12)">💰</div><div><div class="sht">절약·안전자산·전문 부업</div><div class="shs">지출 최적화 + 고금리 예적금 + 전문 재택</div></div></div>
+  <div class="toolbar"><input class="search-in" id="s8" placeholder="🔎 검색..." oninput="filt(8)"><button class="fchip on" data-f8="all">전체</button><button class="fchip" data-f8="무료">0원</button><button class="fchip" data-f8="쉬움">쉬움</button><button class="fchip" data-f8="재택">재택</button><select class="sort-sel" id="sort8" onchange="filt(8)"><option value="def">기본순</option><option value="easy">쉬운순</option><option value="grade">추천순</option></select><span class="cntbadge" id="cnt8"></span></div>
+  <div class="cg" id="list8"></div></div>
+
+<div class="panel" id="p9"><div class="sh"><div class="shi" style="background:rgba(109,67,196,.12)">📖</div><div><div class="sht">부업·재테크 용어 사전</div><div class="shs">초보가 헷갈리는 용어를 쉽게 풀이했어요</div></div></div>
+  <div class="toolbar"><input class="search-in" id="glossSearch" placeholder="🔎 용어 검색..." oninput="renderGloss()"></div>
+  <div class="glosswrap" id="glossList"></div>
+</div>
+
+<div class="panel" id="p10"><div class="sh"><div class="shi" style="background:rgba(29,111,208,.12)">🧮</div><div><div class="sht">수익 계산기 3종</div><div class="shs">숫자로 미래를 설계하세요</div></div></div>
+  <div class="sb"><h3>📈 복리 성장 시뮬레이터</h3><div class="sg"><div class="sf"><label>종잣돈 (만원)</label><input type="number" id="c1" value="1000" oninput="calc()"></div><div class="sf"><label>월 투자금 (만원)</label><input type="number" id="c2" value="50" oninput="calc()"></div><div class="sf"><label>연 수익률 (%)</label><input type="number" id="c3" value="8" step="0.1" oninput="calc()"></div><div class="sf"><label>투자 기간 (년)</label><input type="number" id="c4" value="10" oninput="calc()"></div></div><div class="rg"><div class="rb"><div class="rbl">총 투자 원금</div><div class="rbv" id="o1" style="color:var(--t2)">—</div></div><div class="rb"><div class="rbl">복리 수익</div><div class="rbv" id="o2" style="color:var(--green)">—</div></div><div class="rb"><div class="rbl">최종 자산</div><div class="rbv" id="o3" style="color:var(--gold)">—</div></div><div class="rb"><div class="rbl">수익률</div><div class="rbv" id="o4" style="color:var(--purple)">—</div></div></div></div>
+  <div class="sb"><h3>💵 배당 수익 계산기</h3><div class="sg"><div class="sf"><label>투자 금액 (만원)</label><input type="number" id="d1" value="5000" oninput="calc()"></div><div class="sf"><label>배당 수익률 (%)</label><input type="number" id="d2" value="4" step="0.1" oninput="calc()"></div><div class="sf"><label>세율 (%)</label><input type="number" id="d3" value="15.4" step="0.1" oninput="calc()"></div></div><div class="rg"><div class="rb"><div class="rbl">연 배당 (세전)</div><div class="rbv" id="d4" style="color:var(--t2)">—</div></div><div class="rb"><div class="rbl">세후 연 배당</div><div class="rbv" id="d5" style="color:var(--green)">—</div></div><div class="rb"><div class="rbl">월 수령액</div><div class="rbv" id="d6" style="color:var(--gold)">—</div></div></div></div>
+  <div class="sb"><h3>🏪 부업 목표 계산기</h3><div class="sg"><div class="sf"><label>목표 월 부업 수익 (만원)</label><input type="number" id="b1" value="100" oninput="calc()"></div><div class="sf"><label>주당 투입 시간 (시간)</label><input type="number" id="b2" value="10" oninput="calc()"></div></div><div class="rg"><div class="rb"><div class="rbl">시간당 수익 목표</div><div class="rbv" id="b3" style="color:var(--t2)">—</div></div><div class="rb"><div class="rbl">연 부업 수익</div><div class="rbv" id="b4" style="color:var(--green)">—</div></div><div class="rb"><div class="rbl">3년 누적</div><div class="rbv" id="b5" style="color:var(--gold)">—</div></div></div></div>
+</div>
+
+<div class="disc">이 웹페이지는 교육·참고 목적으로만 제공됩니다. 링크는 각 서비스 공식 페이지로 연결되며 제휴·광고 관계가 없습니다.<br>실제 수익은 개인 노력에 따라 크게 다르며, 투자·코인·부동산·저작권은 원금 손실 위험이 있습니다. 중요한 결정 전 전문가와 상담하세요.<br>모든 데이터는 브라우저 내에만 저장됩니다. ⓒ AI 재테크 연구소 · Premium Edition</div>
+</div>
+
+<div class="cmpbar" id="cmpBar"><span class="lbl">⚖️ 비교</span><div class="items" id="cmpItems"></div><button class="cmpgo" id="cmpGo">비교표 보기</button></div>
+
+<script>
+function $(id){return document.getElementById(id)}
+function fmt(n){if(n>=100000000)return (n/100000000).toFixed(1)+'억원';if(n>=10000000)return (n/10000000).toFixed(1)+'천만원';if(n>=10000)return (n/10000).toFixed(0)+'만원';return Math.round(n).toLocaleString()+'원';}
+function mf(n){return fmt(n*10000);}
+function V(id,v){$(id).textContent=Number(v).toLocaleString();}
+var COL={gl:'var(--gold)',gr:'var(--green)',bl:'var(--blue)',pu:'var(--purple)',or:'var(--orange)',pk:'var(--pink)',tl:'var(--teal)',rd:'var(--red)',cy:'var(--cyan)',ig:'var(--indigo)'};
+
+var theme=localStorage.getItem('rr_theme')||'light';
+document.documentElement.setAttribute('data-theme',theme);
+function updThemeBtn(){$('themeBtn').textContent=theme==='light'?'🌙 다크':'☀️ 라이트';}
+$('themeBtn').addEventListener('click',function(){theme=theme==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',theme);localStorage.setItem('rr_theme',theme);updThemeBtn();});
+updThemeBtn();
+
+var FAV={},STARTED={},CHAL={},CMP=[];
+try{FAV=JSON.parse(localStorage.getItem('rr_fav')||'{}');}catch(e){}
+try{STARTED=JSON.parse(localStorage.getItem('rr_started')||'{}');}catch(e){}
+try{CHAL=JSON.parse(localStorage.getItem('rr_chal')||'{}');}catch(e){}
+function saveState(){try{localStorage.setItem('rr_fav',JSON.stringify(FAV));localStorage.setItem('rr_started',JSON.stringify(STARTED));localStorage.setItem('rr_chal',JSON.stringify(CHAL));}catch(e){}}
+function toggleFav(id){if(FAV[id])delete FAV[id];else FAV[id]=1;saveState();refreshAll();}
+function toggleStarted(id){if(STARTED[id])delete STARTED[id];else STARTED[id]=1;saveState();refreshAll();}
+
+$('dataBtn').addEventListener('click',function(){
+  var code=btoa(unescape(encodeURIComponent(JSON.stringify({f:FAV,s:STARTED,c:CHAL,g:$('goalInput').value}))));
+  var action=prompt('💾 백업/복원\n\n아래 코드를 복사해 보관하세요 (기기 변경 시 붙여넣기).\n다른 기기에서 복원하려면 이 코드를 붙여넣고 확인을 누르세요:',code);
+  if(action&&action!==code){try{var d=JSON.parse(decodeURIComponent(escape(atob(action.trim()))));FAV=d.f||{};STARTED=d.s||{};CHAL=d.c||{};if(d.g)$('goalInput').value=d.g;saveState();refreshAll();alert('복원 완료!');}catch(e){alert('코드가 올바르지 않습니다.');}}
+});
+
+$('tabBar').addEventListener('click',function(e){var btn=e.target.closest('.tbtn');if(!btn)return;var idx=btn.getAttribute('data-tab');document.querySelectorAll('.tbtn').forEach(function(b){b.classList.remove('on');});document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});btn.classList.add('on');$('p'+idx).classList.add('on');if(idx==='1')renderDash();if(idx==='9')renderGloss();window.scrollTo({top:0,behavior:'smooth'});
+  var r=btn.getBoundingClientRect(),br=$('tabBar').getBoundingClientRect();
+  if(r.left<br.left||r.right>br.right)btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});});
+
+// 화살표 네비게이션
+var tabBarEl=$('tabBar'),tabLeft=$('tabLeft'),tabRight=$('tabRight');
+function updArrows(){
+  var sl=tabBarEl.scrollLeft,max=tabBarEl.scrollWidth-tabBarEl.clientWidth;
+  tabLeft.classList.toggle('hidden',sl<=2);
+  tabRight.classList.toggle('hidden',sl>=max-2);
+}
+tabLeft.addEventListener('click',function(){tabBarEl.scrollBy({left:-200,behavior:'smooth'});});
+tabRight.addEventListener('click',function(){tabBarEl.scrollBy({left:200,behavior:'smooth'});});
+tabBarEl.addEventListener('scroll',updArrows);
+window.addEventListener('resize',updArrows);
+setTimeout(updArrows,100);
+
+document.querySelectorAll('.cr').forEach(function(row){var m=(row.id==='gin');row.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;if(m){c.classList.toggle('on');}else{row.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');}});});
+
+function earnVal(o){if(o._ev!==undefined)return o._ev;var s=o.earn||'';var m=s.match(/(\d[\d,\.]*)\s*(억|천만|만)?/g);var max=0;if(m){m.forEach(function(x){var num=parseFloat(x.replace(/[^\d\.]/g,''))||0;if(x.indexOf('억')>=0)num*=10000;else if(x.indexOf('천만')>=0)num*=1000;max=Math.max(max,num);});}o._ev=max;return max;}
+function diffVal(o){return o.diff||3;}
+function gradeVal(o){return o.grade==='S'?3:o.grade==='A'?2:1;}
+
+function bar(lbl,val,max,color,txt){var pct=Math.round(val/max*100);return '<div class="bar-row"><span class="bar-lbl">'+lbl+'</span><span class="bar-track"><span class="bar-fill" style="width:'+pct+'%;background:'+color+'"></span></span><span class="bar-val">'+txt+'</span></div>';}
+
+function card(o){
+  var steps=(o.steps||[]).map(function(s,i){return '<div class="step"><div class="sn">'+(i+1)+'</div><div>'+s+'</div></div>';}).join('');
+  var links=(o.links||[]).map(function(l){return '<a class="lbtn'+(l.pri?' pri':'')+'" href="'+l.url+'" target="_blank" rel="noopener">'+(l.pri?'▶ ':'')+l.name+' ↗</a>';}).join('');
+  var acc=COL[o.cls]||'var(--gold)';
+  var st=STARTED[o.id]?' started':'';
+  var starOn=FAV[o.id]?' on':'',chkOn=STARTED[o.id]?' on':'';
+  var cmpOn=CMP.indexOf(o.id)>=0?' on':'';
+  var diffTxt=['','매우쉬움','쉬움','보통','어려움','전문'][o.diff||3];
+  var diffColor=o.diff<=2?'var(--green)':o.diff==3?'var(--gold)':'var(--red)';
+  var costMax=o.costLv||1;
+  var speedTxt=o.speed||'중기';
+  var speedLv=o.speed==='즉시'?5:o.speed==='단기'?4:o.speed==='중기'?3:o.speed==='장기'?2:1;
+  var bars='<div class="icbars">'+bar('난이도',(o.diff||3),5,diffColor,diffTxt)+bar('초기비용',costMax,5,'var(--blue)',(o.cost||'0원'))+bar('수익시점',speedLv,5,'var(--teal)',speedTxt)+'</div>';
+  return '<div class="ic'+st+'" data-id="'+o.id+'">'+
+    '<div class="ic-accent" style="--acc:'+acc+'"></div>'+
+    '<div class="badges"><span class="chk'+chkOn+'" onclick="toggleStarted(\''+o.id+'\')">'+(STARTED[o.id]?'✓ 시작함':'○ 시작함')+'</span><span class="star'+starOn+'" onclick="toggleFav(\''+o.id+'\')">'+(FAV[o.id]?'★':'☆')+'</span></div>'+
+    '<div class="ic-body"><div class="ict"><div class="icicon" style="background:'+o.bg+'">'+o.icon+'</div><div class="icnamewrap"><div class="icname">'+o.name+' <span class="grade '+(o.grade||'B')+'">'+(o.grade||'B')+'급</span></div><span class="ictag" style="color:'+o.tc+';background:'+o.tb+'">'+o.tag+'</span></div></div>'+
+    '<div class="icearn" style="color:'+o.ec+'">'+o.earn+'<small>'+(o.esub||'현실적 목표')+'</small></div>'+
+    '<div class="icdesc">'+o.desc+'</div>'+bars+'<div class="icsteps">'+steps+'</div></div>'+
+    '<div class="links">'+links+'<button class="cmpbtn'+cmpOn+'" onclick="toggleCmp(\''+o.id+'\')">⚖️ 비교</button></div></div>';
+}
+
+var DATA={"2":[{"id":"cashwalk","cls":"gr","grade":"S","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🚶","bg":"rgba(21,128,61,.1)","name":"캐시워크","tag":"만보기 1위","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 1~3만원","ec":"var(--green)","desc":"2,900만 다운로드 국내 1위. 1만보 100캐시, 돈버는퀴즈 최대 75캐시, 럭키캐시 룰렛. 5,000원부터 기프티콘.","steps":["앱 설치 → <b>걷기 자동 적립</b>","점심 <b>돈버는퀴즈</b> 3~5개","럭키캐시 룰렛 <b>매일</b>"],"links":[{"name":"구글플레이","url":"https://play.google.com/store/search?q=캐시워크&c=apps","pri":true},{"name":"앱스토어","url":"https://apps.apple.com/kr/search?term=캐시워크"}],"flags":["무료","쉬움","즉시"]},{"id":"toss","cls":"bl","grade":"S","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"👣","bg":"rgba(29,111,208,.1)","name":"토스 만보기·행운퀴즈","tag":"현금성","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 0.5~1만원","ec":"var(--blue)","desc":"1,973만 사용자 금융앱 1위. 만보기+행운퀴즈+행운복권. 포인트가 현금과 동일해 즉시 계좌이체.","steps":["토스 → <b>만보기 켜기</b>","매일 <b>행운퀴즈·복권</b>","포인트 <b>즉시 이체</b>"],"links":[{"name":"토스 공식","url":"https://toss.im/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"monimo","cls":"pk","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🍯","bg":"rgba(201,56,114,.1)","name":"삼성 모니모","tag":"금융 통합","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 0.5~1.5만원","ec":"var(--pink)","desc":"삼성 금융 4사 통합 앱. 젤리 리워드로 현금화. 매일 출석·만보기·미션. 삼성 계열이라 신뢰도 높음.","steps":["모니모 설치","매일 <b>젤리 미션</b>","젤리 → <b>현금 전환</b>"],"links":[{"name":"모니모","url":"https://www.samsungfire.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"pays","cls":"bl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"💛","bg":"rgba(29,111,208,.1)","name":"카카오·네이버·페이코","tag":"출석·이벤트","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 0.5~1만원","ec":"var(--blue)","desc":"3대 페이앱 출석체크·구슬 모으기·행운상자. 페이 포인트는 실사용 가능해 사실상 현금.","steps":["3개 앱 <b>출석체크</b>","이벤트·구슬 모으기","포인트 <b>쇼핑·송금</b>"],"links":[{"name":"카카오페이","url":"https://www.kakaopay.com/","pri":true},{"name":"네이버페이","url":"https://pay.naver.com/"},{"name":"페이코","url":"https://www.payco.com/"}],"flags":["무료","쉬움","즉시"]},{"id":"tiktok","cls":"rd","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🎵","bg":"rgba(200,54,44,.1)","name":"틱톡 라이트","tag":"영상 시청 적립","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"월 1~4만원","ec":"var(--red)","desc":"영상 시청·출석·친구 초대로 포인트 적립. 앱테크 중 적립 속도가 빠른 편. 초대 이벤트 시 목돈도 가능.","steps":["틱톡 라이트 <b>설치</b>","영상 시청·출석 <b>미션</b>","친구 초대 <b>보너스</b>"],"links":[{"name":"틱톡 라이트","url":"https://www.tiktok.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"survey","cls":"pu","grade":"S","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📋","bg":"rgba(109,67,196,.1)","name":"설문 앱 (패널파워·엠브레인)","tag":"수익 1위","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 3~10만원","ec":"var(--purple)","desc":"국내 대표 설문 플랫폼. 건당 500~5,000원. 프로필 상세히 입력할수록 고가 설문 배정. 앱테크 중 시간당 수익 최고.","steps":["가입 → <b>프로필 100%</b>","알림 켜고 <b>즉시 참여</b>","1만원↑ <b>현금 출금</b>"],"links":[{"name":"패널파워","url":"https://www.panelpower.co.kr/","pri":true},{"name":"엠브레인","url":"https://www.panel.co.kr/"}],"flags":["무료"],"esub":"앱 중 최고 수익"},{"id":"survey2","cls":"pk","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📝","bg":"rgba(201,56,114,.1)","name":"오베이·틸리언프로","tag":"설문 조합","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 2~8만원","ec":"var(--pink)","desc":"모바일 설문 앱. 3~5개 동시 가입해서 설문이 올 때마다 참여하는 게 수익 극대화 핵심.","steps":["3~5개 앱 <b>동시 가입</b>","알림 켜고 <b>바로 참여</b>","포인트 <b>현금·기프티콘</b>"],"links":[{"name":"오베이","url":"https://www.ovey.co.kr/","pri":true},{"name":"틸리언","url":"https://www.tillionpanel.com/"}],"flags":["무료"]},{"id":"receipt","cls":"or","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🧾","bg":"rgba(217,112,7,.1)","name":"캐시닥 영수증 적립","tag":"구매 적립","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 1~3만원","ec":"var(--orange)","desc":"편의점·마트·카페 영수증 촬영 → 포인트. 병원 영수증으로 실비 청구까지 되는 부가 기능.","steps":["영수증 <b>즉시 촬영</b>","간단 후기 작성","포인트 <b>현금화</b>"],"links":[{"name":"캐시닥","url":"https://www.cashdoc.me/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"live","cls":"rd","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"📺","bg":"rgba(200,54,44,.1)","name":"라이브쇼핑 시청 적립","tag":"2026 신규","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"월 0.5~2만원","ec":"var(--red)","desc":"네이버·카카오 라이브 커머스 1분 시청만으로 포인트. 백그라운드로 틀어두고 다른 일 해도 됨.","steps":["라이브 <b>1분 시청</b>","시청 미션 <b>포인트</b>","구매 시 추가 적립"],"links":[{"name":"네이버 쇼핑라이브","url":"https://shoppinglive.naver.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"bankmission","cls":"gr","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🏦","bg":"rgba(21,128,61,.1)","name":"은행 앱 미션 (리브메이트·쏠)","tag":"금융 습관","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 0.3~1만원","ec":"var(--green)","desc":"KB 리브메이트·신한 쏠·하나 등 은행 앱의 출석·걸음·미션형 리워드. 주거래 은행 앱만 켜두면 자동.","steps":["주거래 은행 <b>혜택 탭</b>","출석·걸음·퀴즈 <b>미션</b>","포인트 현금·상품권"],"links":[{"name":"KB 리브메이트","url":"https://www.kbcard.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"walkdonate","cls":"tl","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"💚","bg":"rgba(13,150,104,.1)","name":"걷기 기부·챌린지 앱","tag":"건강+적립","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 0.3~1만원","ec":"var(--teal)","desc":"워크온·빅워크 등 걸음 수로 포인트·기부. 건강 챙기며 적립. 지자체 걷기 챌린지는 상품권도 지급.","steps":["걷기 앱 <b>설치</b>","지자체 챌린지 <b>참여</b>","걸음 → <b>포인트·상품권</b>"],"links":[{"name":"워크온","url":"https://www.on.walkon.co.kr/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"lockscreen","cls":"or","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🔓","bg":"rgba(217,112,7,.1)","name":"잠금화면 리워드","tag":"자동 적립","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 0.3~1만원","ec":"var(--orange)","desc":"허니스크린 등 잠금화면 넘길 때마다 자동 적립. 아무것도 안 해도 폰 켤 때마다 쌓임.","steps":["잠금화면 앱 <b>설치</b>","폰 켤 때 <b>넘기기만</b>","포인트 <b>기프티콘</b>"],"links":[{"name":"구글플레이 검색","url":"https://play.google.com/store/search?q=허니스크린&c=apps","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"delivery","cls":"tl","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"즉시","icon":"🛵","bg":"rgba(13,150,104,.1)","name":"배민·쿠팡이츠 배달","tag":"즉시 수익","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 50~300만원","ec":"var(--teal)","desc":"배달 라이더. 당일 정산, 시간 자유. 주말·저녁 피크타임 집중 시 시급 2~3만원. 도보·자전거·오토바이.","steps":["앱 가입 → <b>인증·보험</b>","피크타임 <b>집중</b>","수락률 유지 <b>보너스</b>"],"links":[{"name":"배민커넥트","url":"https://www.baemin.com/","pri":true},{"name":"쿠팡이츠","url":"https://www.coupangeats.com/"}],"flags":["즉시"]},{"id":"okcashbag","cls":"pu","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🅾️","bg":"rgba(109,67,196,.1)","name":"OK캐쉬백·엘포인트·해피포인트","tag":"포인트 통합","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 0.3~1만원","ec":"var(--purple)","desc":"오래된 국민 포인트 앱들. 출석·이벤트·제휴 적립으로 포인트를 모아 현금·상품권 교환. 여러 개 조합하면 쏠쏠.","steps":["3개 앱 <b>출석·이벤트</b>","제휴처 <b>적립</b>","포인트 <b>상품권 교환</b>"],"links":[{"name":"OK캐쉬백","url":"https://www.okcashbag.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"sinhanbaseball","cls":"bl","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"⚾","bg":"rgba(29,111,208,.1)","name":"신한 쏠야구·게임형 미션","tag":"재미+적립","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 0.3~1만원","ec":"var(--blue)","desc":"신한 쏠야구 등 은행 앱 게임형 미션. 야구 게임하듯 즐기며 포인트 적립. 재미 요소로 꾸준히 하기 좋음.","steps":["쏠 앱 <b>야구 게임</b>","일일 미션 <b>클리어</b>","포인트 <b>적립</b>"],"links":[{"name":"신한 SOL","url":"https://www.shinhan.com/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"gigagenie","cls":"tl","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"즉시","icon":"🎙️","bg":"rgba(13,150,104,.1)","name":"기가지니·AI 스피커 미션","tag":"음성 적립","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 0.2~0.8만원","ec":"var(--teal)","desc":"통신사 AI 스피커·앱의 음성 미션·출석 리워드. 말로 하는 간단한 미션으로 포인트 적립.","steps":["AI 스피커·앱 <b>연동</b>","음성 미션 <b>수행</b>","포인트 <b>적립</b>"],"links":[{"name":"KT 기가지니","url":"https://gigagenie.kt.com/","pri":true}],"flags":["무료","쉬움","즉시"]}],"3":[{"id":"labeling","cls":"cy","grade":"S","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🏷️","bg":"rgba(8,145,168,.1)","name":"데이터 라벨링","tag":"2026 뜨는 부업","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 10~50만원","ec":"var(--cyan)","desc":"AI에게 정답지 만들어주는 작업. 크라우드웍스 누적 45억원+ 지급, 최고 수익자 6천만원+. 무료 교육 수료 시 고단가 열림.","steps":["크라우드웍스 <b>가입</b>","내일배움카드 <b>무료 교육</b>","이미지 라벨링 시작","주 단위 <b>출금</b>"],"links":[{"name":"크라우드웍스","url":"https://works.crowdworks.kr/","pri":true},{"name":"무료 교육","url":"https://academy.crowdworks.kr/data-labeling"}],"flags":["무료","재택"],"esub":"재택·시간 자유"},{"id":"aicontent","cls":"bl","grade":"S","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🤖","bg":"rgba(29,111,208,.1)","name":"AI 콘텐츠 제작 외주","tag":"고성장","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 20~150만원","ec":"var(--blue)","desc":"ChatGPT·Claude로 블로그·상품설명·SNS 콘텐츠 대량 제작 후 기업 판매. 기업 SNS 운영 월 계약. AI 다룰 줄 알면 블루오션.","steps":["AI 프롬프트 <b>2주 학습</b>","크몽 서비스 <b>등록</b>","기업 SNS <b>월 계약</b>","클라이언트 <b>확대</b>"],"links":[{"name":"Claude","url":"https://claude.ai/","pri":true},{"name":"크몽","url":"https://kmong.com/"}],"flags":["무료","재택"]},{"id":"aivideo","cls":"pu","grade":"S","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"🎬","bg":"rgba(109,67,196,.1)","name":"AI 영상·쇼츠 자동 제작","tag":"블루오션","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 0→수백만원","ec":"var(--purple)","desc":"AI로 대본·이미지·음성 만들어 유튜브 쇼츠·틱톡 대량 생산. 얼굴 없이 운영. 채널 하나 터지면 광고 폭발.","steps":["AI <b>대본·이미지·TTS</b>","캡컷 <b>자동 편집</b>","쇼츠 주 5개 <b>3개월</b>","<b>다채널 확장</b>"],"links":[{"name":"캡컷","url":"https://www.capcut.com/ko-kr/","pri":true},{"name":"미리캔버스","url":"https://www.miricanvas.com/"}],"flags":["무료","재택"]},{"id":"aiimage","cls":"gr","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"🎨","bg":"rgba(21,128,61,.1)","name":"AI 이미지·디자인 판매","tag":"자동화","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 5~50만원","ec":"var(--green)","desc":"AI로 만든 이미지·로고·일러스트를 크몽·크라우드픽에 판매. 한 번 올리면 팔릴 때마다 수익.","steps":["AI 이미지 툴 <b>익히기</b>","로고·일러스트 <b>제작</b>","크몽·스톡 <b>등록</b>","<b>자동 수익</b>"],"links":[{"name":"크몽 디자인","url":"https://kmong.com/","pri":true},{"name":"크라우드픽","url":"https://www.crowdpic.net/"}],"flags":["무료","재택","자동"]},{"id":"aivoice","cls":"pk","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"🎙️","bg":"rgba(201,56,114,.1)","name":"AI 음성·오디오북 제작","tag":"니치","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 5~30만원","ec":"var(--pink)","desc":"AI 음성으로 오디오북·나레이션·유튜브 더빙 제작 판매. 클로바더빙으로 내 목소리 없이도 제작. 경쟁 적음.","steps":["클로바더빙 <b>학습</b>","오디오북·나레이션 <b>제작</b>","크몽 <b>더빙 서비스</b>"],"links":[{"name":"클로바더빙","url":"https://clovadubbing.naver.com/","pri":true}],"flags":["무료","재택"]},{"id":"gpts","cls":"cy","grade":"A","diff":3,"cost":"0~5만원","costLv":2,"speed":"중기","icon":"💬","bg":"rgba(8,145,168,.1)","name":"AI 챗봇·GPTs 제작","tag":"신규 수익","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 5~100만원","ec":"var(--cyan)","desc":"업무용 AI 챗봇·GPTs를 제작해 기업·개인에 판매하거나 구독형 운영. 노코드 툴로 제작 가능. 초기 시장.","steps":["업무별 <b>챗봇 기획</b>","노코드 툴 <b>제작</b>","납품 or <b>구독 운영</b>"],"links":[{"name":"ChatGPT GPTs","url":"https://chatgpt.com/","pri":true}],"flags":["재택","자동"]},{"id":"prompt","cls":"or","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"✨","bg":"rgba(217,112,7,.1)","name":"프롬프트·AI 템플릿 판매","tag":"디지털 상품","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 3~30만원","ec":"var(--orange)","desc":"잘 만든 AI 프롬프트·노션 템플릿·업무 자동화 양식을 크몽·마켓에 판매. 한 번 만들면 계속 팔림.","steps":["<b>프롬프트·템플릿</b> 제작","크몽·마켓 <b>등록</b>","후기 쌓여 <b>가격 인상</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"avatar","cls":"ig","grade":"A","diff":3,"cost":"0~5만원","costLv":2,"speed":"중기","icon":"🧑‍🎤","bg":"rgba(79,70,229,.1)","name":"AI 아바타·버추얼 휴먼","tag":"2026 급성장","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"월 10~200만원","ec":"var(--indigo)","desc":"AI 아바타로 얼굴 없는 유튜버·인플루언서 운영, 광고 모델 제작 판매. 버추얼 휴먼 시장 급성장 중.","steps":["AI 아바타 툴 <b>익히기</b>","캐릭터·목소리 <b>제작</b>","콘텐츠 or <b>광고 모델 판매</b>"],"links":[{"name":"HeyGen","url":"https://www.heygen.com/","pri":true}],"flags":["재택","자동"]},{"id":"aiconsult","cls":"bl","grade":"A","diff":4,"cost":"0원","costLv":1,"speed":"중기","icon":"⚙️","bg":"rgba(29,111,208,.1)","name":"AI 업무 자동화 컨설팅","tag":"고부가","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"건당 30~300만원","ec":"var(--blue)","desc":"중소기업·자영업자의 반복 업무를 AI·자동화 툴로 대신 세팅. AI 활용법을 아는 사람에게 고단가 시장.","steps":["자동화 툴 <b>숙달</b>","소상공인 <b>문제 파악</b>","자동화 세팅 <b>납품</b>","유지보수 <b>계약</b>"],"links":[{"name":"Zapier","url":"https://zapier.com/","pri":true}],"flags":["재택"]},{"id":"aiwrite","cls":"pu","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📄","bg":"rgba(109,67,196,.1)","name":"AI 리포트·문서 첨삭","tag":"재택 알바","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 10~80만원","ec":"var(--purple)","desc":"AI로 초안 만든 뒤 사람이 다듬는 리포트·자소서·블로그 첨삭 서비스. AI+사람 조합으로 빠르게 대량 처리.","steps":["AI 초안 <b>생성</b>","사람이 <b>다듬기·검수</b>","크몽 <b>첨삭 서비스</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["무료","재택"]},{"id":"roblox","cls":"or","grade":"B","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"🎮","bg":"rgba(217,112,7,.1)","name":"게임 제작·아이템 거래","tag":"게임 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 0→수백만원","ec":"var(--orange)","desc":"로블록스·마인크래프트 맵/게임 제작 수익. 스팀 아이템·인게임 재화 거래. 게임 좋아하면 최적.","steps":["로블록스 스튜디오 <b>학습</b>","게임/맵 <b>제작</b>","로벅스 <b>현금 환전</b>","<b>업데이트</b>"],"links":[{"name":"로블록스 스튜디오","url":"https://create.roblox.com/","pri":true}],"flags":["무료","재택"]},{"id":"aishop","cls":"cy","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🖼️","bg":"rgba(8,145,168,.1)","name":"AI 쇼핑몰 상세페이지 제작","tag":"판매자 필수","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"건당 3~20만원","ec":"var(--cyan)","desc":"AI로 상품 상세페이지·썸네일·카피를 빠르게 제작해 판매자에게 납품. 스마트스토어 셀러 급증으로 수요 폭발.","steps":["AI 이미지·카피 <b>숙달</b>","샘플 <b>포트폴리오</b>","크몽 <b>상세페이지 서비스</b>","셀러 <b>단골 확보</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["무료","재택"],"esub":"2026 수요 급증"},{"id":"ailogo","cls":"gr","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🎯","bg":"rgba(21,128,61,.1)","name":"AI 로고·브랜드 디자인","tag":"창업 수요","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"건당 5~30만원","ec":"var(--green)","desc":"AI 로고 생성 툴로 소상공인·스타트업 로고·명함·브랜드 디자인 제작 판매. 창업 붐으로 꾸준한 수요.","steps":["AI 로고 툴 <b>익히기</b>","다양한 스타일 <b>제작</b>","크몽·라우드소싱 <b>등록</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"aisaju","cls":"pk","grade":"A","diff":2,"cost":"0~3만원","costLv":2,"speed":"중기","icon":"🔮","bg":"rgba(201,56,114,.1)","name":"AI 사주·타로·운세 서비스","tag":"틈새 인기","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 10~100만원","ec":"var(--pink)","desc":"AI로 사주·타로·운세 콘텐츠나 챗봇 서비스를 만들어 운영. 운세 시장은 불황에도 수요 꾸준. 콘텐츠+유료 상담 결합.","steps":["운세 <b>콘텐츠·챗봇 기획</b>","AI로 <b>자동 응답 구성</b>","인스타·앱 <b>운영</b>","유료 상담 <b>연결</b>"],"links":[{"name":"ChatGPT","url":"https://chatgpt.com/","pri":true}],"flags":["재택","자동"],"esub":"불황에 강함"},{"id":"aiteacher","cls":"bl","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"🧑‍🏫","bg":"rgba(29,111,208,.1)","name":"AI 활용법 교육·강사","tag":"지식 수익","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 20~200만원","ec":"var(--blue)","desc":"AI 툴 사용법을 모르는 사람에게 강의·컨설팅. 기업 사내교육·온라인 클래스. AI 잘 다루면 지금이 최적 타이밍.","steps":["AI 활용 <b>노하우 정리</b>","강의 자료 <b>제작</b>","클래스101·기업 <b>강의</b>","1:1 컨설팅 <b>확장</b>"],"links":[{"name":"클래스101","url":"https://class101.net/","pri":true}],"flags":["재택"]},{"id":"prompteng","cls":"cy","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"⌨️","bg":"rgba(8,145,168,.1)","name":"프롬프트 엔지니어링","tag":"전문 신직업","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 10~150만원","ec":"var(--cyan)","desc":"기업·개인이 원하는 결과를 뽑아내는 최적의 AI 프롬프트를 설계·판매·컨설팅. 완전히 새로운 전문 직군.","steps":["프롬프트 <b>설계 학습</b>","분야별 <b>템플릿 구축</b>","크몽 <b>프롬프트 판매</b>","기업 <b>컨설팅</b>"],"links":[{"name":"Claude","url":"https://claude.ai/","pri":true}],"flags":["무료","재택"],"esub":"신직업"}],"4":[{"id":"blog","cls":"or","grade":"S","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"✍️","bg":"rgba(217,112,7,.1)","name":"네이버 블로그+애드포스트","tag":"광고 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 10~200만원","ec":"var(--orange)","desc":"일 1포스팅 90일이면 방문자 500명/일. 애드포스트+쿠팡파트너스 이중 수익. 한 번 쓴 글이 몇 년간 돈을.","steps":["<b>틈새 주제</b> 선정","일 1포스팅 <b>90일</b>","<b>애드포스트</b> 신청","<b>쿠팡 링크</b>"],"links":[{"name":"네이버 블로그","url":"https://blog.naver.com/","pri":true},{"name":"애드포스트","url":"https://adpost.naver.com/"}],"flags":["무료","재택","자동"],"esub":"성장 후 자동"},{"id":"youtube","cls":"rd","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"▶️","bg":"rgba(200,54,44,.1)","name":"유튜브 쇼츠·롱폼","tag":"광고·협찬","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"월 0→무한","ec":"var(--red)","desc":"스마트폰 하나로 쇼츠 제작. 주 5개 3개월이면 구독자 1,000명·시청 4,000시간(수익화 조건) 달성 가능.","steps":["<b>특화 주제</b> 선정","쇼츠 <b>주 5개</b>","구독 1,000명 <b>수익화</b>","협찬 <b>추가</b>"],"links":[{"name":"유튜브 스튜디오","url":"https://studio.youtube.com/","pri":true}],"flags":["무료","재택"]},{"id":"insta","cls":"pk","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"📸","bg":"rgba(201,56,114,.1)","name":"인스타·스레드 수익화","tag":"SNS 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 10~100만원","ec":"var(--pink)","desc":"특정 주제 인스타·스레드 계정 키워 협찬·공동구매·제휴 수익. 팔로워 1만이면 광고 단가 형성.","steps":["<b>특화 주제</b> 계정","릴스 <b>주 3~5개</b>","팔로워 1만 <b>협찬</b>","공동구매 <b>확장</b>"],"links":[{"name":"인스타그램","url":"https://www.instagram.com/","pri":true},{"name":"스레드","url":"https://www.threads.net/"}],"flags":["무료","재택"]},{"id":"newsletter","cls":"bl","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"📧","bg":"rgba(29,111,208,.1)","name":"유료 뉴스레터·구독","tag":"구독 수익","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 10~100만원","ec":"var(--blue)","desc":"전문 분야 뉴스레터를 스티비로 발행 → 유료 구독. 재테크·트렌드·업계 정보. 구독자 쌓이면 안정적.","steps":["<b>전문 주제</b> 선정","스티비 <b>무료 발행</b>","구독자 확보 <b>유료 전환</b>","광고 <b>추가</b>"],"links":[{"name":"스티비","url":"https://stibee.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"ebook","cls":"pu","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📚","bg":"rgba(109,67,196,.1)","name":"전자책 출판","tag":"자동화 수익","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 10~100만원","ec":"var(--purple)","desc":"아는 것을 A4 30~50장으로 정리 → 전자책. 크몽 2~5만원 등록. 자면서도 팔리는 진짜 자동화.","steps":["<b>목차 10개</b>","구글독스 → <b>PDF</b>","크몽 <b>1만원부터</b>","리뷰 <b>가격 인상</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true},{"name":"탈잉","url":"https://taling.me/"}],"flags":["무료","재택","자동"]},{"id":"coupang","cls":"tl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"단기","icon":"🔗","bg":"rgba(13,150,104,.1)","name":"쿠팡파트너스","tag":"링크 수익","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 5~50만원","ec":"var(--teal)","desc":"블로그·SNS 글에 쿠팡 링크 삽입 → 클릭 후 24시간 내 구매 시 3~9% 수수료. 심사 없이 즉시 가입.","steps":["쿠팡파트너스 <b>즉시 가입</b>","리뷰 글 <b>링크 삽입</b>","고가·시즌 <b>집중</b>"],"links":[{"name":"쿠팡파트너스","url":"https://partners.coupang.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"class","cls":"gl","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"🎓","bg":"var(--gold-bg)","name":"온라인 강의·VOD 판매","tag":"지식 수익화","tc":"var(--gold)","tb":"var(--gold-bg)","earn":"월 10~200만원","ec":"var(--gold)","desc":"내 전문 지식을 강의로 제작해 클래스101·인프런에 판매. 한 번 촬영하면 계속 팔림. 엑셀·디자인·재테크 등.","steps":["<b>커리큘럼</b> 기획","스마트폰 <b>촬영</b>","클래스101 <b>입점</b>","판매마다 <b>수익</b>"],"links":[{"name":"클래스101","url":"https://class101.net/","pri":true},{"name":"인프런","url":"https://www.inflearn.com/"}],"flags":["재택","자동"]},{"id":"stockvideo","cls":"cy","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"🎥","bg":"rgba(8,145,168,.1)","name":"스톡 영상 판매","tag":"영상 자동수익","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 5~40만원","ec":"var(--cyan)","desc":"폰·카메라로 찍은 일상·풍경 영상을 스톡 사이트에 판매. 사진보다 단가 높음. 한 번 올리면 팔릴 때마다.","steps":["풍경·일상 <b>촬영</b>","스톡 <b>업로드</b>","팔릴 때마다 <b>저작권료</b>"],"links":[{"name":"크라우드픽","url":"https://www.crowdpic.net/","pri":true}],"flags":["재택","자동"]},{"id":"webtoon","cls":"pk","grade":"B","diff":4,"cost":"0원","costLv":1,"speed":"장기","icon":"🖊️","bg":"rgba(201,56,114,.1)","name":"웹툰·웹소설 연재","tag":"창작 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 0→수천만원","ec":"var(--pink)","desc":"네이버·카카오·문피아에 웹툰·웹소설 연재. 조회수·유료 결제 수익. 대박 나면 억대. 꾸준함이 관건.","steps":["플랫폼 <b>도전 연재</b>","정기 <b>업로드</b>","인기 → <b>정식 계약</b>","유료화 <b>수익</b>"],"links":[{"name":"네이버 웹툰","url":"https://comic.naver.com/","pri":true},{"name":"문피아","url":"https://www.munpia.com/"}],"flags":["무료","재택"]},{"id":"cafeadmin","cls":"or","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"☕","bg":"rgba(217,112,7,.1)","name":"카페·커뮤니티 운영 대행","tag":"운영 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 20~100만원","ec":"var(--orange)","desc":"기업·개인의 네이버 카페·SNS 채널을 대신 운영. 콘텐츠 발행·회원 관리 월 계약. 안정적 고정 수입.","steps":["운영 <b>포트폴리오</b>","크몽·직접 <b>영업</b>","채널 운영 <b>월 계약</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"]},{"id":"discord","cls":"ig","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"💬","bg":"rgba(79,70,229,.1)","name":"디스코드 유료 커뮤니티","tag":"멤버십 수익","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"월 10~200만원","ec":"var(--indigo)","desc":"관심사·정보 중심 디스코드 커뮤니티를 키워 유료 멤버십·후원으로 수익. 재테크·투자·취미 커뮤니티가 인기.","steps":["<b>주제 커뮤니티</b> 개설","무료 정보로 <b>멤버 확보</b>","유료 등급 <b>멤버십</b>","후원·광고 <b>확장</b>"],"links":[{"name":"디스코드","url":"https://discord.com/","pri":true}],"flags":["무료","재택","자동"],"esub":"구독 수익"},{"id":"reelsedit","cls":"pk","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"단기","icon":"✂️","bg":"rgba(201,56,114,.1)","name":"릴스·쇼츠 편집 대행","tag":"편집 수요","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"건당 3~15만원","ec":"var(--pink)","desc":"인플루언서·자영업자의 릴스·쇼츠·유튜브 영상을 대신 편집. 숏폼 폭증으로 편집자 수요 급증. 캡컷만 다뤄도 시작.","steps":["캡컷·편집 <b>숙달</b>","샘플 영상 <b>제작</b>","크몽·인스타 <b>영업</b>","월 고정 <b>계약</b>"],"links":[{"name":"캡컷","url":"https://www.capcut.com/ko-kr/","pri":true},{"name":"크몽","url":"https://kmong.com/"}],"flags":["재택"],"esub":"숏폼 폭증"},{"id":"csagent","cls":"tl","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🎧","bg":"rgba(13,150,104,.1)","name":"스마트스토어 CS 대행","tag":"재택 운영","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 20~80만원","ec":"var(--teal)","desc":"바쁜 스토어 셀러 대신 고객 문의·주문·리뷰 응대를 재택으로 대행. 반복 업무라 진입 쉽고 여러 곳 동시 가능.","steps":["CS 대행 <b>영업</b>","셀러와 <b>업무 협의</b>","문의·주문 <b>응대</b>","여러 스토어 <b>동시</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"]},{"id":"onlinesecretary","cls":"bl","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🗂️","bg":"rgba(29,111,208,.1)","name":"온라인 비서·업무 지원","tag":"재택 지원","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 20~100만원","ec":"var(--blue)","desc":"1인 사업자·대표의 일정·이메일·자료조사·SNS를 원격으로 지원하는 온라인 비서. 시간제·건별 계약 유연.","steps":["가능 업무 <b>정리</b>","플랫폼 <b>프로필 등록</b>","시간제 <b>계약</b>","신뢰 쌓아 <b>장기 계약</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"]},{"id":"goodnote","cls":"pu","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"📔","bg":"rgba(109,67,196,.1)","name":"굿노트 속지·디지털 문구","tag":"디지털 상품","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 5~40만원","ec":"var(--purple)","desc":"아이패드 굿노트용 다이어리 속지·플래너·스티커를 제작해 판매. 한 번 만들면 계속 팔리는 디지털 문구.","steps":["속지·플래너 <b>디자인</b>","마켓 <b>입점</b>","SNS <b>홍보</b>","팔릴 때마다 <b>수익</b>"],"links":[{"name":"네이버 스마트스토어","url":"https://sell.smartstore.naver.com/","pri":true}],"flags":["무료","재택","자동"]}],"5":[{"id":"stock","cls":"gl","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"📸","bg":"var(--gold-bg)","name":"스톡 사진 판매","tag":"사진 자동수익","tc":"var(--gold)","tb":"var(--gold-bg)","earn":"월 5~50만원","ec":"var(--gold)","desc":"폰으로 찍은 사진을 크라우드픽·유토이미지에 등록 → 구매 시 저작권료. 스마트폰 사진도 OK, 최대 70% 수익.","steps":["크라우드픽 <b>작가 가입</b>","음식·풍경 <b>업로드</b>","장당 <b>저작권료</b>","꾸준히 <b>누적</b>"],"links":[{"name":"크라우드픽","url":"https://www.crowdpic.net/","pri":true},{"name":"유토이미지","url":"https://www.utoimage.com/"}],"flags":["무료","재택","자동"],"esub":"앨범 사진 활용"},{"id":"emoji","cls":"pk","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"중기","icon":"😊","bg":"rgba(201,56,114,.1)","name":"이모티콘 제작 판매","tag":"창작 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"건당 수십~수천만원","ec":"var(--pink)","desc":"카카오·라인 이모티콘 승인 시 판매마다 수익. 인기 이모티콘은 억대. 그림 실력보다 아이디어·컨셉 중요.","steps":["컨셉·캐릭터 <b>기획</b>","24종 <b>제작</b>","카카오 <b>스튜디오 제안</b>","승인 <b>수익</b>"],"links":[{"name":"카카오 이모티콘 스튜디오","url":"https://emoticonstudio.kakao.com/","pri":true}],"flags":["무료","재택","자동"],"esub":"대박 가능"},{"id":"pod","cls":"or","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"👕","bg":"rgba(217,112,7,.1)","name":"POD 굿즈 판매 (마플)","tag":"무재고 제작","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 5~50만원","ec":"var(--orange)","desc":"디자인만 올리면 주문 시 제작·배송되는 POD. 티셔츠·폰케이스·머그컵. 재고·배송 부담 없이 디자인만.","steps":["디자인 <b>제작</b> (AI 가능)","마플샵 <b>개설</b>","디자인 <b>업로드</b>","주문 시 <b>자동 제작</b>"],"links":[{"name":"마플샵","url":"https://marpple.shop/","pri":true}],"flags":["무료","재택"]},{"id":"handmade","cls":"gr","grade":"B","diff":3,"cost":"재료비","costLv":2,"speed":"중기","icon":"🧶","bg":"rgba(21,128,61,.1)","name":"핸드메이드 판매 (아이디어스)","tag":"수공예 수익","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 10~100만원","ec":"var(--green)","desc":"직접 만든 액세서리·소품·디저트·향초를 아이디어스에 판매. 손재주 있으면 취미가 수익으로. 단골 생기면 안정적.","steps":["<b>아이템 정하기</b>","아이디어스 <b>입점</b>","사진·스토리 <b>등록</b>","리뷰 <b>단골 확보</b>"],"links":[{"name":"아이디어스","url":"https://www.idus.com/","pri":true}],"flags":[]},{"id":"resell","cls":"pk","grade":"B","diff":3,"cost":"제품비","costLv":3,"speed":"단기","icon":"👟","bg":"rgba(201,56,114,.1)","name":"한정판 리셀 (크림)","tag":"되팔기 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"건당 1~50만원","ec":"var(--pink)","desc":"한정판 운동화·명품·굿즈를 발매가에 사서 프리미엄 붙여 판매. 크림이 국내 최대 거래소. 인기 제품은 2~3배.","steps":["크림 <b>시세 파악</b>","럭키드로우 <b>응모</b>","당첨 <b>프리미엄 판매</b>","차익 <b>실현</b>"],"links":[{"name":"크림 (KREAM)","url":"https://kream.co.kr/","pri":true}],"flags":[]},{"id":"used","cls":"tl","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"즉시","icon":"🏷️","bg":"rgba(13,150,104,.1)","name":"중고거래 되팔기 (당근·번개)","tag":"생활 수익","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 5~30만원","ec":"var(--teal)","desc":"집안 안 쓰는 물건 판매 + 무료나눔·저가 매입 후 되팔기. 안목만 있으면 저평가 물건 되파는 재테크.","steps":["집안 <b>안 쓰는 물건</b>","당근·번개 <b>시세</b>","저가 <b>매입</b>","수리 후 <b>되팔기</b>"],"links":[{"name":"당근마켓","url":"https://www.daangn.com/","pri":true},{"name":"번개장터","url":"https://m.bunjang.co.kr/"}],"flags":["무료","즉시"]},{"id":"usedphone","cls":"bl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"📱","bg":"rgba(29,111,208,.1)","name":"중고폰·기기 판매 (민팃)","tag":"즉시 현금","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"건당 5~80만원","ec":"var(--blue)","desc":"안 쓰는 스마트폰·태블릿·노트북을 민팃 ATM에서 즉시 현금화. 데이터 삭제 인증서 발급. 서랍 속 공기계가 목돈.","steps":["<b>기기 모으기</b>","민팃 ATM or <b>택배</b>","자동 시세 <b>즉시 입금</b>"],"links":[{"name":"민팃","url":"https://www.mintit.co.kr/","pri":true}],"flags":["무료","쉬움","즉시"]},{"id":"vintage","cls":"or","grade":"B","diff":3,"cost":"제품비","costLv":2,"speed":"단기","icon":"🧥","bg":"rgba(217,112,7,.1)","name":"빈티지 의류·구제 판매","tag":"패션 리셀","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 10~100만원","ec":"var(--orange)","desc":"구제·빈티지 의류를 시장·해외에서 싸게 떼와 온라인 판매. 안목과 스타일링이 경쟁력. 마니아층 두터움.","steps":["빈티지 <b>소싱처 확보</b>","세탁·검수 <b>상품화</b>","번개·인스타 <b>판매</b>","스타일링 <b>차별화</b>"],"links":[{"name":"번개장터","url":"https://m.bunjang.co.kr/","pri":true}],"flags":[]},{"id":"smartstore","cls":"or","grade":"A","diff":3,"cost":"0~10만원","costLv":2,"speed":"중기","icon":"🛒","bg":"rgba(217,112,7,.1)","name":"스마트스토어 위탁판매","tag":"판매 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 30~300만원","ec":"var(--orange)","desc":"재고 없이 오너클랜·도매꾹 상품 등록. 팔리면 도매처가 자동 배송. 마진 20~40%. 상품 많을수록 수익.","steps":["스토어 <b>개설</b>","오너클랜 <b>마진 30%+</b>","<b>월 50개 등록</b>","<b>광고</b>"],"links":[{"name":"스마트스토어","url":"https://sell.smartstore.naver.com/","pri":true},{"name":"오너클랜","url":"https://www.ownerclan.com/"},{"name":"도매꾹","url":"https://domeggook.com/"}],"flags":["재택"]},{"id":"digitalasset","cls":"ig","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"🔤","bg":"rgba(79,70,229,.1)","name":"폰트·디자인 소스 판매","tag":"디지털 자산","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"월 5~50만원","ec":"var(--indigo)","desc":"직접 만든 폰트·PPT 템플릿·디자인 소스·아이콘을 마켓에 판매. 한 번 만들면 계속 팔리는 디지털 자산.","steps":["폰트·템플릿 <b>제작</b>","디자인 마켓 <b>입점</b>","팔릴 때마다 <b>수익</b>"],"links":[{"name":"미리캔버스","url":"https://www.miricanvas.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"calligraphy","cls":"pk","grade":"B","diff":3,"cost":"재료비","costLv":2,"speed":"중기","icon":"🖌️","bg":"rgba(201,56,114,.1)","name":"캘리그라피·손글씨 판매","tag":"창작 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 5~50만원","ec":"var(--pink)","desc":"손글씨·캘리그라피로 청첩장·간판·굿즈·폰트를 제작 판매. 클래스 운영도 가능. 취미가 수익이 되는 대표 사례.","steps":["캘리그라피 <b>작품 축적</b>","주문 제작 <b>판매</b>","아이디어스 <b>입점</b>","클래스 <b>운영</b>"],"links":[{"name":"아이디어스","url":"https://www.idus.com/","pri":true}],"flags":[]},{"id":"knitkit","cls":"gr","grade":"B","diff":3,"cost":"재료비","costLv":2,"speed":"중기","icon":"🧶","bg":"rgba(21,128,61,.1)","name":"뜨개·자수 키트 판매","tag":"취미 수익","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 5~40만원","ec":"var(--green)","desc":"직접 디자인한 뜨개·자수 도안과 재료를 묶은 DIY 키트를 판매. 완성품보다 키트가 마진·수요 모두 좋음.","steps":["도안 <b>디자인</b>","재료 <b>키트 구성</b>","아이디어스·스토어 <b>판매</b>","도안집 <b>추가 판매</b>"],"links":[{"name":"아이디어스","url":"https://www.idus.com/","pri":true}],"flags":[]},{"id":"petgoods","cls":"or","grade":"A","diff":3,"cost":"재료비","costLv":2,"speed":"중기","icon":"🐾","bg":"rgba(217,112,7,.1)","name":"반려동물 수제 용품","tag":"성장 시장","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 10~80만원","ec":"var(--orange)","desc":"반려동물 간식·옷·액세서리·이름표를 수제 제작 판매. 펫 시장 급성장으로 수요 꾸준. 프리미엄 수제는 마진 높음.","steps":["펫 용품 <b>아이템 선정</b>","수제 <b>제작</b>","스토어·아이디어스 <b>입점</b>","SNS <b>마케팅</b>"],"links":[{"name":"아이디어스","url":"https://www.idus.com/","pri":true}],"flags":["재택"],"esub":"펫 시장 급성장"},{"id":"digitalplanner","cls":"ig","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"중기","icon":"🗓️","bg":"rgba(79,70,229,.1)","name":"디지털 플래너·템플릿","tag":"자동 수익","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"월 5~50만원","ec":"var(--indigo)","desc":"노션·굿노트·엑셀용 플래너·가계부·템플릿을 제작 판매. 재테크 가계부 템플릿은 특히 인기. 한 번 만들면 자동 판매.","steps":["플래너·가계부 <b>제작</b>","마켓·스토어 <b>등록</b>","후기 쌓여 <b>확장</b>"],"links":[{"name":"네이버 스마트스토어","url":"https://sell.smartstore.naver.com/","pri":true}],"flags":["무료","재택","자동"]},{"id":"print3d","cls":"cy","grade":"B","diff":4,"cost":"장비·재료","costLv":3,"speed":"중기","icon":"🖨️","bg":"rgba(8,145,168,.1)","name":"3D 프린팅 주문 제작","tag":"기술 창작","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 10~100만원","ec":"var(--cyan)","desc":"3D 프린터로 피규어·소품·시제품·맞춤 부품을 주문 제작 판매. 초기 장비비 있지만 희소성 있는 니치 시장.","steps":["3D 모델링 <b>학습</b>","프린터 <b>장비 확보</b>","주문 제작 <b>판매</b>","시제품 <b>외주</b>"],"links":[{"name":"네이버 스마트스토어","url":"https://sell.smartstore.naver.com/","pri":true}],"flags":[],"esub":"초기 장비 필요"}],"6":[{"id":"etf","cls":"gl","grade":"S","diff":1,"cost":"월 1만원~","costLv":1,"speed":"장기","icon":"🇺🇸","bg":"var(--gold-bg)","name":"미국 S&P500·나스닥 ETF","tag":"핵심 전략","tc":"var(--gold)","tb":"var(--gold-bg)","earn":"연 7~12%","ec":"var(--gold)","desc":"매달 자동 매수. 생각 없이 사는 게 전략. S&P500 하나로 미국 500대 기업 투자. 10년 이상 묻어두면 손실 확률 낮음.","steps":["ISA 계좌 <b>비과세</b>","급여일 <b>자동 매수</b>","<b>10년 유지</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true},{"name":"키움증권","url":"https://www.kiwoom.com/"}],"flags":["쉬움","안전"],"esub":"50년 평균 복리"},{"id":"divetf","cls":"gr","grade":"A","diff":2,"cost":"10만원~","costLv":1,"speed":"중기","icon":"💵","bg":"rgba(21,128,61,.1)","name":"월배당 ETF (SCHD·JEPI)","tag":"매달 입금","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"배당 연 4~12%","ec":"var(--green)","desc":"매달 배당금이 입금되는 미국 월배당 ETF. SCHD+JEPI 조합. 종잣돈 1억이면 월 33만원 배당.","steps":["해외주식 계좌","SCHD 60%+JEPI 40%","배당 <b>재투자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"매달 통장에"},{"id":"bigtech","cls":"bl","grade":"A","diff":3,"cost":"10만원~","costLv":1,"speed":"중기","icon":"💻","bg":"rgba(29,111,208,.1)","name":"미국 빅테크 개별주","tag":"성장주","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"연 10~30%","ec":"var(--blue)","desc":"애플·엔비디아·마이크로소프트 등 빅테크 우량주. ETF보다 변동성 크지만 성장성 높음. 분산 매수 권장.","steps":["우량주 <b>3~5개 선정</b>","매달 <b>분할 매수</b>","장기 <b>보유</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"변동성 큼"},{"id":"krdiv","cls":"bl","grade":"A","diff":2,"cost":"5만원~","costLv":1,"speed":"중기","icon":"🇰🇷","bg":"rgba(29,111,208,.1)","name":"국내 고배당주·리츠","tag":"국내 배당","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"배당 연 4~7%","ec":"var(--blue)","desc":"삼성전자우·통신주·은행주·맥쿼리인프라 등 국내 고배당. 환전 없이 원화 투자. 연말 배당 시즌 집중.","steps":["증권 계좌 <b>개설</b>","고배당주·리츠 <b>분산</b>","배당 <b>재투자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[]},{"id":"dgi","cls":"tl","grade":"A","diff":2,"cost":"10만원~","costLv":1,"speed":"장기","icon":"🌱","bg":"rgba(13,150,104,.1)","name":"배당성장주 DGI 전략","tag":"배당 성장","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"연 8~12%","ec":"var(--teal)","desc":"매년 배당을 올리는 기업(배당킹·배당귀족)에 장기 투자. 시간이 갈수록 배당이 커지는 눈덩이 전략.","steps":["배당성장 <b>기업 선별</b>","매달 <b>적립 매수</b>","배당 <b>재투자</b>","장기 <b>보유</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"배당 늘어남"},{"id":"tdf","cls":"pu","grade":"A","diff":1,"cost":"월 1만원~","costLv":1,"speed":"장기","icon":"📅","bg":"rgba(109,67,196,.1)","name":"TDF·연금펀드 자동운용","tag":"은퇴 준비","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"연 5~8%","ec":"var(--purple)","desc":"TDF는 은퇴 시점에 맞춰 자동으로 자산 비중 조절. 신경 안 써도 알아서 굴러감. 연금저축·IRP에 담으면 절세.","steps":["연금저축·IRP","은퇴연도 <b>TDF 선택</b>","매달 <b>자동 납입</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":["쉬움","안전"],"esub":"알아서 굴려줌"},{"id":"tax3","cls":"bl","grade":"S","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🏛️","bg":"rgba(29,111,208,.1)","name":"ISA·연금저축·IRP 절세","tag":"세금 절약","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"연 66~148만원","ec":"var(--blue)","desc":"3계좌를 채우는 것만으로 연말정산 수십~백만원 환급. 투자 수익률보다 확실한 수익. 직장인 필수.","steps":["ISA <b>비과세</b>","연금저축 <b>66만원 공제</b>","IRP <b>148만원 환급</b>"],"links":[{"name":"홈택스","url":"https://www.hometax.go.kr/","pri":true}],"flags":["쉬움","안전"],"esub":"세금 환급"},{"id":"bondetf","cls":"tl","grade":"B","diff":2,"cost":"1만원~","costLv":1,"speed":"중기","icon":"📊","bg":"rgba(13,150,104,.1)","name":"채권 ETF·안전 배분","tag":"변동성 완충","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"연 3~5%","ec":"var(--teal)","desc":"미국채·국고채 ETF로 포트폴리오 안정화. 주식 하락 시 방어. 주식 70%+채권 30%가 고전 안전 조합.","steps":["채권 ETF <b>검색</b>","주식:채권 <b>7:3</b>","정기 <b>리밸런싱</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":["쉬움","안전"]},{"id":"goldetf","cls":"gl","grade":"B","diff":2,"cost":"1만원~","costLv":1,"speed":"중기","icon":"🥇","bg":"var(--gold-bg)","name":"금·원자재 ETF","tag":"실물 헤지","tc":"var(--gold)","tb":"var(--gold-bg)","earn":"연 3~8%","ec":"var(--gold)","desc":"금·은·원자재 ETF로 인플레이션·위기 방어. 주식과 반대로 움직여 포트폴리오 안정화. 10~15% 편입 권장.","steps":["금 ETF <b>검색</b>","<b>10~15%</b> 편입","위기 시 <b>방어 역할</b>"],"links":[{"name":"한국거래소","url":"https://www.krx.co.kr/","pri":true}],"flags":["안전"],"esub":"위기 방어"},{"id":"p2p","cls":"or","grade":"B","diff":3,"cost":"10만원~","costLv":2,"speed":"중기","icon":"🤝","bg":"rgba(217,112,7,.1)","name":"P2P 투자 (주의)","tag":"중위험","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"연 5~12%","ec":"var(--orange)","desc":"⚠️ 부동산·개인신용 P2P 대출에 투자해 이자 수취. 예금보다 높은 수익이지만 부실·연체 위험. 소액 분산 필수.","steps":["제도권 <b>등록 업체</b>","여러 상품 <b>소액 분산</b>","⚠️ <b>부실 위험 감수</b>"],"links":[{"name":"온투업 중앙기록관리","url":"https://www.p2pcenter.or.kr/","pri":true}],"flags":[],"esub":"⚠️ 원금 손실 위험"},{"id":"coin","cls":"pu","grade":"B","diff":3,"cost":"소액","costLv":2,"speed":"중기","icon":"🪙","bg":"rgba(109,67,196,.1)","name":"코인 스테이킹 (소액·주의)","tag":"고위험","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"연 3~8%","ec":"var(--purple)","desc":"⚠️ 원금 손실 위험 큼. 여유자금 소액만. 거래소 스테이킹으로 코인 예치 시 이자, 에어드랍 참여. 잃어도 되는 돈만.","steps":["거래소 <b>가입·인증</b>","<b>여유자금 5% 이하</b>","스테이킹·이벤트","⚠️ <b>변동성 감수</b>"],"links":[{"name":"업비트","url":"https://upbit.com/","pri":true},{"name":"빗썸","url":"https://www.bithumb.com/"}],"flags":[],"esub":"⚠️ 원금 손실 위험"},{"id":"emergingetf","cls":"bl","grade":"B","diff":3,"cost":"5만원~","costLv":1,"speed":"장기","icon":"🌏","bg":"rgba(29,111,208,.1)","name":"인도·베트남 신흥국 ETF","tag":"고성장 베팅","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"연 8~20%","ec":"var(--blue)","desc":"인도·베트남 등 고성장 신흥국 ETF. 변동성 크지만 장기 성장 잠재력 높음. 포트폴리오 일부(10~20%)로 편입.","steps":["신흥국 ETF <b>검색</b>","<b>10~20%</b> 편입","장기 <b>적립</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"변동성 큼"},{"id":"semietf","cls":"cy","grade":"A","diff":3,"cost":"5만원~","costLv":1,"speed":"중기","icon":"🔬","bg":"rgba(8,145,168,.1)","name":"반도체·AI 테마 ETF","tag":"메가트렌드","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"연 10~25%","ec":"var(--cyan)","desc":"반도체·AI·2차전지 등 성장 테마 ETF. 개별주보다 안전하게 메가트렌드에 투자. 변동성은 감안.","steps":["테마 ETF <b>선정</b>","분할 <b>매수</b>","추세 <b>장기 보유</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"성장 테마"},{"id":"covered","cls":"gr","grade":"A","diff":2,"cost":"10만원~","costLv":1,"speed":"중기","icon":"💸","bg":"rgba(21,128,61,.1)","name":"커버드콜 ETF (고배당)","tag":"월 현금흐름","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"배당 연 8~15%","ec":"var(--green)","desc":"옵션을 활용해 높은 월배당을 주는 커버드콜 ETF. 주가 상승폭은 제한되지만 매달 현금흐름이 큼. 은퇴자 인기.","steps":["커버드콜 ETF <b>이해</b>","월배당 <b>매수</b>","배당 <b>수령·재투자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[],"esub":"주가상승 제한"},{"id":"reitstock","cls":"bl","grade":"B","diff":2,"cost":"5만원~","costLv":1,"speed":"중기","icon":"🏬","bg":"rgba(29,111,208,.1)","name":"상장 리츠 개별주","tag":"임대 배당","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"배당 연 4~8%","ec":"var(--blue)","desc":"ETF가 아닌 개별 상장 리츠(맥쿼리인프라·롯데리츠 등)에 직접 투자. 특정 부동산 임대수익을 배당으로.","steps":["상장 리츠 <b>분석</b>","우량 리츠 <b>매수</b>","배당 <b>재투자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":[]},{"id":"dollarsaving","cls":"tl","grade":"A","diff":2,"cost":"제한 없음","costLv":1,"speed":"중기","icon":"💵","bg":"rgba(13,150,104,.1)","name":"달러 예금·환테크","tag":"환헤지","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"환차익+이자","ec":"var(--teal)","desc":"원화 약세 대비 달러를 분할 매수해 예금. 환율 낮을 때 사서 높을 때 환전. 자산 일부를 달러로 분산하는 헤지.","steps":["달러 통장 <b>개설</b>","환율 낮을 때 <b>분할 매수</b>","달러 예금 <b>이자</b>","고환율 시 <b>환전</b>"],"links":[{"name":"토스뱅크","url":"https://www.tossbank.com/","pri":true}],"flags":["안전"],"esub":"환율 분산"}],"7":[{"id":"chungyak","cls":"pu","grade":"S","diff":2,"cost":"월 2만원~","costLv":1,"speed":"장기","icon":"🏢","bg":"rgba(109,67,196,.1)","name":"청약 가점 쌓기","tag":"장기 필수","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"시세차익","ec":"var(--purple)","desc":"가점=무주택기간+부양가족+납입횟수. 지금 통장 만들고 매달 납입이 최고의 투자. 당첨 시 분양가·시세 차익.","steps":["청약통장 <b>즉시 개설</b>","매달 <b>10만원 납입</b>","청약홈 <b>가점+알림</b>","무주택 <b>유지</b>"],"links":[{"name":"청약홈","url":"https://www.applyhome.co.kr/","pri":true},{"name":"호갱노노","url":"https://hogangnono.com/"}],"flags":[],"esub":"수천만~수억"},{"id":"reits","cls":"bl","grade":"A","diff":1,"cost":"1만원~","costLv":1,"speed":"중기","icon":"🏘️","bg":"rgba(29,111,208,.1)","name":"리츠(REITs) ETF 소액","tag":"부동산 간접","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"배당 연 3~6%","ec":"var(--blue)","desc":"1만원으로 쇼핑몰·물류센터·오피스 빌딩에 간접 투자. 분기 배당. 실물보다 유동성 높고 소액 분산.","steps":["리츠 ETF <b>검색</b>","월 <b>5만원 적립</b>","배당 <b>재투자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":["쉬움"],"esub":"분기 지급"},{"id":"casa","cls":"tl","grade":"A","diff":2,"cost":"5천원~","costLv":1,"speed":"중기","icon":"🧩","bg":"rgba(13,150,104,.1)","name":"부동산 조각투자 (카사)","tag":"소액 부동산","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"배당+시세차익","ec":"var(--teal)","desc":"수천만원 없어도 유명 빌딩을 조각(지분)으로 소액 투자. 임대 배당+매각 차익. 카사·소유 등 플랫폼.","steps":["조각투자 <b>가입</b>","건물 <b>지분 매수</b>","임대료 <b>배당</b>","매각 <b>차익</b>"],"links":[{"name":"카사","url":"https://www.kasa.co.kr/","pri":true}],"flags":[],"esub":"커피값으로 건물주"},{"id":"musicroyalty","cls":"pk","grade":"B","diff":2,"cost":"수만원~","costLv":2,"speed":"중기","icon":"🎵","bg":"rgba(201,56,114,.1)","name":"음원 저작권 투자 (뮤직카우)","tag":"저작권 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"저작권료+시세","ec":"var(--pink)","desc":"⚠️ 인기 음원의 저작권 지분을 사서 매달 저작권료 수취+지분 매매 차익. 곡 인기에 따라 수익 변동.","steps":["뮤직카우 <b>가입</b>","인기곡 <b>지분 매수</b>","매달 <b>저작권료</b>","⚠️ 시세 <b>변동 주의</b>"],"links":[{"name":"뮤직카우","url":"https://www.musicow.com/","pri":true}],"flags":[],"esub":"⚠️ 변동 위험"},{"id":"artpiece","cls":"ig","grade":"B","diff":2,"cost":"수만원~","costLv":2,"speed":"장기","icon":"🖼️","bg":"rgba(79,70,229,.1)","name":"미술품 조각투자","tag":"실물 대체투자","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"매각 차익","ec":"var(--indigo)","desc":"⚠️ 유명 작가 미술품을 조각으로 공동 소유 → 매각 시 차익 분배. 소액으로 블루칩 아트 투자. 유동성은 낮음.","steps":["조각투자 <b>플랫폼</b>","작품 <b>지분 매수</b>","전시·보관","매각 시 <b>차익 분배</b>"],"links":[{"name":"테사","url":"https://www.tessa.art/","pri":true}],"flags":[],"esub":"⚠️ 유동성 낮음"},{"id":"parking","cls":"or","grade":"A","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🅿️","bg":"rgba(217,112,7,.1)","name":"주차장·공간 공유","tag":"유휴자산","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 5~30만원","ec":"var(--orange)","desc":"안 쓰는 주차 공간을 시간제로 대여. 빈 방·창고·회의 공간 공유. 유휴 자산이 매달 현금을 만드는 구조.","steps":["빈 공간 <b>확인</b>","공유 앱 <b>등록</b>","시간제 <b>대여</b>","자동 정산 <b>수익</b>"],"links":[{"name":"모두의주차장","url":"https://www.moduparking.com/","pri":true}],"flags":["무료"],"esub":"놀리는 공간 활용"},{"id":"rentitem","cls":"gr","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📦","bg":"rgba(21,128,61,.1)","name":"물건 대여 (공유경제)","tag":"대여 수익","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 3~20만원","ec":"var(--green)","desc":"안 쓰는 카메라·캠핑용품·명품가방·공구를 대여해 수익. 사놓고 안 쓰는 고가 물건으로 원금 회수.","steps":["<b>물건 정리</b>","플랫폼 <b>등록</b>","보증금·대여료 <b>설정</b>","반복 <b>대여</b>"],"links":[{"name":"당근마켓","url":"https://www.daangn.com/","pri":true}],"flags":["무료"]},{"id":"auction","cls":"rd","grade":"B","diff":5,"cost":"수천만원~","costLv":4,"speed":"장기","icon":"⚖️","bg":"rgba(200,54,44,.1)","name":"부동산 경매 입문","tag":"고위험·전문","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"시세차익","ec":"var(--red)","desc":"⚠️ 시세보다 싸게 부동산을 낙찰받아 차익. 권리분석·명도 등 전문 지식 필수. 충분한 공부 없이 시작하면 큰 손실.","steps":["경매 <b>기초 공부</b>","법원경매 <b>물건 검색</b>","권리분석 <b>필수</b>","임장 후 <b>입찰</b>"],"links":[{"name":"법원경매정보","url":"https://www.courtauction.go.kr/","pri":true}],"flags":[],"esub":"⚠️ 전문 지식 필수"},{"id":"gap","cls":"rd","grade":"B","diff":4,"cost":"3천만원~","costLv":4,"speed":"장기","icon":"🔑","bg":"rgba(200,54,44,.1)","name":"소액 갭투자 입문","tag":"고위험·고수익","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"시세차익","ec":"var(--red)","desc":"⚠️ 고위험. 매매가-전세가 차이(갭)만 투자. 역전세·깡통전세 리스크 반드시 계산. 공부 없이 시작하면 위험.","steps":["<b>전세가율 80%+</b>","등기부·선순위 <b>확인</b>","전세보증보험 <b>필수</b>","임장 <b>5회+</b>"],"links":[{"name":"호갱노노","url":"https://hogangnono.com/","pri":true},{"name":"아실","url":"https://asil.kr/"}],"flags":[],"esub":"⚠️ 공부 필수"},{"id":"knowledgecenter","cls":"pu","grade":"B","diff":4,"cost":"수천만원~","costLv":4,"speed":"장기","icon":"🏭","bg":"rgba(109,67,196,.1)","name":"지식산업센터 투자","tag":"임대·시세","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"임대+시세차익","ec":"var(--purple)","desc":"⚠️ 아파트형 공장(지식산업센터)에 투자해 임대수익+시세차익. 대출·공실 리스크 있어 입지 분석 필수.","steps":["지산 <b>입지 분석</b>","분양·매매 <b>검토</b>","임차 <b>확보</b>","임대수익 <b>수취</b>"],"links":[{"name":"네이버 부동산","url":"https://land.naver.com/","pri":true}],"flags":[],"esub":"⚠️ 공실 리스크"},{"id":"smallshop","cls":"bl","grade":"B","diff":3,"cost":"수천만원~","costLv":4,"speed":"장기","icon":"🏪","bg":"rgba(29,111,208,.1)","name":"소액 상가 지분 투자","tag":"임대 수익","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"임대 연 4~6%","ec":"var(--blue)","desc":"⚠️ 소액으로 상가 지분에 투자해 월 임대수익. 공실·상권 쇠퇴 위험이 있어 상권 분석이 핵심.","steps":["상권 <b>분석</b>","지분·소액 상가 <b>검토</b>","임대 <b>계약</b>","월세 <b>수취</b>"],"links":[{"name":"네이버 부동산","url":"https://land.naver.com/","pri":true}],"flags":[],"esub":"⚠️ 상권 위험"},{"id":"storage","cls":"or","grade":"B","diff":3,"cost":"수백만원~","costLv":3,"speed":"중기","icon":"📦","bg":"rgba(217,112,7,.1)","name":"무인 창고·스토리지 임대","tag":"공간 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 20~100만원","ec":"var(--orange)","desc":"도심 유휴 공간을 무인 창고·셀프스토리지로 임대. 1인 가구·짐 보관 수요 증가로 성장. 무인 운영 가능.","steps":["유휴 공간 <b>확보</b>","창고 <b>세팅</b>","무인 <b>임대 운영</b>","월 임대료 <b>수익</b>"],"links":[{"name":"네이버 부동산","url":"https://land.naver.com/","pri":true}],"flags":[],"esub":"무인 운영"},{"id":"solar","cls":"gr","grade":"B","diff":4,"cost":"수천만원~","costLv":4,"speed":"장기","icon":"☀️","bg":"rgba(21,128,61,.1)","name":"태양광 발전 투자","tag":"친환경 수익","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"연 5~10%","ec":"var(--green)","desc":"⚠️ 태양광 발전소에 투자해 전력 판매수익(SMP+REC). 초기 투자·설비 관리 필요하지만 20년 장기 안정 수익.","steps":["태양광 <b>사업 검토</b>","부지·설비 <b>확보</b>","전력 <b>판매 계약</b>","장기 <b>수익</b>"],"links":[{"name":"한국에너지공단","url":"https://www.energy.or.kr/","pri":true}],"flags":[],"esub":"⚠️ 초기 투자 큼"},{"id":"hanwoo","cls":"pk","grade":"B","diff":2,"cost":"수십만원~","costLv":3,"speed":"장기","icon":"🐄","bg":"rgba(201,56,114,.1)","name":"한우·실물 조각투자","tag":"실물 자산","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"매각 차익","ec":"var(--pink)","desc":"⚠️ 송아지를 조각 투자해 사육 후 출하 시 차익 분배. 실물 대체투자. 사육 기간·시세 변동 리스크 있음.","steps":["조각투자 <b>플랫폼</b>","한우 <b>지분 매수</b>","사육 <b>기간 대기</b>","출하 시 <b>정산</b>"],"links":[{"name":"뱅카우","url":"https://www.bankcow.co.kr/","pri":true}],"flags":[],"esub":"⚠️ 사육 리스크"}],"8":[{"id":"mvno","cls":"gr","grade":"S","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"📶","bg":"rgba(21,128,61,.1)","name":"알뜰폰 전환","tag":"즉시 절약","tc":"var(--green)","tb":"rgba(21,128,61,.1)","earn":"월 3~6만원","ec":"var(--green)","desc":"대형 3사→알뜰폰 전환만으로 월 3~6만원 즉시 절약. 같은 통신망이라 품질 동일. 연 절약액이 ETF 종잣돈.","steps":["요금 <b>비교</b>","위약금 확인 <b>번호이동</b>","절약분 <b>투자 이체</b>"],"links":[{"name":"알뜰폰 허브","url":"https://www.mvnohub.kr/","pri":true}],"flags":["무료","쉬움"],"esub":"연 36~72만원"},{"id":"subcancel","cls":"rd","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🚫","bg":"rgba(200,54,44,.1)","name":"구독 정리+카드 최적화","tag":"즉시 절약","tc":"var(--red)","tb":"rgba(200,54,44,.1)","earn":"월 5~20만원","ec":"var(--red)","desc":"안 쓰는 구독 해지+지출처별 캐시백 카드 교체. 뱅크샐러드로 구독료·지출 한눈에. 새는 돈부터 막기.","steps":["<b>구독료 목록화</b>","미사용 <b>해지</b>","캐시백 <b>카드 교체</b>","절약분 <b>자동이체</b>"],"links":[{"name":"뱅크샐러드","url":"https://www.banksalad.com/","pri":true}],"flags":["무료","쉬움"]},{"id":"parking2","cls":"bl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🏦","bg":"rgba(29,111,208,.1)","name":"파킹통장·고금리 예적금","tag":"안전자산","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"연 3~7%","ec":"var(--blue)","desc":"하루만 맡겨도 이자 주는 파킹통장+저축은행 특판 적금(연 5~7%). 원금 보장되면서 시중금리 이상.","steps":["파킹통장 <b>개설</b>","특판 적금 <b>알림</b>","비상금 <b>파킹통장</b>","만기 <b>갱신</b>"],"links":[{"name":"토스뱅크","url":"https://www.tossbank.com/","pri":true},{"name":"케이뱅크","url":"https://www.kbanknow.com/"}],"flags":["무료","쉬움"],"esub":"원금 보장"},{"id":"cma","cls":"tl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"💳","bg":"rgba(13,150,104,.1)","name":"CMA 통장 (하루 이자)","tag":"단기자금","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"연 2.5~4%","ec":"var(--teal)","desc":"증권사 CMA는 하루만 넣어도 이자. 월급 넣고 필요할 때 빼 쓰기. 잠자는 돈 없애기.","steps":["CMA <b>개설</b>","월급·비상금 <b>보관</b>","하루 단위 <b>이자</b>"],"links":[{"name":"토스증권","url":"https://tossinvest.com/","pri":true}],"flags":["무료","쉬움"],"esub":"하루만 넣어도"},{"id":"bond","cls":"tl","grade":"B","diff":1,"cost":"1만원~","costLv":1,"speed":"중기","icon":"📜","bg":"rgba(13,150,104,.1)","name":"국채·개인투자용 국채","tag":"안전·확정","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"연 3~4.5%","ec":"var(--teal)","desc":"국가가 보증하는 국채. 1만원부터. 만기까지 보유하면 확정 이자. 주식보다 안전, 예금보다 수익 좋은 중간 자산.","steps":["국채 앱 <b>설치</b>","국채 <b>매입</b>","만기 <b>보유</b>"],"links":[{"name":"기획재정부 국채","url":"https://ktb.moef.go.kr/","pri":true}],"flags":["쉬움"],"esub":"국가 보증"},{"id":"subsidy","cls":"gl","grade":"A","diff":1,"cost":"0원","costLv":1,"speed":"즉시","icon":"🎁","bg":"var(--gold-bg)","name":"정부 지원금·숨은 돈 찾기","tag":"공짜 돈","tc":"var(--gold)","tb":"var(--gold-bg)","earn":"수십~수백만원","ec":"var(--gold)","desc":"보조금24에서 받을 수 있는 정부·지자체 지원금 자동 조회. 청년·주거·양육 지원 등. 숨은 환급금도 조회.","steps":["보조금24 <b>조회</b>","지원금 <b>확인·신청</b>","카드포인트 <b>숨은 돈</b>"],"links":[{"name":"보조금24","url":"https://www.gov.kr/","pri":true},{"name":"카드포인트 통합조회","url":"https://www.cardpoint.or.kr/"}],"flags":["무료","쉬움"],"esub":"놓치면 손해"},{"id":"translate","cls":"pu","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"단기","icon":"🌐","bg":"rgba(109,67,196,.1)","name":"번역·통역 재택","tag":"전문 부업","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 20~200만원","ec":"var(--purple)","desc":"외국어 가능하면 번역·통역·자막 제작 재택. AI 번역 후 감수만 해도 됨. 전문 분야일수록 단가 높음.","steps":["크몽·플랫폼 <b>등록</b>","샘플 <b>포트폴리오</b>","번역·자막 <b>수주</b>","전문분야 <b>단가 상승</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"],"esub":"외국어 실력 필요"},{"id":"transcribe","cls":"cy","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"⌨️","bg":"rgba(8,145,168,.1)","name":"속기·녹취·타이핑","tag":"재택 알바","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 10~80만원","ec":"var(--cyan)","desc":"회의·인터뷰 녹음을 텍스트로 옮기는 녹취·속기. AI 받아쓰기 후 교정만 해도 됨. 타이핑 빠르면 유리.","steps":["녹취 <b>플랫폼 가입</b>","AI 받아쓰기 <b>+교정</b>","건당 <b>수익</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"]},{"id":"tutor","cls":"or","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"단기","icon":"👨‍🏫","bg":"rgba(217,112,7,.1)","name":"온라인 튜터·과외","tag":"재능 수익","tc":"var(--orange)","tb":"rgba(217,112,7,.1)","earn":"월 20~200만원","ec":"var(--orange)","desc":"화상으로 공부·취미·언어를 가르치는 온라인 과외. 시간당 2~5만원. 잘 가르치면 대기 학생이 생김.","steps":["가르칠 <b>과목 정하기</b>","튜터 플랫폼 <b>등록</b>","화상 <b>수업 진행</b>","후기 <b>단가 상승</b>"],"links":[{"name":"숨고","url":"https://soomgo.com/","pri":true},{"name":"탈잉","url":"https://taling.me/"}],"flags":["재택"]},{"id":"experience","cls":"pk","grade":"B","diff":1,"cost":"0원","costLv":1,"speed":"단기","icon":"🎀","bg":"rgba(201,56,114,.1)","name":"체험단·서포터즈","tag":"제품+수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 5~30만원","ec":"var(--pink)","desc":"제품·맛집·서비스를 무료로 받고 리뷰 작성. 원고료까지 받는 유료 체험단도. 블로그·SNS 있으면 유리.","steps":["체험단 <b>사이트 가입</b>","신청 → <b>선정</b>","리뷰 <b>작성</b>","제품+원고료 <b>수령</b>"],"links":[{"name":"레뷰","url":"https://www.revu.net/","pri":true}],"flags":["무료"]},{"id":"contest","cls":"ig","grade":"B","diff":3,"cost":"0원","costLv":1,"speed":"단기","icon":"🏆","bg":"rgba(79,70,229,.1)","name":"공모전·아이디어 응모","tag":"상금 수익","tc":"var(--indigo)","tb":"rgba(79,70,229,.1)","earn":"건당 수십~수백만원","ec":"var(--indigo)","desc":"네이밍·아이디어·디자인·영상 공모전에 응모해 상금 수취. 당첨되면 목돈. 취미·특기를 상금으로.","steps":["공모전 <b>사이트 확인</b>","관심 분야 <b>응모</b>","수상 <b>상금 수령</b>"],"links":[{"name":"위비티","url":"https://www.wevity.com/","pri":true}],"flags":["무료","재택"]},{"id":"videocounsel","cls":"pu","grade":"A","diff":3,"cost":"0원","costLv":1,"speed":"단기","icon":"📹","bg":"rgba(109,67,196,.1)","name":"화상 상담사·컨설턴트","tag":"전문 재택","tc":"var(--purple)","tb":"rgba(109,67,196,.1)","earn":"월 20~200만원","ec":"var(--purple)","desc":"전문 지식(재테크·커리어·건강·법률 등)으로 화상 상담을 제공. 자격·경력 있으면 고단가. 시간·장소 자유.","steps":["전문 분야 <b>정의</b>","상담 플랫폼 <b>등록</b>","화상 <b>상담 진행</b>","후기 <b>단가 상승</b>"],"links":[{"name":"숨고","url":"https://soomgo.com/","pri":true}],"flags":["재택"],"esub":"전문성 필요"},{"id":"counselor","cls":"pk","grade":"A","diff":3,"cost":"0~5만원","costLv":2,"speed":"단기","icon":"🃏","bg":"rgba(201,56,114,.1)","name":"심리·타로 상담사","tag":"상담 수익","tc":"var(--pink)","tb":"rgba(201,56,114,.1)","earn":"월 20~150만원","ec":"var(--pink)","desc":"타로·심리·사주 상담을 재택·화상으로. 자격증·경험 쌓으면 단골 확보. 감정 노동이지만 수요 꾸준하고 진입 유연.","steps":["상담 <b>역량 준비</b>","플랫폼·SNS <b>홍보</b>","화상·채팅 <b>상담</b>","단골 <b>확보</b>"],"links":[{"name":"숨고","url":"https://soomgo.com/","pri":true}],"flags":["재택"],"esub":"수요 꾸준"},{"id":"surveyor","cls":"cy","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"📊","bg":"rgba(8,145,168,.1)","name":"온라인 조사원·리서처","tag":"재택 알바","tc":"var(--cyan)","tb":"rgba(8,145,168,.1)","earn":"월 10~60만원","ec":"var(--cyan)","desc":"기업 의뢰로 자료조사·시장조사·경쟁사 분석을 재택 수행. 검색·정리 능력만 있으면 시작. 꼼꼼하면 재의뢰 많음.","steps":["리서치 <b>플랫폼 가입</b>","조사 <b>수행·정리</b>","보고서 <b>납품</b>","재의뢰 <b>확보</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["재택"]},{"id":"appTester","cls":"bl","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"🐞","bg":"rgba(29,111,208,.1)","name":"앱·웹 테스터","tag":"재택 알바","tc":"var(--blue)","tb":"rgba(29,111,208,.1)","earn":"월 10~50만원","ec":"var(--blue)","desc":"출시 전 앱·웹을 사용해보고 버그·불편 사항을 리포트. 특별한 기술 없이 꼼꼼함만 있으면 가능한 재택 부업.","steps":["테스터 <b>플랫폼 가입</b>","앱·웹 <b>테스트</b>","버그 <b>리포트</b>","건당 <b>보상</b>"],"links":[{"name":"크몽","url":"https://kmong.com/","pri":true}],"flags":["무료","재택"],"esub":"기술 불필요"},{"id":"chatcounsel","cls":"tl","grade":"B","diff":2,"cost":"0원","costLv":1,"speed":"단기","icon":"💬","bg":"rgba(13,150,104,.1)","name":"챗봇·채팅 상담원","tag":"재택 근무","tc":"var(--teal)","tb":"rgba(13,150,104,.1)","earn":"월 30~120만원","ec":"var(--teal)","desc":"기업 고객센터의 채팅·챗봇 상담을 재택으로. 정해진 시간 근무형이 많아 안정적. 타이핑·응대만 되면 시작.","steps":["채용 <b>공고 확인</b>","재택 상담원 <b>지원</b>","채팅 <b>응대</b>","시급·건별 <b>수익</b>"],"links":[{"name":"사람인","url":"https://www.saramin.co.kr/","pri":true}],"flags":["재택"]}]};
+
+function render(tab){var el=$('list'+tab);if(el)el.innerHTML=(DATA[tab]||[]).map(function(o){return card(o);}).join('');updCnt(tab,(DATA[tab]||[]).length);}
+function updCnt(tab,n){var c=$('cnt'+tab);if(c)c.textContent=n+'개';}
+function refreshAll(){[2,3,4,5,6,7,8].forEach(function(t){filt(t);});if($('p1').classList.contains('on'))renderDash();}
+
+var FILT={2:'all',3:'all',4:'all',5:'all',6:'all',7:'all',8:'all'};
+document.querySelectorAll('.toolbar').forEach(function(tb){
+  tb.addEventListener('click',function(e){var c=e.target.closest('.fchip');if(!c)return;var tab=null;['f2','f3','f4','f5','f6','f7','f8'].forEach(function(k){if(c.hasAttribute('data-'+k))tab=k[1];});if(!tab)return;tb.querySelectorAll('.fchip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');FILT[tab]=c.getAttribute('data-f'+tab);filt(tab);});
+});
+function filt(tab){
+  var q=($('s'+tab)?$('s'+tab).value:'').toLowerCase().trim();
+  var f=FILT[tab];var sortEl=$('sort'+tab);var sort=sortEl?sortEl.value:'def';
+  var arr=(DATA[tab]||[]).filter(function(o){var text=(o.name+' '+o.desc+' '+o.tag).toLowerCase();var okQ=!q||text.indexOf(q)>=0;var okF=f==='all'||(o.flags&&o.flags.indexOf(f)>=0);return okQ&&okF;});
+  if(sort==='earn')arr=arr.slice().sort(function(a,b){return earnVal(b)-earnVal(a);});
+  else if(sort==='easy')arr=arr.slice().sort(function(a,b){return diffVal(a)-diffVal(b);});
+  else if(sort==='grade')arr=arr.slice().sort(function(a,b){return gradeVal(b)-gradeVal(a);});
+  var el=$('list'+tab);
+  if(arr.length===0){el.innerHTML='<div class="empty">검색 결과가 없습니다.</div>';}
+  else{el.innerHTML=arr.map(function(o){return card(o);}).join('');}
+  updCnt(tab,arr.length);
+}
+
+function toggleCmp(id){var i=CMP.indexOf(id);if(i>=0)CMP.splice(i,1);else{if(CMP.length>=3){alert('최대 3개까지 비교할 수 있습니다.');return;}CMP.push(id);}renderCmpBar();refreshAll();}
+function findItem(id){var r=null;[2,3,4,5,6,7,8].forEach(function(t){(DATA[t]||[]).forEach(function(o){if(o.id===id)r=o;});});return r;}
+function renderCmpBar(){
+  var bar=$('cmpBar');if(CMP.length===0){bar.classList.remove('on');return;}
+  bar.classList.add('on');
+  $('cmpItems').innerHTML=CMP.map(function(id){var o=findItem(id);return o?'<span class="cmpitem">'+o.icon+' '+o.name+' <b onclick="toggleCmp(\''+id+'\')">✕</b></span>':'';}).join('');
+}
+$('cmpGo').addEventListener('click',function(){
+  if(CMP.length<2){alert('2개 이상 선택하세요.');return;}
+  var items=CMP.map(findItem).filter(Boolean);
+  var rows=[['수익','earn'],['추천등급','grade'],['난이도','_diff'],['초기비용','cost'],['수익시점','speed']];
+  var html='<table class="cmptable"><tr><th>항목</th>'+items.map(function(o){return '<th>'+o.icon+' '+o.name+'</th>';}).join('')+'</tr>';
+  rows.forEach(function(r){
+    html+='<tr><td>'+r[0]+'</td>'+items.map(function(o){var v;if(r[1]==='_diff')v=['','매우쉬움','쉬움','보통','어려움','전문'][o.diff||3];else if(r[1]==='grade')v=(o.grade||'B')+'급';else v=o[r[1]]||'-';return '<td><b>'+v+'</b></td>';}).join('')+'</tr>';
+  });
+  html+='</table>';
+  var w=window.open('','_blank');
+  if(w){w.document.write('<html><head><meta charset="utf-8"><title>업종 비교</title><style>body{font-family:sans-serif;padding:24px;background:#faf9f6}table{width:100%;border-collapse:collapse}th,td{padding:12px;text-align:left;border-bottom:1px solid #ddd}th{background:#f2f0ea}h2{font-size:18px}</style></head><body><h2>⚖️ 업종 비교</h2>'+html+'</body></html>');w.document.close();}
+  else{alert('팝업이 차단되었습니다. 허용해주세요.');}
+});
+
+function allItems(){var a=[];[2,3,4,5,6,7,8].forEach(function(t){(DATA[t]||[]).forEach(function(o){a.push(o);});});return a;}
+function renderDash(){
+  var items=allItems();
+  var started=items.filter(function(o){return STARTED[o.id];});
+  var favs=items.filter(function(o){return FAV[o.id];});
+  var sum=0;started.forEach(function(o){sum+=earnVal(o);});
+  $('statGrid').innerHTML=
+    '<div class="statcard"><div class="statv">'+started.length+'</div><div class="statl">진행 중인 부업</div></div>'+
+    '<div class="statcard"><div class="statv">'+favs.length+'</div><div class="statl">즐겨찾기</div></div>'+
+    '<div class="statcard"><div class="statv" style="font-size:20px">'+fmt(sum*10000)+'</div><div class="statl">월 예상 수익 합계</div></div>'+
+    '<div class="statcard"><div class="statv" style="font-size:20px">'+fmt(sum*12*10000)+'</div><div class="statl">연 예상 수익</div></div>';
+  var sEl=$('startedList'),sEmp=$('startedEmpty');
+  if(started.length===0){sEl.innerHTML='';sEmp.style.display='block';}else{sEmp.style.display='none';sEl.innerHTML=started.map(function(o){return card(o);}).join('');}
+  var fEl=$('favList'),fEmp=$('favEmpty');
+  if(favs.length===0){fEl.innerHTML='';fEmp.style.display='block';}else{fEmp.style.display='none';fEl.innerHTML=favs.map(function(o){return card(o);}).join('');}
+  var goal=parseFloat($('goalInput').value)||50;
+  var pct=Math.min(100,Math.round(sum/goal*100));
+  $('gaugeFill').style.width=pct+'%';
+  $('goalCur').textContent=fmt(sum*10000);
+  $('goalTgt').textContent=goal+'만원';
+  $('goalPct').textContent='('+pct+'%)';
+  var r=0.08/12;
+  function fv(months){return r>0?sum*(Math.pow(1+r,months)-1)/r:sum*months;}
+  $('sim1').textContent=fmt(Math.round(fv(12))*10000);
+  $('sim3').textContent=fmt(Math.round(fv(36))*10000);
+  $('sim5').textContent=fmt(Math.round(fv(60))*10000);
+  renderCalendar(favs.length?favs:started);
+  renderChallenge(favs);
+}
+function renderCalendar(items){
+  var box=$('calGrid'),emp=$('calEmpty');
+  if(items.length===0){box.innerHTML='';emp.style.display='block';return;}
+  emp.style.display='none';
+  var days=['월','화','수','목','금','토','일'];
+  var picks=items.slice(0,7);
+  box.innerHTML=days.map(function(d,i){
+    var it=picks[i%picks.length];
+    var task=it?it.name:'휴식·점검';
+    var extra=i===6?'주간 수익 점검·다음주 계획':(i===5?'밀린 작업 보충':(it?it.tag+' 실행':''));
+    return '<div class="calday"><h4>'+d+'요일</h4><div class="caltask">'+task+'</div>'+(extra?'<div class="caltask">'+extra+'</div>':'')+'</div>';
+  }).join('');
+}
+function renderChallenge(favs){
+  var box=$('challengeBox'),emp=$('chalEmpty');
+  if(favs.length===0){box.innerHTML='';emp.style.display='block';return;}
+  emp.style.display='none';
+  var weeks=[
+    {w:'1주차 · 준비·가입',tasks:favs.slice(0,3).map(function(o){return o.name+' 가입·설치';})},
+    {w:'2주차 · 첫 실행',tasks:favs.slice(0,3).map(function(o){return o.name+' 첫 작업/투자';})},
+    {w:'3주차 · 루틴화',tasks:['매일 정해진 시간에 실행','즐겨찾기 2개 이상 꾸준히','첫 수익/적립 확인']},
+    {w:'4주차 · 확장·점검',tasks:['가장 잘 맞는 1개 집중','계산기로 목표 재설정','안 맞는 것 정리·새 항목']}
+  ];
+  box.innerHTML=weeks.map(function(wk,wi){
+    var tasks=wk.tasks.map(function(t,ti){var key='chal_'+wi+'_'+ti;var on=CHAL[key]?' on':'';return '<div class="chaltask"><div class="chalcheck'+on+'" onclick="toggleChal(\''+key+'\')">'+(CHAL[key]?'✓':'')+'</div><div>'+t+'</div></div>';}).join('');
+    return '<div class="chal"><div class="chalw">'+wk.w+'</div>'+tasks+'</div>';
+  }).join('');
+}
+function toggleChal(k){if(CHAL[k])delete CHAL[k];else CHAL[k]=1;saveState();renderDash();}
+
+var DDB={
+  stock:{n:'미국 ETF 적립식',icon:'📈',bg:'var(--gold-bg)',cls:'gl',grade:'S',diff:1,cost:'월 1만원~',costLv:1,speed:'장기',tag:'핵심 자산',tc:'var(--gold)',tb:'var(--gold-bg)',id:'d_stock',
+    earn:function(s,m,st){var r=st==='safe'?.05:st==='bal'?.08:.12;return Math.round((s*r+m*12*r/2)/12);},
+    desc:function(st){return st==='safe'?'S&P500 ETF 분산 투자로 안정적 연 5~7%. ISA로 절세.':'ETF 70%+성장주 30%. 장기 복리로 자산을 키우는 핵심.';},
+    steps:function(){return['ISA <b>비과세</b>','급여일 <b>자동 매수</b>','<b>10년 유지</b>'];},links:[{name:'토스증권',url:'https://tossinvest.com/',pri:true}]},
+  app:{n:'앱테크 조합',icon:'📱',bg:'rgba(29,111,208,.1)',cls:'bl',grade:'S',diff:1,cost:'0원',costLv:1,speed:'즉시',tag:'짬짬이 수익',tc:'var(--blue)',tb:'rgba(29,111,208,.1)',id:'d_app',
+    earn:function(s,m,st,t){return t<2?5:t<5?15:30;},desc:function(){return '캐시워크+토스+설문 앱 5개 조합. 하루 10~20분 월 5~30만원.';},
+    steps:function(){return['캐시워크 <b>걷기</b>','설문 앱 <b>3~5개</b>','토스 <b>퀴즈</b>'];},links:[{name:'캐시워크',url:'https://play.google.com/store/search?q=캐시워크&c=apps',pri:true},{name:'패널파워',url:'https://www.panelpower.co.kr/'}]},
+  ai:{n:'데이터 라벨링·AI 부업',icon:'🤖',bg:'rgba(8,145,168,.1)',cls:'cy',grade:'S',diff:2,cost:'0원',costLv:1,speed:'단기',tag:'2026 신종',tc:'var(--cyan)',tb:'rgba(8,145,168,.1)',id:'d_ai',
+    earn:function(s,m,st,t){return t<3?10:t<8?30:60;},desc:function(){return 'AI 정답지 만드는 재택. 크라우드웍스 최고 6천만원+. 무료 교육 수료 시 고단가.';},
+    steps:function(){return['크라우드웍스 <b>가입</b>','무료 교육 <b>수료</b>','라벨링 <b>시작</b>'];},links:[{name:'크라우드웍스',url:'https://works.crowdworks.kr/',pri:true},{name:'무료 교육',url:'https://academy.crowdworks.kr/data-labeling'}]},
+  content:{n:'블로그·유튜브',icon:'✍️',bg:'rgba(217,112,7,.1)',cls:'or',grade:'S',diff:2,cost:'0원',costLv:1,speed:'중기',tag:'자동화 수익',tc:'var(--orange)',tb:'rgba(217,112,7,.1)',id:'d_content',
+    earn:function(s,m,st,t){return t<3?10:t<8?30:80;},desc:function(){return '블로그 일 1포스팅 90일 → 애드포스트+쿠팡. 한 번 쓴 글이 몇 년간.';},
+    steps:function(){return['<b>틈새 주제</b>','일 1포스팅 <b>90일</b>','<b>애드포스트</b>'];},links:[{name:'네이버 블로그',url:'https://blog.naver.com/',pri:true},{name:'애드포스트',url:'https://adpost.naver.com/'}]},
+  store:{n:'스마트스토어',icon:'🛒',bg:'rgba(217,112,7,.1)',cls:'or',grade:'A',diff:3,cost:'0~10만원',costLv:2,speed:'중기',tag:'판매 수익',tc:'var(--orange)',tb:'rgba(217,112,7,.1)',id:'d_store',
+    earn:function(s,m,st,t){return t<3?20:t<8?70:180;},desc:function(){return '재고 없이 오너클랜 등록. 자동 배송. 마진 20~40%.';},
+    steps:function(){return['<b>개설</b>','오너클랜 <b>소싱</b>','<b>월 50개</b>'];},links:[{name:'스마트스토어',url:'https://sell.smartstore.naver.com/',pri:true},{name:'오너클랜',url:'https://www.ownerclan.com/'}]},
+  resell:{n:'중고거래·리셀',icon:'🏷️',bg:'rgba(201,56,114,.1)',cls:'pk',grade:'A',diff:2,cost:'0원',costLv:1,speed:'즉시',tag:'되팔기 수익',tc:'var(--pink)',tb:'rgba(201,56,114,.1)',id:'d_resell',
+    earn:function(s,m,st,t){return t<3?5:15;},desc:function(){return '집안 물건 판매+저평가 되팔기+한정판 리셀. 당근·크림.';},
+    steps:function(){return['<b>안 쓰는 물건</b>','<b>시세 파악</b>','저가 <b>되팔기</b>'];},links:[{name:'당근마켓',url:'https://www.daangn.com/',pri:true},{name:'크림',url:'https://kream.co.kr/'}]},
+  saving:{n:'절약·짠테크',icon:'💳',bg:'rgba(13,150,104,.1)',cls:'tl',grade:'S',diff:1,cost:'0원',costLv:1,speed:'즉시',tag:'즉시 효과',tc:'var(--teal)',tb:'rgba(13,150,104,.1)',id:'d_saving',
+    earn:function(s,m){return Math.max(5,Math.round(m*0.18));},desc:function(){return '알뜰폰+구독 정리+캐시백으로 즉시 월 5~20만원. 정부 지원금까지.';},
+    steps:function(){return['알뜰폰 <b>전환</b>','구독 <b>정리</b>','보조금24 <b>조회</b>'];},links:[{name:'뱅크샐러드',url:'https://www.banksalad.com/',pri:true},{name:'보조금24',url:'https://www.gov.kr/'}]},
+  realty:{n:'청약·조각투자',icon:'🏠',bg:'rgba(109,67,196,.1)',cls:'pu',grade:'A',diff:2,cost:'월 2만원~',costLv:1,speed:'장기',tag:'장기 필수',tc:'var(--purple)',tb:'rgba(109,67,196,.1)',id:'d_realty',
+    earn:function(){return 0;},desc:function(){return '청약 납입+무주택 유지. 당첨 시 수천만~수억. 소액은 조각투자.';},
+    steps:function(){return['청약통장 <b>개설</b>','<b>10만원 납입</b>','조각투자 <b>소액</b>'];},links:[{name:'청약홈',url:'https://www.applyhome.co.kr/',pri:true},{name:'카사',url:'https://www.kasa.co.kr/'}]},
+  dividend:{n:'월배당 ETF',icon:'💰',bg:'rgba(21,128,61,.1)',cls:'gr',grade:'A',diff:2,cost:'10만원~',costLv:1,speed:'중기',tag:'현금 흐름',tc:'var(--green)',tb:'rgba(21,128,61,.1)',id:'d_div',
+    earn:function(s){return Math.round(s*0.04/12);},desc:function(){return 'SCHD·JEPI 월배당 ETF. 매달 배당 자동 입금.';},
+    steps:function(){return['해외주식 계좌','SCHD+JEPI','배당 <b>재투자</b>'];},links:[{name:'토스증권',url:'https://tossinvest.com/',pri:true}]},
+  freelance:{n:'프리랜서·크몽',icon:'🎨',bg:'rgba(201,56,114,.1)',cls:'pk',grade:'A',diff:3,cost:'0원',costLv:1,speed:'단기',tag:'재능 수익화',tc:'var(--pink)',tb:'rgba(201,56,114,.1)',id:'d_free',
+    earn:function(s,m,st,t){return t<3?10:t<8?50:150;},desc:function(){return '잘하는 것 1가지로 크몽 등록. 첫 3건 리뷰 후 가격 인상.';},
+    steps:function(){return['<b>강점 1가지</b>','포트폴리오 <b>3개</b>','<b>리뷰 확보</b>'];},links:[{name:'크몽',url:'https://kmong.com/',pri:true},{name:'숨고',url:'https://soomgo.com/'}]}
+}
+;
+function gChips(id){return Array.from(document.querySelectorAll('#'+id+' .chip.on')).map(function(c){return c.getAttribute('data-v');});}
+function gSingle(id){var r=gChips(id);return r.length?r[0]:null;}
+
+$('runBtn').addEventListener('click',function(){
+  var save=parseInt($('rs').value)||50,seed=parseInt($('rk').value)||1000,time=parseInt($('rt').value)||5;
+  var style=gSingle('gst')||'bal',age=gSingle('ga')||'30',ints=gChips('gin');
+  var order=[];
+  if(save<30||ints.indexOf('saving')>=0)order.push('saving');
+  if(ints.indexOf('app')>=0)order.push('app');
+  if(ints.indexOf('ai')>=0)order.push('ai');
+  if(ints.indexOf('resell')>=0)order.push('resell');
+  if(ints.indexOf('stock')>=0||style!=='safe')order.push('stock');
+  if(ints.indexOf('dividend')>=0&&seed>=500)order.push('dividend');
+  if(ints.indexOf('store')>=0)order.push('store');
+  if(ints.indexOf('content')>=0)order.push('content');
+  if(ints.indexOf('freelance')>=0)order.push('freelance');
+  if(ints.indexOf('realty')>=0)order.push('realty');
+  ['app','stock','ai','saving','dividend'].forEach(function(k){if(order.indexOf(k)<0)order.push(k);});
+  var seen={},sel=[];order.forEach(function(k){if(!seen[k]&&sel.length<5){seen[k]=1;sel.push(k);}});
+  var pot=0;sel.forEach(function(k){pot+=DDB[k].earn(seed,save,style,time);});
+  var ageL={'20':'20대','30':'30대','40':'40대','50':'50대 이상'}[age]||'30대';
+  var styleL={safe:'안전형',bal:'균형형',growth:'성장형'}[style]||'균형형';
+  $('rT').innerHTML='<em>'+ageL+' '+styleL+'</em> 맞춤 수익 로드맵';
+  $('rS').textContent='월 '+save+'만원 투자 · 종잣돈 '+seed.toLocaleString()+'만원 · 주 '+time+'시간 부업';
+  $('rP').textContent=pot>0?'+'+mf(pot)+'/월':'장기 자산 구축';
+  var g=$('rC');g.innerHTML='';
+  sel.forEach(function(k,i){var d=DDB[k];var earn=d.earn(seed,save,style,time);
+    g.innerHTML+=card({id:d.id,cls:d.cls,grade:d.grade,diff:d.diff,cost:d.cost,costLv:d.costLv,speed:d.speed,icon:d.icon,bg:d.bg,name:d.n,tag:d.tag,tc:d.tc,tb:d.tb,earn:earn>0?'+'+mf(earn)+'/월':'장기 투자',ec:i===0?'var(--gold)':'var(--green)',desc:d.desc(style,time),steps:d.steps(),links:d.links});
+  });
+  var tls=[
+    {p:'이번 주 당장',h:'기반 구축 · 비용 0원',b:'알뜰폰 전환, 구독 해지, CMA 통장, 캐시워크 설치.',earn:'+'+mf(Math.round(pot*0.15))+'/월 즉시',c:'#15803d'},
+    {p:'1개월 후',h:'첫 투자·부업 실행',b:'월 '+Math.min(save,30)+'만원 ETF 첫 매수. 앱테크 5개 활성화.',earn:'복리·부업 시동',c:'#1d6fd0'},
+    {p:'3개월 후',h:time>=5?'부업 첫 수익':'투자 루틴 안착',b:time>=5?'스마트스토어 등록 or 크몽 첫 주문 or 라벨링.':'자동이체 루틴 완성.',earn:'+'+mf(Math.round(pot*0.3))+'/월',c:'#b8860b'},
+    {p:'1년 후',h:'복리 효과 체감',b:'꾸준한 투자로 자산 증가. 부업 수익 안정화.',earn:'자산 '+mf(Math.round(seed+save*12+seed*0.08))+' 목표',c:'#6d43c4'},
+    {p:'3년 후',h:'수익원 다각화 완성',b:'투자+부업+절약 동시 작동. 월 '+mf(pot)+' 추가 현금 흐름.',earn:'월 '+mf(pot)+' 달성',c:'#b8860b'}
+  ];
+  $('rTL').innerHTML=tls.map(function(t){return '<div class="tli"><div class="tld" style="background:'+t.c+';box-shadow:0 0 0 3px var(--bg)"></div><div class="tlp">'+t.p+'</div><div class="tlh">'+t.h+'</div><div class="tlb">'+t.b+'</div><span class="tlbg" style="color:'+t.c+'">'+t.earn+'</span></div>';}).join('');
+  $('diagResult').classList.add('on');
+  setTimeout(function(){$('diagResult').scrollIntoView({behavior:'smooth',block:'start'});},150);
+});
+$('resetBtn').addEventListener('click',function(){$('diagResult').classList.remove('on');window.scrollTo({top:0,behavior:'smooth'});});
+$('copyBtn').addEventListener('click',function(){var t=$('rT').textContent,p=$('rP').textContent;var txt='[AI 재테크 연구소] 부의 로드맵 진단\n\n'+t+'\n월 추가 수익 잠재력: '+p+'\n\n지금 무료 진단해보세요!';if(navigator.clipboard){navigator.clipboard.writeText(txt).then(function(){alert('복사됐습니다! 카페에 붙여넣으세요 😊');});}else{var ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('복사됐습니다!');}});
+
+function calc(){
+  var s=parseFloat($('c1').value)||0,m=parseFloat($('c2').value)||0,r=(parseFloat($('c3').value)||0)/100/12,n=(parseFloat($('c4').value)||1)*12;
+  var fv=r>0?s*Math.pow(1+r,n)+m*(Math.pow(1+r,n)-1)/r:(s+m*n);var prin=s+m*n,prof=fv-prin;
+  $('o1').textContent=mf(Math.round(prin));$('o2').textContent='+'+mf(Math.round(prof));$('o3').textContent=mf(Math.round(fv));$('o4').textContent='+'+(prin>0?(prof/prin*100).toFixed(0):0)+'%';
+  var amt=parseFloat($('d1').value)||0,dy=(parseFloat($('d2').value)||0)/100,tax=(parseFloat($('d3').value)||0)/100,before=amt*dy,after=before*(1-tax);
+  $('d4').textContent=mf(Math.round(before));$('d5').textContent=mf(Math.round(after));$('d6').textContent=mf(Math.round(after/12));
+  var tgt=parseFloat($('b1').value)||0,hrs=(parseFloat($('b2').value)||1)*4;
+  $('b3').textContent=(tgt/hrs).toFixed(1)+'만원/시간';$('b4').textContent=mf(tgt*12);$('b5').textContent=mf(tgt*12*3);
+}
+
+var totalCount=allItems().length+Object.keys(DDB).length;
+$('hsTotal').textContent=totalCount;
+
+// ── HOT/신규/초보 태그 (카드에 자동 부착용 매핑) ──
+var TAGS={cashwalk:'hot',toss:'hot',labeling:'new',aicontent:'hot',aivideo:'new',survey:'hot',avatar:'new',blog:'hot',etf:'easy',tax3:'easy',mvno:'easy',subsidy:'easy',aisaju:'new',aishop:'new',covered:'new',semietf:'new',emergingetf:'new',digitalplanner:'new',reelsedit:'new',discord:'new',petgoods:'new',solar:'new',knowledgecenter:'new',appTester:'new',counselor:'hot',usedphone:'easy',receipt:'easy',pays:'easy'};
+// card()에 태그 삽입 (icname 다음)
+var _origCard=card;
+card=function(o){
+  var html=_origCard(o);
+  var tag=TAGS[o.id];
+  if(tag){var label=tag==='hot'?'🔥 HOT':tag==='new'?'✨ 신규':'👶 초보추천';html=html.replace('<span class="grade '+(o.grade||'B')+'">'+(o.grade||'B')+'급</span>','<span class="grade '+(o.grade||'B')+'">'+(o.grade||'B')+'급</span><span class="hottag '+tag+'">'+label+'</span>');}
+  // 메모 버튼 추가 (비교 버튼 앞)
+  var memoHas=MEMO[o.id]?' has':'';
+  html=html.replace('<button class="cmpbtn','<button class="memo-btn'+memoHas+'" onclick="toggleMemo(\''+o.id+'\')">✍️ 메모</button><button class="cmpbtn');
+  // 메모 영역 (카드 body 끝, links 앞)
+  var memoVal=MEMO[o.id]||'';
+  var memoOpen=MEMOOPEN[o.id]?' on':'';
+  html=html.replace('</div><div class="links">','</div><div class="memo-area'+memoOpen+'" id="memo_'+o.id+'"><textarea placeholder="이 부업에 대한 메모·아이디어·진행상황..." oninput="saveMemo(\''+o.id+'\',this.value)">'+memoVal.replace(/</g,'&lt;')+'</textarea></div><div class="links">');
+  return html;
+};
+
+// ── 메모 ──
+var MEMO={},MEMOOPEN={};
+try{MEMO=JSON.parse(localStorage.getItem('rr_memo')||'{}');}catch(e){}
+function toggleMemo(id){MEMOOPEN[id]=!MEMOOPEN[id];var el=$('memo_'+id);if(el)el.classList.toggle('on',MEMOOPEN[id]);}
+function saveMemo(id,v){if(v.trim())MEMO[id]=v;else delete MEMO[id];try{localStorage.setItem('rr_memo',JSON.stringify(MEMO));}catch(e){}}
+
+// ── 오늘의 추천 ──
+function renderToday(){
+  var items=allItems().filter(function(o){return (o.grade==='S'||o.grade==='A');});
+  var day=Math.floor(Date.now()/86400000);
+  var pick=items[day%items.length];
+  if(!pick)return;
+  $('todayBox').innerHTML='<span class="today-badge">🎲 오늘의 추천</span><div class="today-icon" style="background:'+pick.bg+'">'+pick.icon+'</div><div class="today-info"><div class="today-name">'+pick.name+'</div><div class="today-desc">'+pick.desc.slice(0,60)+'...</div></div><button class="today-go" onclick="goToItem(\''+pick.id+'\')">자세히 보기 →</button>';
+}
+function goToItem(id){
+  var tab=null;[2,3,4,5,6,7,8].forEach(function(t){(DATA[t]||[]).forEach(function(o){if(o.id===id)tab=t;});});
+  if(tab){document.querySelector('.tbtn[data-tab="'+tab+'"]').click();setTimeout(function(){var el=document.querySelector('#list'+tab+' .ic[data-id="'+id+'"]');if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.transition='box-shadow .3s';el.style.boxShadow='0 0 0 3px var(--gold)';setTimeout(function(){el.style.boxShadow='';},1600);}},300);}
+}
+
+// ── 통합검색 ──
+function globalSearchRun(){
+  var q=$('globalSearch').value.toLowerCase().trim();
+  $('gsClear').style.display=q?'block':'none';
+  var res=$('gsResult'),main=$('diagMain');
+  if(!q){res.innerHTML='';main.style.display='';return;}
+  main.style.display='none';
+  var arr=allItems().filter(function(o){return (o.name+' '+o.desc+' '+o.tag+' '+(o.flags||[]).join(' ')).toLowerCase().indexOf(q)>=0;});
+  if(arr.length===0){res.innerHTML='<div class="empty">"'+q+'" 검색 결과가 없습니다.</div>';return;}
+  res.innerHTML='<div class="slabel">🔍 통합 검색 결과 · '+arr.length+'개</div><div class="cg">'+arr.map(function(o){return card(o);}).join('')+'</div>';
+}
+function clearGlobalSearch(){$('globalSearch').value='';globalSearchRun();}
+
+// ── 레벨·뱃지 ──
+function renderLevel(){
+  var started=allItems().filter(function(o){return STARTED[o.id];}).length;
+  var favs=Object.keys(FAV).length;
+  var levels=[{n:'재테크 새싹',e:'🌱',min:0},{n:'부업 초보',e:'🐣',min:1},{n:'부업 중수',e:'🚀',min:3},{n:'재테크 고수',e:'💎',min:6},{n:'수익 마스터',e:'👑',min:10}];
+  var lv=levels[0];for(var i=0;i<levels.length;i++){if(started>=levels[i].min)lv=levels[i];}
+  var next=levels.find(function(l){return l.min>started;});
+  var prog=next?Math.round((started-lv.min)/(next.min-lv.min)*100):100;
+  var el=$('levelBox');if(!el)return;
+  var badges=[{n:'첫 시작',e:'🎯',on:started>=1},{n:'즐겨찾기 3개',e:'⭐',on:favs>=3},{n:'부업 3개',e:'🔥',on:started>=3},{n:'다각화',e:'🌈',on:started>=5},{n:'고수 달성',e:'💎',on:started>=6}];
+  el.innerHTML='<div class="level-emoji">'+lv.e+'</div><div class="level-info"><div class="level-name">Lv.<em>'+(levels.indexOf(lv)+1)+'</em> '+lv.n+'</div><div class="level-sub">'+(next?'다음 레벨까지 부업 '+(next.min-started)+'개 더 시작':'최고 레벨 달성! 👑')+'</div><div class="level-bar"><div class="level-fill" style="width:'+prog+'%"></div></div></div><div class="badges-row">'+badges.map(function(b){return '<span class="abadge'+(b.on?' on':'')+'">'+b.e+' '+b.n+'</span>';}).join('')+'</div>';
+}
+
+// ── 용어사전 ──
+var GLOSS=[
+  {t:'앱테크',d:'애플리케이션+재테크. 스마트폰 앱으로 걷기·퀴즈·설문 등을 하며 소액 포인트를 모아 현금화하는 것.'},
+  {t:'M2E (Move to Earn)',d:'걷거나 운동하면 보상을 주는 방식. 캐시워크·토스 만보기가 대표적.'},
+  {t:'데이터 라벨링',d:'AI에게 정답을 알려주는 작업. 사진에 네모 박스 치기, 음성 녹음 등. 재택으로 가능한 신종 부업.'},
+  {t:'POD (Print On Demand)',d:'주문 제작. 디자인만 올려두면 주문이 들어올 때 제작·배송되어 재고 부담이 없음.'},
+  {t:'위탁판매',d:'재고 없이 도매처 상품을 내 스토어에 올리고, 팔리면 도매처가 직접 배송하는 방식.'},
+  {t:'리셀 (Resell)',d:'되팔기. 한정판·인기 상품을 사서 웃돈(프리미엄)을 붙여 다시 파는 것.'},
+  {t:'ETF',d:'상장지수펀드. 여러 주식을 묶어 하나로 거래. S&P500 ETF 하나면 미국 500대 기업에 분산 투자.'},
+  {t:'배당',d:'기업이 이익을 주주에게 나눠주는 돈. 배당주·배당 ETF를 사면 정기적으로 현금이 들어옴.'},
+  {t:'DGI (배당성장투자)',d:'매년 배당을 올려주는 기업에 장기 투자하는 전략. 시간이 갈수록 받는 배당이 커짐.'},
+  {t:'ISA',d:'개인종합자산관리계좌. 투자 수익에 세금을 면제·감면해주는 절세 계좌. 직장인 필수.'},
+  {t:'IRP·연금저축',d:'노후 대비 계좌. 납입하면 연말정산에서 세액공제(환급)를 받음.'},
+  {t:'파킹통장',d:'하루만 맡겨도 이자를 주는 입출금 통장. 비상금·단기자금 굴리기에 좋음.'},
+  {t:'CMA',d:'증권사의 하루 이자 통장. 잠깐 넣어둬도 이자가 붙어 잠자는 돈을 없앰.'},
+  {t:'리츠 (REITs)',d:'부동산투자회사. 소액으로 빌딩·물류센터에 간접 투자하고 임대수익 배당을 받음.'},
+  {t:'갭투자',d:'매매가와 전세가 차이(갭)만큼만 투자해 집을 사는 것. 고위험이라 공부 필수.'},
+  {t:'조각투자',d:'비싼 자산(빌딩·미술품·음원)을 잘게 쪼개 소액으로 공동 투자하는 방식.'},
+  {t:'애드포스트',d:'네이버 블로그에 광고를 붙여 수익을 내는 제도. 방문자가 많을수록 수익 증가.'},
+  {t:'제휴마케팅',d:'쿠팡파트너스처럼 상품 링크를 공유하고, 구매가 일어나면 수수료를 받는 것.'},
+  {t:'스테이킹',d:'코인을 예치하고 이자를 받는 것. 원금 손실 위험이 있어 소액만 권장.'},
+  {t:'시드머니(종잣돈)',d:'투자를 시작하는 밑천. 절약으로 만든 돈을 종잣돈으로 굴리면 복리 효과가 커짐.'},
+  {t:'복리',d:'이자에 이자가 붙는 것. 시간이 길수록 눈덩이처럼 불어나는 재테크의 핵심 원리.'},
+  {t:'국민내일배움카드',d:'정부가 교육비를 지원하는 카드. 데이터 라벨링 등 무료 교육을 받을 수 있음.'}
+];
+function renderGloss(){
+  var q=($('glossSearch')?$('glossSearch').value:'').toLowerCase().trim();
+  var arr=GLOSS.filter(function(g){return !q||(g.t+' '+g.d).toLowerCase().indexOf(q)>=0;});
+  var el=$('glossList');if(!el)return;
+  if(arr.length===0){el.innerHTML='<div class="empty">검색 결과가 없습니다.</div>';return;}
+  el.innerHTML=arr.map(function(g){return '<div class="glosscard"><div class="glossterm">📖 '+g.t+'</div><div class="glossdef">'+g.d+'</div></div>';}).join('');
+}
+
+// dash에 레벨 반영
+var _origRenderDash=renderDash;
+renderDash=function(){_origRenderDash();renderLevel();};
+
+[2,3,4,5,6,7,8].forEach(render);calc();renderToday();
+</script>
+</body>
+</html>
