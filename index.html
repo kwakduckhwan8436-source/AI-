@@ -622,6 +622,17 @@ a{color:inherit;text-decoration:none}
 .sc-itemname{font-size:14px;font-weight:700}
 .sc-itemearn{font-size:12px;color:#15803d;font-weight:700;margin-top:1px}
 .sc-grade{font-size:9px;font-weight:900;padding:2px 7px;border-radius:5px;background:linear-gradient(135deg,#b8860b,#e6c35c);color:#fff}
+.sc-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.sc-chip{font-size:11px;font-weight:700;color:#5b5f66;background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:11px;padding:4px 9px}
+.sc-brief{font-size:12px;line-height:1.75;color:#3f4147;background:rgba(184,134,11,.09);border-left:3px solid #b8860b;border-radius:0 9px 9px 0;padding:11px 13px;margin-bottom:4px}
+.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.sc-tag{font-size:9.5px;font-weight:700;color:#6b7078;background:#f4f2ec;border-radius:7px;padding:2px 6px}
+.sc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.sc-pct{font-size:15px;font-weight:900;color:#b8860b;line-height:1}
+.sc-pct span{font-size:9px;margin-left:1px}
+.sc-pin{font-size:9px;font-weight:900;background:#c8362c;color:#fff;border-radius:5px;padding:2px 5px;vertical-align:middle}
+.sc-excl{font-size:11px;color:#6b7078;line-height:1.7;margin-top:12px;padding:9px 11px;background:#fff;border-radius:8px;border:1px dashed rgba(0,0,0,.12)}
+.sc-excl b{color:#3f4147}
 .sc-foot{padding:18px 32px;border-top:1px dashed rgba(0,0,0,.12);display:flex;justify-content:space-between;align-items:center}
 .sc-brand{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;color:#b8860b}
 .sc-url{font-size:11px;color:#9ca3ab}
@@ -1810,7 +1821,7 @@ $('runBtn').addEventListener('click',function(){
     job:job,debt:debt,emer:emer,term:term,open:open,skills:skills,income:income});
   var precise=preScored.map(function(x){return x.o;});
   PRE_SCORED=preScored;PRE_COND={save:save,seed:seed,time:time,style:style,age:age,goal:goal,level:level,job:job,debt:debt,emer:emer,term:term,open:open,skills:skills,income:income,ints:ints};
-  LAST_DIAG={sel:precise.slice(0,5).map(function(o){return {icon:o.icon,name:o.name,bg:o.bg,grade:o.grade,earn:earnVal(o)};}),title:ageL+' '+styleL,pot:pot};
+  LAST_DIAG={sel:preScored.slice(0,5).map(function(x){return {icon:x.o.icon,name:x.o.name,bg:x.o.bg,grade:x.o.grade,earn:earnVal(x.o),pct:x.pct,pin:x.pin,speed:x.o.speed,reasons:(x.reasons||[]).slice(0,2)};}),title:ageL+' '+styleL,pot:pot,cond:PRE_COND,excl:EXCL};
   $('rT').innerHTML='<em>'+ageL+' '+styleL+'</em> 맞춤 수익 로드맵';
   $('rS').textContent='월 '+save+'만원 투자 · 종잣돈 '+seed.toLocaleString()+'만원 · 주 '+time+'시간 · '+{cash:'현금 목표',passive:'자동수익 목표',asset:'자산형성 목표',side:'부업확장 목표'}[goal];
   $('rP').textContent=pot>0?'+'+mf(pot)+'/월':'장기 자산 구축';
@@ -1839,15 +1850,44 @@ $('imgBtn').addEventListener('click',function(){
   if(!LAST_DIAG){alert('먼저 진단을 실행해주세요.');return;}
   if(typeof html2canvas==='undefined'){alert('이미지 생성 라이브러리 로딩 중입니다. 잠시 후 다시 시도해주세요.');return;}
   var btn=this;btn.textContent='🖼️ 이미지 생성 중...';btn.style.pointerEvents='none';
-  var d=LAST_DIAG;
+  var d=LAST_DIAG,c=d.cond||{},ex=d.excl||{};
   var items=d.sel.map(function(o,i){
-    return '<div class="sc-item"><div class="sc-num">'+(i+1)+'</div><div class="sc-icon" style="background:'+o.bg+'">'+o.icon+'</div><div class="sc-iteminfo"><div class="sc-itemname">'+o.name+'</div><div class="sc-itemearn">'+(o.earn>0?'+'+mf(o.earn)+'/월 기대':'장기 자산 투자')+'</div></div><div class="sc-grade">'+(o.grade||'A')+'</div></div>';
+    var why=(o.reasons||[]).map(function(r){return '<span class="sc-tag">'+r+'</span>';}).join('');
+    var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    return '<div class="sc-item"><div class="sc-num">'+medal+'</div><div class="sc-icon" style="background:'+o.bg+'">'+o.icon+'</div>'+
+      '<div class="sc-iteminfo"><div class="sc-itemname">'+o.name+(o.pin?' <span class="sc-pin">최우선</span>':'')+'</div>'+
+      '<div class="sc-itemearn">'+(o.earn>0?'+'+mf(o.earn)+'/월 기대':'장기 자산 투자')+' · '+(o.speed||'')+'형</div>'+
+      (why?'<div class="sc-tags">'+why+'</div>':'')+'</div>'+
+      '<div class="sc-right"><div class="sc-pct">'+(o.pct||0)+'<span>%</span></div><div class="sc-grade">'+(o.grade||'A')+'</div></div></div>';
   }).join('');
+  var inc=c.income||300,sv=c.save||0,rate=inc>0?Math.round(sv/inc*100):0;
+  var condChips=[
+    (c.age||'30')+'대 '+(JOB_L[c.job]||''),
+    GOAL_L[c.goal]||'-',
+    TERM_L[c.term]||'-',
+    ST_L[c.style]||'-',
+    LV_L[c.level]||'-',
+    '종잣돈 '+(c.seed||0).toLocaleString()+'만',
+    '주 '+(c.time||0)+'시간',
+    '저축률 '+rate+'%'
+  ].map(function(t){return '<span class="sc-chip">'+t+'</span>';}).join('');
+  var brief=c.debt==='high'?'고금리 부채가 최우선입니다. 연 10% 이자를 두고 투자하면 매년 뒤로 갑니다. 빚 상환 = 확정 수익률 10% 투자.'
+    :c.emer==='no'?'비상금이 최우선입니다. 비상금 없이 투자하면 급전이 필요할 때 하필 하락장에 팔아 손실이 확정됩니다.'
+    :{cash:'당장 현금이 목표라 즉시·단기형 위주로 골랐습니다. 궤도에 오르면 자동수익형을 하나 얹으세요.',
+      passive:'자동수익이 목표라 한 번 만들면 계속 팔리는 것 위주입니다. 초반 2~3개월은 수익이 거의 없는 게 정상입니다.',
+      asset:'장기 자산 형성이 목표라 절세 계좌와 적립식을 우선했습니다. 화려하진 않지만 가장 확실한 길입니다.',
+      side:'부업 성장이 목표라 실력이 쌓일수록 단가가 오르는 것 위주로 골랐습니다.'}[c.goal]||'';
+  var exText=ex.total?'전체 '+allItems().length+'개 중 조건에 맞지 않는 <b>'+ex.total+'개를 제외</b>하고 추린 결과입니다.':'';
   var wrap=document.createElement('div');
   wrap.className='sharecard';wrap.setAttribute('data-theme','light');
   wrap.innerHTML='<div class="sc-head"><div class="sc-eyebrow">AI 재테크 연구소 · 부의 로드맵</div><div class="sc-title">'+d.title+' 맞춤<br><em>수익 로드맵</em></div><div class="sc-potential">💰 월 추가 수익 잠재력 '+(d.pot>0?'+'+mf(d.pot):'장기 자산')+'</div></div>'+
-    '<div class="sc-body"><div class="sc-sec">추천 수익원 TOP '+d.sel.length+'</div>'+items+'</div>'+
-    '<div class="sc-foot"><div class="sc-brand">◆ AI 재테크 연구소</div><div class="sc-url">cafe.naver.com/aiprogram1</div></div>';
+    '<div class="sc-body">'+
+      '<div class="sc-sec">내 진단 조건</div><div class="sc-chips">'+condChips+'</div>'+
+      (brief?'<div class="sc-brief">💡 '+brief+'</div>':'')+
+      '<div class="sc-sec" style="margin-top:18px">추천 수익원 TOP '+d.sel.length+' · 적합도순</div>'+items+
+      (exText?'<div class="sc-excl">'+exText+'</div>':'')+
+    '</div>'+
+    '<div class="sc-foot"><div class="sc-brand">◆ 나도 무료 진단받기</div><div class="sc-url">cafe.naver.com/aiprogram1</div></div>';
   document.body.appendChild(wrap);
   html2canvas(wrap,{scale:2,backgroundColor:null,logging:false}).then(function(canvas){
     document.body.removeChild(wrap);
@@ -2708,11 +2748,16 @@ function ptShareImg(){
   if(typeof html2canvas==='undefined'){alert('이미지 라이브러리 로딩 중입니다. 잠시 후 다시 시도해주세요.');return;}
   if(!PT_LAST){alert('먼저 테스트를 완료해주세요.');return;}
   var o=PT_LAST.o;
+  var url=location.origin+location.pathname+'#u='+PT_LAST.t;
   var wrap=document.createElement('div');wrap.className='sharecard';wrap.setAttribute('data-theme','light');
   wrap.innerHTML='<div class="sc-head"><div class="sc-eyebrow">AI 재테크 연구소 · 부업 성향 테스트</div>'+
     '<div class="sc-title">'+o.e+'<br><em>'+o.n+'</em></div></div>'+
-    '<div style="padding:0 26px 6px;font-size:13.5px;line-height:1.8;color:#444;text-align:center">'+o.d+'</div>'+
-    '<div class="sc-foot"><div class="sc-brand">◆ 나도 테스트하기</div><div class="sc-url">cafe.naver.com/aiprogram1</div></div>';
+    '<div class="sc-body"><div class="sc-brief">'+o.d+'</div>'+
+    '<div class="sc-sec" style="margin-top:16px">이 유형에 맞는 방향</div>'+
+    '<div class="sc-chips">'+o.tabs.map(function(t){return '<span class="sc-chip">'+({2:'📱 앱테크',3:'🤖 AI·신종',4:'💻 인터넷·크리에이터',5:'🛍️ 판매·리셀·창작',6:'📈 주식·투자',7:'🏠 부동산·실물',8:'💰 절약·전문부업'}[t]||'')+'</span>';}).join('')+
+    '<span class="sc-chip">'+o.flag+'</span></div>'+
+    '<div class="sc-excl">아래 주소에서 테스트하면 <b>나와의 궁합 %</b>가 바로 나옵니다.</div></div>'+
+    '<div class="sc-foot"><div class="sc-brand">◆ 나도 테스트하기</div><div class="sc-url">'+url.replace(/^https?:\/\//,'')+'</div></div>';
   document.body.appendChild(wrap);
   html2canvas(wrap,{scale:2,backgroundColor:null,logging:false}).then(function(canvas){
     document.body.removeChild(wrap);
