@@ -700,6 +700,14 @@ a{color:inherit;text-decoration:none}
   .chip,.tbtn,.sbtn,.ambtn,.run-btn,.tctl{min-height:40px}
   .memo-btn,.fav-btn{min-width:38px;min-height:34px}
 }
+/* 진단 입력 STEP 고급화 */
+.dstep{display:flex;align-items:center;gap:11px;margin:22px 0 13px}
+.dstep-n{width:26px;height:26px;border-radius:50%;background:var(--gold-line);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 7px rgba(184,134,11,.3)}
+.dstep-t{font-size:14.5px;font-weight:800;color:var(--t);display:flex;flex-direction:column;line-height:1.35}
+.dstep-t span{font-size:11.5px;font-weight:400;color:var(--t3);margin-top:2px}
+.dhint{font-style:normal;font-size:10.5px;font-weight:600;color:var(--gold);background:var(--gold-bg);border-radius:9px;padding:2px 7px;margin-left:6px;white-space:nowrap}
+.mp-alert{padding:12px 14px;border-radius:11px;background:rgba(200,54,44,.07);border:1px solid rgba(200,54,44,.28);font-size:12.5px;color:var(--t2);line-height:1.75;margin-bottom:10px}
+.mp-alert b{color:var(--red)}
 /* 정밀 매칭 결과 고급화 */
 .mp-cond{padding:14px 16px;border-radius:13px;background:var(--gold-bg);border:1px solid color-mix(in srgb,var(--gold) 22%,transparent);margin:-4px 0 16px}
 .mp-condt{font-size:12px;color:var(--t2);line-height:1.75;margin-bottom:9px}
@@ -801,16 +809,25 @@ a{color:inherit;text-decoration:none}
   <div id="diagMain">
   <div class="sh"><div class="shi" style="background:var(--gold-bg)">🎯</div><div><div class="sht">나의 상황 진단</div><div class="shs">조건을 입력하면 우선순위·수익추정·5단계 로드맵을 설계합니다</div></div></div>
   <div class="note">💡 진단 결과엔 각 수익원의 <b>실제 시작 링크·난이도·예상수익</b>이 함께 표시됩니다. 별표(☆) 즐겨찾기, 체크(○) 시작표시로 대시보드에서 관리하세요.</div>
+  <div class="dstep"><span class="dstep-n">1</span><div class="dstep-t">내 자금·시간<span>슬라이더를 움직여 현재 상황을 알려주세요</span></div></div>
   <div class="dg">
     <div class="dc"><label>월 실수령 소득</label><input type="range" id="ri" min="100" max="1200" step="10" value="300" oninput="V('vi',this.value)"><div class="dv"><span id="vi">300</span><span class="dvu"> 만원/월</span></div></div>
     <div class="dc"><label>매월 투자 가능 여유자금</label><input type="range" id="rs" min="0" max="600" step="5" value="50" oninput="V('vs',this.value)"><div class="dv"><span id="vs">50</span><span class="dvu"> 만원/월</span></div></div>
     <div class="dc"><label>현재 보유 종잣돈</label><input type="range" id="rk" min="0" max="20000" step="100" value="1000" oninput="V('vk',this.value)"><div class="dv"><span id="vk">1,000</span><span class="dvu"> 만원</span></div></div>
     <div class="dc"><label>부업에 쓸 수 있는 시간</label><input type="range" id="rt" min="0" max="40" step="1" value="5" oninput="V('vt',this.value)"><div class="dv"><span id="vt">5</span><span class="dvu"> 시간/주</span></div></div>
   </div>
+  <div class="dstep"><span class="dstep-n">2</span><div class="dstep-t">나에 대해<span>진단 정확도를 좌우하는 항목입니다</span></div></div>
   <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">나이대</label><div class="cr" id="ga"><button class="chip" data-v="20">20대</button><button class="chip on" data-v="30">30대</button><button class="chip" data-v="40">40대</button><button class="chip" data-v="50">50대 이상</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">직업·고용형태 <em class="dhint">절세 상품이 완전히 달라집니다</em></label><div class="cr" id="gjob"><button class="chip on" data-v="worker">직장인</button><button class="chip" data-v="self">자영업·사업자</button><button class="chip" data-v="free">프리랜서</button><button class="chip" data-v="home">주부·무직</button><button class="chip" data-v="student">학생</button><button class="chip" data-v="retire">은퇴·연금생활</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">고금리 부채 (카드론·신용대출 등) <em class="dhint">투자보다 상환이 먼저일 수 있습니다</em></label><div class="cr" id="gdebt"><button class="chip on" data-v="none">없음</button><button class="chip" data-v="low">있음 (연 5% 이하)</button><button class="chip" data-v="high">있음 (연 10% 이상)</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">비상금 (생활비 3개월치) <em class="dhint">모든 투자의 전제 조건</em></label><div class="cr" id="gemer"><button class="chip on" data-v="yes">준비됨</button><button class="chip" data-v="no">아직 없음</button></div></div>
   <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">투자 성향</label><div class="cr" id="gst"><button class="chip on" data-v="safe">안전 우선</button><button class="chip" data-v="bal">균형형</button><button class="chip" data-v="growth">고수익 추구</button></div></div>
+  <div class="dstep"><span class="dstep-n">3</span><div class="dstep-t">목표와 조건<span>무엇을, 언제까지 원하시나요</span></div></div>
   <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">목표 (가장 중요한 것)</label><div class="cr" id="ggoal"><button class="chip on" data-v="cash">지금 당장 현금</button><button class="chip" data-v="passive">잠자는 자동수익</button><button class="chip" data-v="asset">장기 자산 형성</button><button class="chip" data-v="side">본업 외 부업 키우기</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">목표 시점</label><div class="cr" id="gterm"><button class="chip" data-v="m3">3개월 안에</button><button class="chip on" data-v="y1">1년 정도</button><button class="chip" data-v="y3">3~5년</button><button class="chip" data-v="y10">10년 이상</button></div></div>
   <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">부업 경험 수준</label><div class="cr" id="glevel"><button class="chip on" data-v="beginner">완전 초보</button><button class="chip" data-v="some">조금 해봄</button><button class="chip" data-v="pro">경험 많음</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">가진 기술·강점 (복수 선택) <em class="dhint">있으면 단가가 확 올라갑니다</em></label><div class="cr" id="gskill"><button class="chip" data-v="design">디자인·그림</button><button class="chip" data-v="code">코딩·IT</button><button class="chip" data-v="lang">외국어</button><button class="chip" data-v="write">글쓰기</button><button class="chip" data-v="video">영상·편집</button><button class="chip" data-v="hand">손재주·공예</button><button class="chip" data-v="speak">말하기·강의</button><button class="chip" data-v="expert">전문 자격·경력</button></div></div>
+  <div class="dc" style="margin-bottom:10px"><label style="margin-bottom:11px;display:block">얼굴·목소리 공개 의향</label><div class="cr" id="gopen"><button class="chip on" data-v="no">비공개 선호</button><button class="chip" data-v="voice">목소리까지 OK</button><button class="chip" data-v="yes">얼굴까지 OK</button></div></div>
   <div class="dc" style="margin-bottom:22px"><label style="margin-bottom:11px;display:block">관심 분야 (복수 선택)</label><div class="cr" id="gin"><button class="chip on" data-v="stock">주식·ETF</button><button class="chip on" data-v="app">앱테크</button><button class="chip" data-v="ai">AI 부업</button><button class="chip" data-v="content">블로그·유튜브</button><button class="chip" data-v="store">온라인 판매</button><button class="chip" data-v="resell">중고·리셀</button><button class="chip" data-v="saving">절약·환급</button><button class="chip" data-v="realty">부동산</button><button class="chip" data-v="dividend">배당</button><button class="chip" data-v="freelance">프리랜서·재택</button><button class="chip" data-v="craft">창작·수공예</button><button class="chip" data-v="teach">강의·지식</button></div></div>
   <button class="run-btn" id="runBtn">내 맞춤 수익 로드맵 설계하기 →</button>
   <div class="result" id="diagResult">
@@ -1212,7 +1229,7 @@ tabBarEl.addEventListener('scroll',updArrows);
 window.addEventListener('resize',updArrows);
 setTimeout(updArrows,100);
 
-document.querySelectorAll('.cr').forEach(function(row){var m=(row.id==='gin');row.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;if(m){c.classList.toggle('on');}else{row.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');}});});
+document.querySelectorAll('.cr').forEach(function(row){var m=(row.id==='gin'||row.id==='gskill');row.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;if(m){c.classList.toggle('on');}else{row.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');}});});
 
 function earnVal(o){if(o._ev!==undefined)return o._ev;var s=o.earn||'';var m=s.match(/(\d[\d,\.]*)\s*(억|천만|만)?/g);var max=0;if(m){m.forEach(function(x){var num=parseFloat(x.replace(/[^\d\.]/g,''))||0;if(x.indexOf('억')>=0)num*=10000;else if(x.indexOf('천만')>=0)num*=1000;max=Math.max(max,num);});}o._ev=max;return max;}
 function diffVal(o){return o.diff||3;}
@@ -1528,22 +1545,40 @@ function isRisky(o){
   return (o.tag||'').indexOf('고위험')>=0||(o.tag||'').indexOf('중위험')>=0||
     (o.esub&&o.esub.indexOf('⚠️')>=0)||(o.desc&&o.desc.indexOf('⚠️')>=0);
 }
+// 기술 → 관련 키워드
+var SKILL_KW={design:/디자인|로고|일러스트|썸네일|이미지|아트|POD|굿즈/,code:/코딩|개발|앱|웹|자동화|노코드|데이터|퀀트|챗봇|워크플로우/,
+lang:/번역|외국어|자막|해외|글로벌|현지화|통역/,write:/글|블로그|전자책|카피|원고|웹소설|뉴스레터|콘텐츠/,
+video:/영상|편집|쇼츠|유튜브|릴스|더빙|스트리밍/,hand:/수제|공예|핸드메이드|제작|뜨개|가죽|도자|플라워|비누|향초/,
+speak:/강의|클래스|코칭|상담|쇼호스트|라이브|팟캐스트|성우|나레이션/,expert:/컨설팅|전문|자격|경력|프리랜서|분석|리포트/};
+var FACE_KW=/유튜브|쇼츠|릴스|인스타|라이브|쇼호스트|스트리밍|V튜버|방송/;
+var VOICE_KW=/성우|나레이션|팟캐스트|더빙|오디오|상담|강의/;
 // 반환: [{o, s, pct, reasons, tab}]
 function matchCatalogScored(p){
   var TI=tabIndex(), out=[];
+  p.skills=p.skills||[];
   allItems().forEach(function(o){
     var tab=TI[o.id], s=0, R=[];
     var diff=o.diff||3, costLv=o.costLv||1, flags=o.flags||[], risky=isRisky(o);
-    // ── 하드 게이트: 명백히 불가능한 건 제외 ──
+    var txt=o.name+' '+o.tag+' '+(o.desc||'');
+    // ── 하드 게이트: 명백히 불가능·부적절한 건 제외 ──
     if(costLv>=5&&p.seed<5000)return;
     if(costLv>=4&&p.seed<2000)return;
     if(costLv>=3&&p.seed<300)return;
     if(p.style==='safe'&&risky)return;
     if(p.level==='beginner'&&diff>=5)return;
     if(p.time<3&&diff>=4&&flags.indexOf('자동')<0)return;
+    // 고금리 부채 → 위험·고비용 투자 제외 (상환이 먼저)
+    if(p.debt==='high'&&(risky||costLv>=3))return;
+    // 비상금 없음 → 위험 항목 제외
+    if(p.emer==='no'&&risky)return;
+    // 얼굴 비공개 → 노출형 제외
+    if(p.open==='no'&&FACE_KW.test(o.name+' '+o.tag))return;
+    if(p.open==='no'&&VOICE_KW.test(o.name))return;
+    // 목표 3개월 → 장기형 제외
+    if(p.term==='m3'&&o.speed==='장기')return;
     // ── 1) 관심분야 ──
     if(p.ints.some(function(iv){return INT_TAB[iv]===tab;})){s+=40;R.push('관심분야 일치');}
-    if(p.ints.indexOf('dividend')>=0&&((o.tag||'').indexOf('배당')>=0||o.name.indexOf('배당')>=0)){s+=15;R.push('배당형');}
+    if(p.ints.indexOf('dividend')>=0&&/배당/.test(o.tag+o.name)){s+=15;R.push('배당형');}
     if(p.ints.indexOf('saving')>=0&&/절약|환급|혜택|절감/.test(o.tag||'')){s+=12;R.push('절약·환급');}
     if(p.ints.indexOf('teach')>=0&&/지식|강의|클래스/.test(o.tag+o.name)){s+=12;R.push('지식 판매');}
     // ── 2) 목표 ──
@@ -1553,21 +1588,44 @@ function matchCatalogScored(p){
     if(p.goal==='asset'&&(tab===6||tab===7)&&o.speed==='장기'){s+=25;R.push('장기 자산형성');}
     if(p.goal==='asset'&&flags.indexOf('안전')>=0){s+=10;R.push('안정적');}
     if(p.goal==='side'&&(tab===3||tab===4||tab===5)&&o.speed!=='즉시'){s+=20;R.push('부업 성장형');}
-    // ── 3) 경험 ↔ 난이도 ──
+    // ── 3) 목표 시점 ↔ 속도 ──
+    var sp=o.speed;
+    if(p.term==='m3'&&(sp==='즉시'||sp==='단기')){s+=18;R.push('3개월 내 가능');}
+    if(p.term==='y1'&&(sp==='단기'||sp==='중기')){s+=14;}
+    if(p.term==='y3'&&(sp==='중기'||sp==='장기')){s+=14;}
+    if(p.term==='y10'&&sp==='장기'){s+=18;R.push('장기 복리');}
+    // ── 4) 부채·비상금 (최우선 조치) ──
+    if(p.debt==='high'&&/고금리|카드론|부채|대출 갈아타기|금리 인하|상환/.test(txt)){s+=60;R.push('부채부터 정리');}
+    if(p.emer==='no'&&/비상금|파킹|CMA/.test(txt)){s+=55;R.push('비상금이 먼저');}
+    if(p.emer==='no'&&(tab===6||tab===7)&&sp==='장기')s-=20;
+    // ── 5) 직업별 절세·제도 ──
+    if(p.job==='worker'&&/연말정산|IRP|연금저축|소득공제|세액공제/.test(txt)){s+=22;R.push('직장인 절세');}
+    if(p.job==='self'&&/노란우산|종합소득세|사업자|경비|부가세/.test(txt)){s+=22;R.push('사업자 절세');}
+    if(p.job==='free'&&/종합소득세|삼쩜삼|환급|프리랜서|사업자/.test(txt)){s+=20;R.push('프리랜서 절세');}
+    if(p.job==='home'&&/임의가입|주부|재택|무료/.test(txt)){s+=12;}
+    if(p.job==='student'&&costLv<=1&&sp==='즉시'){s+=10;}
+    if(p.job==='retire'&&/연금|노후|배당|안정|농지연금/.test(txt)){s+=18;R.push('은퇴자 적합');}
+    if((p.job==='home'||p.job==='student')&&/IRP|연말정산/.test(txt))s-=25;
+    // ── 6) 보유 기술 ──
+    var hit=null;
+    p.skills.forEach(function(k){if(!hit&&SKILL_KW[k]&&SKILL_KW[k].test(txt))hit=k;});
+    if(hit){s+=28;R.push('내 기술 활용');}
+    if(p.skills.length&&!hit&&(tab===3||tab===4||tab===5))s-=6;
+    // ── 7) 경험 ↔ 난이도 ──
     if(p.level==='beginner'){s+=(6-diff)*7;if(diff<=2){s+=10;R.push('초보 적합');}}
     else if(p.level==='some'){s+=(diff>=2&&diff<=3)?18:6;}
     else{if(diff>=3){s+=18;R.push('경험자용');}}
-    // ── 4) 성향 ↔ 위험 ──
+    // ── 8) 성향 ↔ 위험 ──
     if(p.style==='safe'&&flags.indexOf('안전')>=0){s+=15;R.push('안전형');}
     if(p.style==='growth'){if(risky)s+=8;if(flags.indexOf('안전')>=0)s-=5;}
-    // ── 5) 자금 ↔ 초기비용 ──
+    // ── 9) 자금 ↔ 초기비용 ──
     if(costLv<=1){s+=8;if(flags.indexOf('무료')>=0)R.push('0원 시작');}
     if(costLv>=3&&p.seed<1000)s-=15;
-    // ── 6) 시간 ──
+    // ── 10) 시간 ──
     if(p.time<5){if(diff<=2||flags.indexOf('자동')>=0){s+=12;R.push('시간 부담 적음');}if(diff>=4)s-=15;}
     else if(p.time>=15&&diff>=3){s+=10;}
     if(p.save<30&&flags.indexOf('무료')>=0)s+=10;
-    // ── 7) 등급·나이 ──
+    // ── 11) 등급·나이 ──
     if(o.grade==='S'){s+=15;R.push('S등급 추천');}else if(o.grade==='A')s+=8;
     if(p.age==='50'&&/노후|연금/.test(o.tag+o.name)){s+=12;R.push('노후 대비');}
     if(p.age==='20'&&(o.tag||'').indexOf('생애주기')>=0)s+=10;
@@ -1580,19 +1638,27 @@ function matchCatalogScored(p){
     if(gd!==0)return gd;
     return (a.o.diff||3)-(b.o.diff||3);
   });
+  // ── 최우선 조치 고정 배치 (안전 직결) ──
+  var pins=[];
+  function pinFind(re){for(var i=0;i<out.length;i++){if(re.test(out[i].o.name+' '+out[i].o.tag))return out[i];}return null;}
+  if(p.debt==='high'){var dp=pinFind(/고금리 부채|대출 갈아타기/);if(dp){dp.pin=1;dp.reasons=['⚠️ 최우선 조치'].concat(dp.reasons);pins.push(dp);}}
+  if(p.emer==='no'){var ep=pinFind(/비상금/);if(ep&&pins.indexOf(ep)<0){ep.pin=1;ep.reasons=['⚠️ 최우선 조치'].concat(ep.reasons);pins.push(ep);}}
   // ── 다양성: 한 카테고리 최대 2개 ──
   var cnt={},pick=[],rest=[];
+  pins.forEach(function(x){pick.push(x);cnt[x.tab]=(cnt[x.tab]||0)+1;});
   out.forEach(function(x){
+    if(pick.indexOf(x)>=0)return;
     if(pick.length>=8)return;
     var c=cnt[x.tab]||0;
     if(c<2){cnt[x.tab]=c+1;pick.push(x);}else rest.push(x);
   });
   while(pick.length<8&&rest.length)pick.push(rest.shift());
   // ── 적합도(%) 정규화 ──
-  var best=pick.length?pick[0].s:1;
+  var best=0;pick.forEach(function(x){if(x.s>best)best=x.s;});
+  if(best<=0)best=1;
   pick.forEach(function(x){
-    var r=best>0?x.s/best:0;
-    x.pct=Math.max(45,Math.min(99,Math.round(r*99)));
+    var r=x.s/best;
+    x.pct=x.pin?99:Math.max(45,Math.min(98,Math.round(r*98)));
   });
   return pick;
 }
@@ -1602,23 +1668,32 @@ var PRE_SCORED=[],PRE_COND=null;
 var GOAL_L={cash:'당장 현금',passive:'자동 수익',asset:'자산 형성',side:'부업 성장'};
 var LV_L={beginner:'초보',some:'경험 조금',pro:'경험자'};
 var ST_L={safe:'안전형',bal:'균형형',growth:'성장형'};
+var JOB_L={worker:'직장인',self:'자영업',free:'프리랜서',home:'주부·무직',student:'학생',retire:'은퇴'};
+var TERM_L={m3:'3개월 내',y1:'1년',y3:'3~5년',y10:'10년+'};
+var OPEN_L={no:'비공개',voice:'목소리 OK',yes:'얼굴 OK'};
+var SKILL_L={design:'디자인',code:'코딩',lang:'외국어',write:'글쓰기',video:'영상',hand:'손재주',speak:'말하기',expert:'전문경력'};
 function renderPrecise(list){
   var box=$('preciseBox');if(!box)return;
   if(!list||list.length===0){box.innerHTML='';return;}
   var c=PRE_COND||{};
-  var chips=[
-    '🎯 '+(GOAL_L[c.goal]||'-'),
-    '🧑 '+(c.age||'-')+'대 · '+(LV_L[c.level]||'-'),
-    '⚖️ '+(ST_L[c.style]||'-'),
-    '💰 종잣돈 '+(c.seed||0).toLocaleString()+'만원',
-    '⏰ 주 '+(c.time||0)+'시간'
-  ].map(function(t){return '<span class="mp-chip">'+t+'</span>';}).join('');
+  var chipArr=[
+    '🎯 '+(GOAL_L[c.goal]||'-'),'📅 '+(TERM_L[c.term]||'-'),
+    '🧑 '+(c.age||'-')+'대 '+(JOB_L[c.job]||'-'),'📚 '+(LV_L[c.level]||'-'),
+    '⚖️ '+(ST_L[c.style]||'-'),'💰 종잣돈 '+(c.seed||0).toLocaleString()+'만원',
+    '⏰ 주 '+(c.time||0)+'시간','📷 '+(OPEN_L[c.open]||'-')
+  ];
+  (c.skills||[]).forEach(function(k){chipArr.push('🛠️ '+(SKILL_L[k]||k));});
+  var chips=chipArr.map(function(t){return '<span class="mp-chip">'+t+'</span>';}).join('');
+  // 우선 조치 경고
+  var alerts='';
+  if(c.debt==='high')alerts+='<div class="mp-alert"><b>⚠️ 고금리 부채가 먼저입니다.</b> 연 10% 이자를 두고 연 8% 투자를 하면 손해입니다. 위험·고비용 항목은 제외했고, 부채 정리를 상위에 배치했습니다.</div>';
+  if(c.emer==='no')alerts+='<div class="mp-alert"><b>🧯 비상금이 먼저입니다.</b> 비상금 없이 투자하면 하락장에 강제로 손실을 확정하게 됩니다. 위험 항목을 제외하고 비상금 마련을 우선 배치했습니다.</div>';
   var total=allItems().length;
   var head='<div class="slabel" style="margin-top:30px">🎯 정밀 매칭 결과 TOP '+list.length+'</div>'+
     '<div class="mp-cond">'+
-      '<div class="mp-condt">'+total+'개 전체를 <b>7개 기준</b>으로 점수화하고, 조건에 맞지 않는 항목은 <b>제외</b>한 뒤 카테고리가 한쪽에 몰리지 않도록 골랐습니다.</div>'+
+      '<div class="mp-condt">'+total+'개 전체를 <b>15개 조건</b>으로 점수화하고, 맞지 않는 항목은 <b>제외</b>한 뒤 카테고리가 한쪽에 몰리지 않도록 골랐습니다.</div>'+
       '<div class="mp-chips">'+chips+'</div>'+
-    '</div>';
+    '</div>'+alerts;
   var cards=list.map(function(x,i){
     var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
     var rank=medal?'<span class="mp-medal">'+medal+'</span>':'<span class="mp-num">'+(i+1)+'</span>';
@@ -1655,9 +1730,12 @@ $('runBtn').addEventListener('click',function(){
   var ageL={'20':'20대','30':'30대','40':'40대','50':'50대 이상'}[age]||'30대';
   var styleL={safe:'안전형',bal:'균형형',growth:'성장형'}[style]||'균형형';
   // 정밀 매칭: 전체 카탈로그 점수화
-  var preScored=matchCatalogScored({save:save,seed:seed,time:time,style:style,age:age,ints:ints,goal:goal,level:level});
+  var job=gSingle('gjob')||'worker',debt=gSingle('gdebt')||'none',emer=gSingle('gemer')||'yes';
+  var term=gSingle('gterm')||'y1',open=gSingle('gopen')||'no',skills=gChips('gskill');
+  var preScored=matchCatalogScored({save:save,seed:seed,time:time,style:style,age:age,ints:ints,goal:goal,level:level,
+    job:job,debt:debt,emer:emer,term:term,open:open,skills:skills});
   var precise=preScored.map(function(x){return x.o;});
-  PRE_SCORED=preScored;PRE_COND={save:save,seed:seed,time:time,style:style,age:age,goal:goal,level:level};
+  PRE_SCORED=preScored;PRE_COND={save:save,seed:seed,time:time,style:style,age:age,goal:goal,level:level,job:job,debt:debt,emer:emer,term:term,open:open,skills:skills};
   LAST_DIAG={sel:precise.slice(0,5).map(function(o){return {icon:o.icon,name:o.name,bg:o.bg,grade:o.grade,earn:earnVal(o)};}),title:ageL+' '+styleL,pot:pot};
   $('rT').innerHTML='<em>'+ageL+' '+styleL+'</em> 맞춤 수익 로드맵';
   $('rS').textContent='월 '+save+'만원 투자 · 종잣돈 '+seed.toLocaleString()+'만원 · 주 '+time+'시간 · '+{cash:'현금 목표',passive:'자동수익 목표',asset:'자산형성 목표',side:'부업확장 목표'}[goal];
