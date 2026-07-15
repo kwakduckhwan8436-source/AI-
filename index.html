@@ -700,6 +700,25 @@ a{color:inherit;text-decoration:none}
   .chip,.tbtn,.sbtn,.ambtn,.run-btn,.tctl{min-height:40px}
   .memo-btn,.fav-btn{min-width:38px;min-height:34px}
 }
+/* 정밀 매칭 결과 고급화 */
+.mp-cond{padding:14px 16px;border-radius:13px;background:var(--gold-bg);border:1px solid color-mix(in srgb,var(--gold) 22%,transparent);margin:-4px 0 16px}
+.mp-condt{font-size:12px;color:var(--t2);line-height:1.75;margin-bottom:9px}
+.mp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.mp-chip{font-size:11.5px;font-weight:700;color:var(--t2);background:var(--bg2);border:1px solid var(--b2);border-radius:14px;padding:4px 10px;white-space:nowrap}
+.mp-item{position:relative;display:flex;flex-direction:column}
+.mp-item .ic{border-top-left-radius:0;border-top-right-radius:0;border-top:none}
+.mp-bar{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--b);border-bottom:none;border-radius:16px 16px 0 0;background:linear-gradient(135deg,color-mix(in srgb,var(--gold) 9%,var(--bg2)),var(--bg2))}
+.mp-medal{font-size:21px;line-height:1;flex-shrink:0}
+.mp-num{width:22px;height:22px;border-radius:50%;background:var(--b2);color:var(--t2);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mp-ring{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:3px}
+.mp-ringin{width:100%;height:100%;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.mp-ringin span{font-size:8px;margin-left:1px}
+.mp-meta{min-width:0;flex:1}
+.mp-fit{font-size:11px;font-weight:800;color:var(--gold);margin-bottom:4px;letter-spacing:.02em}
+.mp-why-row{display:flex;flex-wrap:wrap;gap:4px}
+.mp-why{font-size:10.5px;font-weight:700;color:var(--t2);background:var(--bg);border:1px solid var(--b2);border-radius:10px;padding:2px 7px;white-space:nowrap}
+.mp-note{font-size:11px;color:var(--t3);line-height:1.7;margin-top:12px;padding:10px 12px;border-radius:9px;background:var(--bg2);border:1px solid var(--b)}
+@media(max-width:520px){.mp-ring{width:38px;height:38px}.mp-bar{gap:8px;padding:9px 10px}}
 /* 재미·챌린지 탭 */
 .fun-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .pt-q{margin-bottom:14px}
@@ -1498,59 +1517,121 @@ function gSingle(id){var r=gChips(id);return r.length?r[0]:null;}
 // ── 정밀 매칭 엔진: 전체 카탈로그 점수화 ──
 // 관심분야(ints) → 탭 매핑
 var INT_TAB={stock:6,dividend:6,app:2,saving:8,ai:3,content:4,store:5,resell:5,realty:7,freelance:8,craft:5,teach:4};
-function matchCatalog(p){
-  var items=allItems();
-  var scored=items.map(function(o){
-    var tab=null;[2,3,4,5,6,7,8].forEach(function(t){if((DATA[t]||[]).some(function(x){return x.id===o.id;}))tab=t;});
-    var s=0;
-    // 1) 관심분야 매칭 (가장 큰 가중치)
-    var matchInt=p.ints.some(function(iv){return INT_TAB[iv]===tab;});
-    if(matchInt)s+=40;
-    // dividend 관심 → 배당 태그
-    if(p.ints.indexOf('dividend')>=0&&(o.tag.indexOf('배당')>=0||o.name.indexOf('배당')>=0))s+=15;
-    if(p.ints.indexOf('saving')>=0&&(o.tag.indexOf('절약')>=0||o.tag.indexOf('환급')>=0||o.tag.indexOf('혜택')>=0))s+=12;
-    if(p.ints.indexOf('craft')>=0&&tab===5)s+=10;
-    if(p.ints.indexOf('teach')>=0&&(o.tag.indexOf('지식')>=0||o.tag.indexOf('강의')>=0||o.name.indexOf('강의')>=0||o.name.indexOf('클래스')>=0))s+=12;
-    // 2) 목표 매칭
-    if(p.goal==='cash'&&o.speed==='즉시')s+=25;
-    if(p.goal==='cash'&&o.speed==='단기')s+=12;
-    if(p.goal==='passive'&&(o.flags||[]).indexOf('자동')>=0)s+=25;
-    if(p.goal==='asset'&&(tab===6||tab===7)&&o.speed==='장기')s+=25;
-    if(p.goal==='asset'&&((o.flags||[]).indexOf('안전')>=0))s+=10;
-    if(p.goal==='side'&&(tab===3||tab===4||tab===5)&&o.speed!=='즉시')s+=20;
-    // 3) 경험 수준 ↔ 난이도
-    var diff=o.diff||3;
-    if(p.level==='beginner'){s+=(6-diff)*7;if(diff<=2)s+=10;}
-    else if(p.level==='some'){s+=(diff>=2&&diff<=3)?18:6;}
-    else{if(diff>=3)s+=18;}
-    // 4) 투자 성향 ↔ 위험
-    var risky=(o.tag.indexOf('고위험')>=0||o.tag.indexOf('중위험')>=0||(o.esub&&o.esub.indexOf('⚠️')>=0));
-    if(p.style==='safe'){if((o.flags||[]).indexOf('안전')>=0)s+=15;if(risky)s-=30;}
-    else if(p.style==='growth'){if(risky)s+=8;if((o.flags||[]).indexOf('안전')>=0)s-=5;}
-    // 5) 종잣돈 ↔ 초기비용
-    var costLv=o.costLv||1;
-    if(costLv>=4&&p.seed<3000)s-=25;
-    if(costLv>=3&&p.seed<1000)s-=15;
-    if(costLv<=1)s+=8;
-    // 6) 시간 여유 ↔ 난이도/속도
-    if(p.time<5){if(diff<=2||(o.flags||[]).indexOf('자동')>=0)s+=12;if(diff>=4)s-=15;}
-    else if(p.time>=15){if(diff>=3)s+=10;}
-    // 7) 여유자금 적으면 무료 우대
-    if(p.save<30&&(o.flags||[]).indexOf('무료')>=0)s+=10;
-    // 8) 등급 보너스
-    s+=(o.grade==='S'?15:o.grade==='A'?8:0);
-    // 9) 나이대
-    if(p.age==='50'&&(o.tag.indexOf('노후')>=0||o.name.indexOf('연금')>=0))s+=12;
-    if(p.age==='20'&&o.tag.indexOf('생애주기')>=0)s+=10;
-    return {o:o,s:s};
-  });
-  scored.sort(function(a,b){return b.s-a.s;});
-  return scored.slice(0,8).map(function(x){return x.o;});
+// ── 정밀 매칭 엔진 v2 ──
+var TAB_OF=null;
+function tabIndex(){
+  if(TAB_OF)return TAB_OF;
+  TAB_OF={};[2,3,4,5,6,7,8].forEach(function(t){(DATA[t]||[]).forEach(function(o){TAB_OF[o.id]=t;});});
+  return TAB_OF;
 }
+function isRisky(o){
+  return (o.tag||'').indexOf('고위험')>=0||(o.tag||'').indexOf('중위험')>=0||
+    (o.esub&&o.esub.indexOf('⚠️')>=0)||(o.desc&&o.desc.indexOf('⚠️')>=0);
+}
+// 반환: [{o, s, pct, reasons, tab}]
+function matchCatalogScored(p){
+  var TI=tabIndex(), out=[];
+  allItems().forEach(function(o){
+    var tab=TI[o.id], s=0, R=[];
+    var diff=o.diff||3, costLv=o.costLv||1, flags=o.flags||[], risky=isRisky(o);
+    // ── 하드 게이트: 명백히 불가능한 건 제외 ──
+    if(costLv>=5&&p.seed<5000)return;
+    if(costLv>=4&&p.seed<2000)return;
+    if(costLv>=3&&p.seed<300)return;
+    if(p.style==='safe'&&risky)return;
+    if(p.level==='beginner'&&diff>=5)return;
+    if(p.time<3&&diff>=4&&flags.indexOf('자동')<0)return;
+    // ── 1) 관심분야 ──
+    if(p.ints.some(function(iv){return INT_TAB[iv]===tab;})){s+=40;R.push('관심분야 일치');}
+    if(p.ints.indexOf('dividend')>=0&&((o.tag||'').indexOf('배당')>=0||o.name.indexOf('배당')>=0)){s+=15;R.push('배당형');}
+    if(p.ints.indexOf('saving')>=0&&/절약|환급|혜택|절감/.test(o.tag||'')){s+=12;R.push('절약·환급');}
+    if(p.ints.indexOf('teach')>=0&&/지식|강의|클래스/.test(o.tag+o.name)){s+=12;R.push('지식 판매');}
+    // ── 2) 목표 ──
+    if(p.goal==='cash'&&o.speed==='즉시'){s+=25;R.push('즉시 수익');}
+    else if(p.goal==='cash'&&o.speed==='단기'){s+=12;R.push('단기 수익');}
+    if(p.goal==='passive'&&flags.indexOf('자동')>=0){s+=25;R.push('자동 수익');}
+    if(p.goal==='asset'&&(tab===6||tab===7)&&o.speed==='장기'){s+=25;R.push('장기 자산형성');}
+    if(p.goal==='asset'&&flags.indexOf('안전')>=0){s+=10;R.push('안정적');}
+    if(p.goal==='side'&&(tab===3||tab===4||tab===5)&&o.speed!=='즉시'){s+=20;R.push('부업 성장형');}
+    // ── 3) 경험 ↔ 난이도 ──
+    if(p.level==='beginner'){s+=(6-diff)*7;if(diff<=2){s+=10;R.push('초보 적합');}}
+    else if(p.level==='some'){s+=(diff>=2&&diff<=3)?18:6;}
+    else{if(diff>=3){s+=18;R.push('경험자용');}}
+    // ── 4) 성향 ↔ 위험 ──
+    if(p.style==='safe'&&flags.indexOf('안전')>=0){s+=15;R.push('안전형');}
+    if(p.style==='growth'){if(risky)s+=8;if(flags.indexOf('안전')>=0)s-=5;}
+    // ── 5) 자금 ↔ 초기비용 ──
+    if(costLv<=1){s+=8;if(flags.indexOf('무료')>=0)R.push('0원 시작');}
+    if(costLv>=3&&p.seed<1000)s-=15;
+    // ── 6) 시간 ──
+    if(p.time<5){if(diff<=2||flags.indexOf('자동')>=0){s+=12;R.push('시간 부담 적음');}if(diff>=4)s-=15;}
+    else if(p.time>=15&&diff>=3){s+=10;}
+    if(p.save<30&&flags.indexOf('무료')>=0)s+=10;
+    // ── 7) 등급·나이 ──
+    if(o.grade==='S'){s+=15;R.push('S등급 추천');}else if(o.grade==='A')s+=8;
+    if(p.age==='50'&&/노후|연금/.test(o.tag+o.name)){s+=12;R.push('노후 대비');}
+    if(p.age==='20'&&(o.tag||'').indexOf('생애주기')>=0)s+=10;
+    out.push({o:o,s:s,reasons:R,tab:tab});
+  });
+  out.sort(function(a,b){
+    if(b.s!==a.s)return b.s-a.s;
+    var g={S:3,A:2,B:1};
+    var gd=(g[b.o.grade]||0)-(g[a.o.grade]||0);
+    if(gd!==0)return gd;
+    return (a.o.diff||3)-(b.o.diff||3);
+  });
+  // ── 다양성: 한 카테고리 최대 2개 ──
+  var cnt={},pick=[],rest=[];
+  out.forEach(function(x){
+    if(pick.length>=8)return;
+    var c=cnt[x.tab]||0;
+    if(c<2){cnt[x.tab]=c+1;pick.push(x);}else rest.push(x);
+  });
+  while(pick.length<8&&rest.length)pick.push(rest.shift());
+  // ── 적합도(%) 정규화 ──
+  var best=pick.length?pick[0].s:1;
+  pick.forEach(function(x){
+    var r=best>0?x.s/best:0;
+    x.pct=Math.max(45,Math.min(99,Math.round(r*99)));
+  });
+  return pick;
+}
+// 호환용: 아이템 배열 반환
+function matchCatalog(p){return matchCatalogScored(p).map(function(x){return x.o;});}
+var PRE_SCORED=[],PRE_COND=null;
+var GOAL_L={cash:'당장 현금',passive:'자동 수익',asset:'자산 형성',side:'부업 성장'};
+var LV_L={beginner:'초보',some:'경험 조금',pro:'경험자'};
+var ST_L={safe:'안전형',bal:'균형형',growth:'성장형'};
 function renderPrecise(list){
   var box=$('preciseBox');if(!box)return;
   if(!list||list.length===0){box.innerHTML='';return;}
-  box.innerHTML='<div class="slabel" style="margin-top:30px">🎯 790개 전체에서 정밀 매칭된 맞춤 추천 TOP '+list.length+'</div><div style="font-size:11px;color:var(--t3);margin:-6px 0 14px">입력하신 목표·경험·성향·자금·시간을 종합 점수화해 골라낸 결과입니다</div><div class="cg">'+list.map(function(o){return card(o);}).join('')+'</div>';
+  var c=PRE_COND||{};
+  var chips=[
+    '🎯 '+(GOAL_L[c.goal]||'-'),
+    '🧑 '+(c.age||'-')+'대 · '+(LV_L[c.level]||'-'),
+    '⚖️ '+(ST_L[c.style]||'-'),
+    '💰 종잣돈 '+(c.seed||0).toLocaleString()+'만원',
+    '⏰ 주 '+(c.time||0)+'시간'
+  ].map(function(t){return '<span class="mp-chip">'+t+'</span>';}).join('');
+  var total=allItems().length;
+  var head='<div class="slabel" style="margin-top:30px">🎯 정밀 매칭 결과 TOP '+list.length+'</div>'+
+    '<div class="mp-cond">'+
+      '<div class="mp-condt">'+total+'개 전체를 <b>7개 기준</b>으로 점수화하고, 조건에 맞지 않는 항목은 <b>제외</b>한 뒤 카테고리가 한쪽에 몰리지 않도록 골랐습니다.</div>'+
+      '<div class="mp-chips">'+chips+'</div>'+
+    '</div>';
+  var cards=list.map(function(x,i){
+    var medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    var rank=medal?'<span class="mp-medal">'+medal+'</span>':'<span class="mp-num">'+(i+1)+'</span>';
+    var deg=Math.round(x.pct*3.6);
+    var rs=(x.reasons||[]).slice(0,3).map(function(r){return '<span class="mp-why">'+r+'</span>';}).join('');
+    return '<div class="mp-item">'+
+      '<div class="mp-bar">'+rank+
+        '<div class="mp-ring" style="background:conic-gradient(var(--gold) '+deg+'deg, var(--b2) 0deg)"><div class="mp-ringin">'+x.pct+'<span>%</span></div></div>'+
+        '<div class="mp-meta"><div class="mp-fit">적합도 '+x.pct+'%</div><div class="mp-why-row">'+(rs||'<span class="mp-why">종합 점수 상위</span>')+'</div></div>'+
+      '</div>'+card(x.o)+'</div>';
+  }).join('');
+  box.innerHTML=head+'<div class="cg">'+cards+'</div>'+
+    '<div class="mp-note">※ 적합도는 1위 대비 상대 점수입니다. 위험·자금·시간 조건에 맞지 않는 항목은 아예 제외되므로, 조건을 바꾸면 결과도 달라집니다.</div>';
 }
 
 $('runBtn').addEventListener('click',function(){
@@ -1574,7 +1655,9 @@ $('runBtn').addEventListener('click',function(){
   var ageL={'20':'20대','30':'30대','40':'40대','50':'50대 이상'}[age]||'30대';
   var styleL={safe:'안전형',bal:'균형형',growth:'성장형'}[style]||'균형형';
   // 정밀 매칭: 전체 카탈로그 점수화
-  var precise=matchCatalog({save:save,seed:seed,time:time,style:style,age:age,ints:ints,goal:goal,level:level});
+  var preScored=matchCatalogScored({save:save,seed:seed,time:time,style:style,age:age,ints:ints,goal:goal,level:level});
+  var precise=preScored.map(function(x){return x.o;});
+  PRE_SCORED=preScored;PRE_COND={save:save,seed:seed,time:time,style:style,age:age,goal:goal,level:level};
   LAST_DIAG={sel:precise.slice(0,5).map(function(o){return {icon:o.icon,name:o.name,bg:o.bg,grade:o.grade,earn:earnVal(o)};}),title:ageL+' '+styleL,pot:pot};
   $('rT').innerHTML='<em>'+ageL+' '+styleL+'</em> 맞춤 수익 로드맵';
   $('rS').textContent='월 '+save+'만원 투자 · 종잣돈 '+seed.toLocaleString()+'만원 · 주 '+time+'시간 · '+{cash:'현금 목표',passive:'자동수익 목표',asset:'자산형성 목표',side:'부업확장 목표'}[goal];
@@ -1584,7 +1667,7 @@ $('runBtn').addEventListener('click',function(){
     g.innerHTML+=card({id:d.id,cls:d.cls,grade:d.grade,diff:d.diff,cost:d.cost,costLv:d.costLv,speed:d.speed,icon:d.icon,bg:d.bg,name:d.n,tag:d.tag,tc:d.tc,tb:d.tb,earn:earn>0?'+'+mf(earn)+'/월':'장기 투자',ec:i===0?'var(--gold)':'var(--green)',desc:d.desc(style,time),steps:d.steps(),links:d.links});
   });
   // 정밀 추천 렌더링
-  renderPrecise(precise);
+  renderPrecise(PRE_SCORED);
   var tls=[
     {p:'이번 주 당장',h:'기반 구축 · 비용 0원',b:'알뜰폰 전환, 구독 해지, CMA 통장, 캐시워크 설치.',earn:'+'+mf(Math.round(pot*0.15))+'/월 즉시',c:'#15803d'},
     {p:'1개월 후',h:'첫 투자·부업 실행',b:'월 '+Math.min(save,30)+'만원 ETF 첫 매수. 앱테크 5개 활성화.',earn:'복리·부업 시동',c:'#1d6fd0'},
