@@ -1107,6 +1107,74 @@ body{font-size:15px;line-height:1.74;letter-spacing:-.003em}
   border-color:var(--gold);
   box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 16%,transparent);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   화려하게 · Dazzle Pass v6  (반짝임·발광·흐르는 골드)
+   — 모션에 민감한 사용자는 자동으로 애니메이션이 꺼집니다
+   ══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:no-preference){
+
+  /* 큰 골드 숫자·타이틀에 흐르는 반짝임 */
+  .hero h1 em,.statv,.hstat b,.dv,.cf-pct,.pt-name{
+    background:linear-gradient(100deg,#a97b0a,#f2d47e 28%,#dcb246 48%,#fbeeb8 68%,#a97b0a);
+    background-size:230% auto;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    animation:goldflow 6.5s linear infinite;
+  }
+  @keyframes goldflow{to{background-position:230% center}}
+
+  /* 히어로 뱃지 은은한 발광 */
+  .hero-badge{animation:badgeglow 3.6s ease-in-out infinite}
+  @keyframes badgeglow{
+    0%,100%{box-shadow:0 3px 16px -6px color-mix(in srgb,var(--gold) 55%,transparent)}
+    50%{box-shadow:0 4px 24px -3px color-mix(in srgb,var(--gold) 90%,transparent)}
+  }
+
+  /* 상단 링크 버튼(카페·리서치·소싱기) 그라데이션이 천천히 흐름 */
+  .tctl.link-cafe,.tctl.link-research,.tctl.link-sourcing{
+    background-size:180% 180%;animation:btnflow 7s ease infinite;
+  }
+  @keyframes btnflow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  /* 활성 탭 밑줄 맥동 발광 */
+  .tbtn.on::after{animation:tabpulse 2.6s ease-in-out infinite}
+  @keyframes tabpulse{
+    0%,100%{box-shadow:0 0 10px 1px color-mix(in srgb,var(--gold) 55%,transparent)}
+    50%{box-shadow:0 0 18px 3px color-mix(in srgb,var(--gold) 88%,transparent)}
+  }
+
+  /* S등급 뱃지 반짝임 */
+  .grade.S{background-size:200% auto;animation:goldflow 5s linear infinite}
+
+  /* 1위 추천 카드에 회전하는 골드 테두리 */
+  .mp-item:first-child{isolation:isolate}
+  .mp-item:first-child::before{
+    content:'';position:absolute;inset:-2px;border-radius:18px;padding:2px;z-index:0;
+    background:conic-gradient(from 0deg,#fbeeb8,#a97b0a,#f2d47e,#b8860b,#fbeeb8);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    animation:spinborder 6s linear infinite;pointer-events:none;
+  }
+  @keyframes spinborder{to{transform:rotate(1turn)}}
+
+  /* 히어로 골드 오라 잔잔한 숨쉬기 */
+  .hero::before{animation:auraBreath 7s ease-in-out infinite}
+  @keyframes auraBreath{0%,100%{opacity:.9}50%{opacity:1}}
+}
+
+/* 링크 버튼 호버 시 살짝 떠오르며 광채 */
+.tctl.link-cafe:hover,.tctl.link-research:hover,.tctl.link-sourcing:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 18px -6px color-mix(in srgb,var(--gold) 30%,rgba(0,0,0,.35));
+}
+
+/* 카드 호버 시 골드 글로우 한층 강화 */
+.ic:hover{box-shadow:0 20px 48px -14px color-mix(in srgb,var(--gold) 40%,rgba(0,0,0,.28))}
+
+/* 섹션 헤더 골드바 광채 */
+.sh::before{box-shadow:0 0 10px 0 color-mix(in srgb,var(--gold) 55%,transparent)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -1122,7 +1190,7 @@ body{font-size:15px;line-height:1.74;letter-spacing:-.003em}
     <div class="topctl">
       <a class="tctl link-cafe" href="https://cafe.naver.com/aiprogram1" target="_blank" rel="noopener">☕ <span>카페</span></a>
       <a class="tctl link-research" href="https://shared-research-monitor.onrender.com/" target="_blank" rel="noopener">📊 <span><span class="lbl-long">모두의 </span>리서치</span></a>
-      <a class="tctl link-sourcing" href="#SOURCING_URL" target="_blank" rel="noopener">🛒 <span><span class="lbl-long">상품</span>소싱기</span></a>
+      <a class="tctl link-sourcing" href="https://product-sourcing-1.onrender.com/" target="_blank" rel="noopener">🛒 <span><span class="lbl-long">상품</span>소싱기</span></a>
       <button class="tctl" id="dataBtn">💾 <span>백업</span></button>
       <button class="tctl" id="themeBtn">🌙 <span>다크</span></button>
     </div>
