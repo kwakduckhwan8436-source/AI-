@@ -46,13 +46,15 @@ a{color:inherit;text-decoration:none}
 .tctl.link-cafe:hover{filter:brightness(1.08);color:#fff}
 .tctl.link-research{background:linear-gradient(135deg,#1d6fd0,#4f46e5);color:#fff;border-color:transparent;font-weight:700}
 .tctl.link-research:hover{filter:brightness(1.08);color:#fff}
+.tctl.link-sourcing{background:linear-gradient(135deg,#d97007,#c93872);color:#fff;border-color:transparent;font-weight:700}
+.tctl.link-sourcing:hover{filter:brightness(1.08);color:#fff}
 /* 모바일: 브랜드 위, 버튼은 아래 한 줄로 균등 정렬 */
 @media(max-width:640px){
   .topbar{flex-direction:column;align-items:stretch;gap:9px;padding:9px 13px}
   .brandmini{font-size:12.5px;justify-content:center}
   .topright{flex-direction:column;align-items:stretch;gap:9px;width:100%}
   .livemini{align-self:center}
-  .topctl{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;width:100%}
+  .topctl{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%}
   .tctl{font-size:11px;padding:8px 4px;box-shadow:none;overflow:hidden;text-overflow:ellipsis}
   .lbl-long{display:none}
 }
@@ -1120,6 +1122,7 @@ body{font-size:15px;line-height:1.74;letter-spacing:-.003em}
     <div class="topctl">
       <a class="tctl link-cafe" href="https://cafe.naver.com/aiprogram1" target="_blank" rel="noopener">☕ <span>카페</span></a>
       <a class="tctl link-research" href="https://shared-research-monitor.onrender.com/" target="_blank" rel="noopener">📊 <span><span class="lbl-long">모두의 </span>리서치</span></a>
+      <a class="tctl link-sourcing" href="#SOURCING_URL" target="_blank" rel="noopener">🛒 <span><span class="lbl-long">상품</span>소싱기</span></a>
       <button class="tctl" id="dataBtn">💾 <span>백업</span></button>
       <button class="tctl" id="themeBtn">🌙 <span>다크</span></button>
     </div>
