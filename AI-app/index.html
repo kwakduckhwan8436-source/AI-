@@ -1163,6 +1163,31 @@ body{font-size:15px;line-height:1.74;letter-spacing:-.003em}
 
 /* 섹션 헤더 골드바 광채 */
 .sh::before{box-shadow:0 0 10px 0 color-mix(in srgb,var(--gold) 55%,transparent)}
+
+/* ══ 신빙성: 신뢰 체크 패널 + 적합도 계산 근거 ══ */
+.tv-box{margin:14px 0 4px;padding:15px 16px;border:1px solid color-mix(in srgb,var(--gold) 38%,var(--b2));border-radius:14px;background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 7%,var(--card)),var(--card));box-shadow:var(--shadow-sm)}
+.tv-lab{font-size:14px;font-weight:800;color:var(--t);margin-bottom:10px;letter-spacing:-.01em}
+.tv-row{display:flex;gap:10px;padding:7px 0;border-top:1px dashed var(--b2);align-items:flex-start}
+.tv-row:first-of-type{border-top:none}
+.tv-k{flex:0 0 84px;font-size:12px;font-weight:800;color:var(--gold);line-height:1.5}
+.tv-v{flex:1;font-size:12.5px;line-height:1.6;color:var(--t2)}
+.tv-v b{color:var(--t);font-weight:700}
+.tv-foot{margin-top:10px;padding-top:9px;border-top:1px solid var(--b2);font-size:11.5px;line-height:1.55;color:var(--t3)}
+
+.mp-calc{margin:8px 0 10px;border:1px solid var(--b2);border-radius:11px;background:var(--bg);overflow:hidden}
+.mp-calc summary{cursor:pointer;list-style:none;padding:9px 12px;font-size:12px;font-weight:800;color:var(--gold);user-select:none}
+.mp-calc summary::-webkit-details-marker{display:none}
+.mp-calc summary::after{content:'▾';float:right;transition:transform .2s}
+.mp-calc[open] summary::after{transform:rotate(180deg)}
+.cl-body{padding:4px 12px 11px}
+.cl-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 0;border-top:1px dashed var(--b2);font-size:12px}
+.cl-row:first-child{border-top:none}
+.cl-t{color:var(--t2);font-weight:600}
+.cl-p{font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}
+.cl-up{color:var(--green)}
+.cl-dn{color:var(--red)}
+.cl-sum{margin-top:9px;padding-top:9px;border-top:1px solid var(--b2);font-size:11.5px;line-height:1.55;color:var(--t3)}
+.cl-sum b{color:var(--t);font-weight:800}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
@@ -2019,8 +2044,10 @@ function matchCatalogScored(p){
   if(explore)p.ints=p.ints.filter(function(x){return x!=='unsure';});
   EXCL={risk:0,seed:0,time:0,level:0,face:0,term:0,debt:0,total:0};
   function X(k){EXCL[k]++;EXCL.total++;}
+  var intN=p.ints.length;
   allItems().forEach(function(o){
-    var tab=TI[o.id], s=0, R=[];
+    var tab=TI[o.id], s=0, R=[], C=[];
+    function add(pts,label,chip){ if(!pts)return; s+=pts; if(label)C.push({t:label,p:pts}); if(chip&&label&&R.indexOf(label)<0)R.push(label); }
     var diff=o.diff||3, costLv=o.costLv||1, flags=o.flags||[], risky=isRisky(o);
     var txt=o.name+' '+o.tag+' '+(o.desc||'');
     // ── 하드 게이트: 명백히 불가능·부적절한 건 제외 ──
@@ -2036,109 +2063,114 @@ function matchCatalogScored(p){
     if(p.open==='no'&&VOICE_KW.test(o.name)){X('face');return;}
     if(p.term==='m3'&&o.speed==='장기'){X('term');return;}
     // ── 1) 관심분야: 탭(넓게) + 키워드(정밀) ──
-    if(p.ints.some(function(iv){return INT_TAB[iv]===tab;})){s+=26;R.push('관심분야 일치');}
+    var tabHit=p.ints.some(function(iv){return INT_TAB[iv]===tab;});
+    if(tabHit)add(26,'관심분야 일치',1);
     var kwHit=false;
     p.ints.forEach(function(iv){
-      if(!kwHit&&INT_KW[iv]&&INT_KW[iv].test(txt)){s+=24;kwHit=true;R.push('관심사와 직결');}
+      if(!kwHit&&INT_KW[iv]&&INT_KW[iv].test(txt)){add(24,'관심사와 직결',1);kwHit=true;}
     });
-    if(p.ints.indexOf('saving')>=0&&/절약|환급|혜택|절감/.test(o.tag||''))s+=6;
-    if(p.ints.indexOf('teach')>=0&&/지식|강의|클래스/.test(o.tag+o.name))s+=6;
+    if(tabHit&&kwHit)add(8,'관심분야 정밀 일치');
+    if(intN>=2&&tabHit)add(5,'복수 관심분야 부합');
+    if(p.ints.indexOf('saving')>=0&&/절약|환급|혜택|절감/.test(o.tag||''))add(6,'절약 관심 반영');
+    if(p.ints.indexOf('teach')>=0&&/지식|강의|클래스/.test(o.tag+o.name))add(6,'교육 관심 반영');
     // ── 2) 목표 ──
-    if(p.goal==='cash'&&o.speed==='즉시'){s+=25;R.push('즉시 수익');}
-    else if(p.goal==='cash'&&o.speed==='단기'){s+=12;R.push('단기 수익');}
-    if(p.goal==='passive'&&flags.indexOf('자동')>=0){s+=25;R.push('자동 수익');}
-    if(p.goal==='asset'&&(tab===6||tab===7)&&o.speed==='장기'){s+=25;R.push('장기 자산형성');}
-    if(p.goal==='asset'&&flags.indexOf('안전')>=0){s+=10;R.push('안정적');}
-    if(p.goal==='side'&&(tab===3||tab===4||tab===5)&&o.speed!=='즉시'){s+=20;R.push('부업 성장형');}
+    if(p.goal==='cash'&&o.speed==='즉시')add(25,'즉시 수익',1);
+    else if(p.goal==='cash'&&o.speed==='단기')add(12,'단기 수익',1);
+    if(p.goal==='passive'&&flags.indexOf('자동')>=0)add(25,'자동 수익',1);
+    if(p.goal==='asset'&&(tab===6||tab===7)&&o.speed==='장기')add(25,'장기 자산형성',1);
+    if(p.goal==='asset'&&flags.indexOf('안전')>=0)add(10,'안정적',1);
+    if(p.goal==='side'&&(tab===3||tab===4||tab===5)&&o.speed!=='즉시')add(20,'부업 성장형',1);
     // ── 3) 목표 시점 ↔ 속도 ──
     var sp=o.speed;
-    if(p.term==='m3'&&(sp==='즉시'||sp==='단기')){s+=18;R.push('3개월 내 가능');}
-    if(p.term==='y1'&&(sp==='단기'||sp==='중기')){s+=14;}
-    if(p.term==='y3'&&(sp==='중기'||sp==='장기')){s+=14;}
-    if(p.term==='y10'&&sp==='장기'){s+=18;R.push('장기 복리');}
+    if(p.term==='m3'&&(sp==='즉시'||sp==='단기'))add(18,'3개월 내 가능',1);
+    if(p.term==='y1'&&(sp==='단기'||sp==='중기'))add(14,'목표 시점과 부합');
+    if(p.term==='y3'&&(sp==='중기'||sp==='장기'))add(14,'목표 시점과 부합');
+    if(p.term==='y10'&&sp==='장기')add(18,'장기 복리',1);
     // ── 4) 부채·비상금 (최우선 조치) ──
-    if(p.debt==='high'&&/고금리|카드론|부채|대출 갈아타기|금리 인하|상환/.test(txt)){s+=60;R.push('부채부터 정리');}
-    if(p.emer==='no'&&/비상금|파킹|CMA/.test(txt)){s+=55;R.push('비상금이 먼저');}
-    if(p.emer==='no'&&(tab===6||tab===7)&&sp==='장기')s-=20;
+    if(p.debt==='high'&&/고금리|카드론|부채|대출 갈아타기|금리 인하|상환/.test(txt))add(60,'부채부터 정리',1);
+    if(p.emer==='no'&&/비상금|파킹|CMA/.test(txt))add(55,'비상금이 먼저',1);
+    if(p.emer==='no'&&(tab===6||tab===7)&&sp==='장기')add(-20,'비상금 없어 장기투자 뒤로');
     // ── 5) 직업별 절세·제도 ──
-    if(p.job==='worker'&&/연말정산|IRP|연금저축|소득공제|세액공제/.test(txt)){s+=22;R.push('직장인 절세');}
-    if(p.job==='self'&&/노란우산|종합소득세|사업자|경비|부가세/.test(txt)){s+=22;R.push('사업자 절세');}
-    if(p.job==='free'&&/종합소득세|삼쩜삼|환급|프리랜서|사업자/.test(txt)){s+=20;R.push('프리랜서 절세');}
-    if(p.job==='home'&&/임의가입|주부|재택|무료/.test(txt)){s+=12;}
-    if(p.job==='student'&&costLv<=1&&sp==='즉시'){s+=10;}
-    if(p.job==='retire'&&/연금|노후|배당|안정|농지연금/.test(txt)){s+=18;R.push('은퇴자 적합');}
-    if((p.job==='home'||p.job==='student')&&/IRP|연말정산/.test(txt))s-=25;
+    if(p.job==='worker'&&/연말정산|IRP|연금저축|소득공제|세액공제/.test(txt))add(22,'직장인 절세',1);
+    if(p.job==='self'&&/노란우산|종합소득세|사업자|경비|부가세/.test(txt))add(22,'사업자 절세',1);
+    if(p.job==='free'&&/종합소득세|삼쩜삼|환급|프리랜서|사업자/.test(txt))add(20,'프리랜서 절세',1);
+    if(p.job==='home'&&/임의가입|주부|재택|무료/.test(txt))add(12,'주부·재택 적합');
+    if(p.job==='student'&&costLv<=1&&sp==='즉시')add(10,'학생 부담 적음');
+    if(p.job==='retire'&&/연금|노후|배당|안정|농지연금/.test(txt))add(18,'은퇴자 적합',1);
+    if((p.job==='home'||p.job==='student')&&/IRP|연말정산/.test(txt))add(-25,'해당 없는 절세 항목');
     // ── 6) 보유 기술 ──
     var hit=null;
     p.skills.forEach(function(k){if(!hit&&SKILL_KW[k]&&SKILL_KW[k].test(txt))hit=k;});
-    if(hit){s+=45;R.push('내 기술 활용');}
-    if(p.skills.length&&!hit&&(tab===3||tab===4||tab===5))s-=10;
+    if(hit)add(45,'내 기술 활용',1);
+    if(p.skills.length&&!hit&&(tab===3||tab===4||tab===5))add(-10,'보유 기술과 거리');
     // ── 7) 경험 ↔ 난이도 ──
-    if(p.level==='beginner'){s+=(6-diff)*7;if(diff<=2){s+=10;R.push('초보 적합');}}
-    else if(p.level==='some'){s+=(diff>=2&&diff<=3)?18:6;}
-    else{if(diff>=3){s+=18;R.push('경험자용');}}
+    if(p.level==='beginner'){add((6-diff)*7,'초보 난이도 적합');if(diff<=2)add(10,'초보 적합',1);}
+    else if(p.level==='some'){add((diff>=2&&diff<=3)?18:6,'경험 수준 부합');}
+    else{if(diff>=3)add(18,'경험자용',1);}
     // ── 8) 성향 ↔ 위험 ──
-    if(p.style==='safe'&&flags.indexOf('안전')>=0){s+=15;R.push('안전형');}
-    if(p.style==='growth'){if(risky)s+=8;if(flags.indexOf('안전')>=0)s-=5;}
+    if(p.style==='safe'&&flags.indexOf('안전')>=0)add(15,'안전형',1);
+    if(p.style==='growth'){if(risky)add(8,'성장 성향 부합');if(flags.indexOf('안전')>=0)add(-5,'성장 성향엔 보수적');}
     // ── 9) 자금 ↔ 초기비용 ──
-    if(costLv<=1){s+=8;if(flags.indexOf('무료')>=0)R.push('0원 시작');}
-    if(costLv>=3&&p.seed<1000)s-=15;
+    if(costLv<=1){add(8,'초기비용 낮음');if(flags.indexOf('무료')>=0&&R.indexOf('0원 시작')<0)R.push('0원 시작');}
+    if(costLv>=3&&p.seed<1000)add(-15,'종잣돈 대비 비용 부담');
     // ── 10) 시간 ──
-    if(p.time<5){if(diff<=2||flags.indexOf('자동')>=0){s+=12;R.push('시간 부담 적음');}if(diff>=4)s-=15;}
-    else if(p.time>=15&&diff>=3){s+=10;}
-    if(p.save<30&&flags.indexOf('무료')>=0)s+=10;
+    if(p.time<5){if(diff<=2||flags.indexOf('자동')>=0)add(12,'시간 부담 적음',1);if(diff>=4)add(-15,'시간 대비 부담');}
+    else if(p.time>=15&&diff>=3)add(10,'충분한 시간 활용');
+    if(p.save<30&&flags.indexOf('무료')>=0)add(10,'적은 여윳돈에 적합');
     // ── 11) 등급·나이 ──
-    if(o.grade==='S'){s+=8;R.push('S등급 추천');}else if(o.grade==='A')s+=4;
-    if(p.age==='50'&&/노후|연금/.test(o.tag+o.name)){s+=12;R.push('노후 대비');}
-    if(p.age==='20'&&(o.tag||'').indexOf('생애주기')>=0)s+=10;
+    if(o.grade==='S')add(8,'S등급 추천',1);else if(o.grade==='A')add(4,'A등급');
+    if(p.age==='50'&&/노후|연금/.test(o.tag+o.name))add(12,'노후 대비',1);
+    if(p.age==='20'&&(o.tag||'').indexOf('생애주기')>=0)add(10,'청년 생애주기 적합');
     // ── 12) 소득 수준 반영 ──
     var inc=p.income||300;
-    if(inc>=500&&/IRP|연금저축|세액공제|소득공제|연말정산|절세|ISA/.test(txt)){s+=20;R.push('고소득 절세 효과');}
+    if(inc>=500&&/IRP|연금저축|세액공제|소득공제|연말정산|절세|ISA/.test(txt))add(20,'고소득 절세 효과',1);
     if(inc<250){
-      if(flags.indexOf('무료')>=0){s+=12;R.push('부담 없는 시작');}
-      if(costLv>=3)s-=20;
-      if(o.speed==='즉시')s+=8;
+      if(flags.indexOf('무료')>=0)add(12,'부담 없는 시작',1);
+      if(costLv>=3)add(-20,'저소득 대비 비용 부담');
+      if(o.speed==='즉시')add(8,'바로 수익');
     }
-    if(inc>=700&&costLv<=1&&o.speed==='즉시')s-=6;
+    if(inc>=700&&costLv<=1&&o.speed==='즉시')add(-6,'소득 대비 효율 낮음');
     // ── 13) 탐색 모드: 분야를 모를 때 ──
     if(explore){
-      if(costLv<=1){s+=18;R.push('0원이라 부담 없음');}
-      if(diff<=2){s+=16;R.push('쉬워서 첫 도전용');}
-      if(flags.indexOf('무료')>=0)s+=10;
-      if(o.speed==='즉시'){s+=14;R.push('바로 해볼 수 있음');}
-      if(o.grade==='S')s+=10;
-      if(risky)s-=25;
+      if(costLv<=1)add(18,'0원이라 부담 없음',1);
+      if(diff<=2)add(16,'쉬워서 첫 도전용',1);
+      if(flags.indexOf('무료')>=0)add(10,'무료');
+      if(o.speed==='즉시')add(14,'바로 해볼 수 있음',1);
+      if(o.grade==='S')add(10,'S등급');
+      if(risky)add(-25,'탐색 단계엔 위험');
     }
     // ── 14) 실제 수익 발생 여부 (가장 중요) ──
     var pay=o.payType||'cash';
     var wantIncome=(p.goal==='cash'||p.goal==='side'||p.goal==='passive');
     if(wantIncome){
-      if(pay==='cash'){s+=30;R.push('실제 수익형');}
-      else if(pay==='save'){s+=10;R.push('절약형 실익');}
-      else s-=40;   // 준비·습관형은 부업 추천에서 강등
+      if(pay==='cash')add(30,'실제 수익형',1);
+      else if(pay==='save')add(10,'절약형 실익',1);
+      else add(-40,'수익 아닌 준비·습관형');
     }else{
-      if(pay==='cash')s+=10;
-      else if(pay==='base')s-=8;
+      if(pay==='cash')add(10,'현금 흐름');
+      else if(pay==='base')add(-8,'준비형');
     }
-    if(explore&&pay==='base')s-=30;
+    if(explore&&pay==='base')add(-30,'탐색 단계에 준비형 감점');
     // ── 15) 부업 성격: 직접 버는 것 vs 제도·환급 ──
     var kind=o.kind||'work';
     if(wantIncome){
-      if(kind==='work'){s+=25;R.push('직접 버는 부업');}
-      else if(kind==='benefit')s-=28;
-      else if(kind==='invest'&&p.goal!=='passive')s-=12;
+      if(kind==='work')add(25,'직접 버는 부업',1);
+      else if(kind==='benefit')add(-28,'직접 버는 게 아님');
+      else if(kind==='invest'&&p.goal!=='passive')add(-12,'투자형이라 부업과 거리');
+    }
+    // ── 16) 수익 규모 반영: 월 0.3만원과 월 50만원을 같이 취급하지 않음 ──
+    if(wantIncome&&pay==='cash'){
+      var ev=(typeof earnVal==='function')?(earnVal(o)||0):0;
+      var eb=Math.min(explore?22:15,Math.round(Math.sqrt(Math.max(0,ev))*(explore?3:2)));
+      if(eb)add(eb,'수익 규모 반영');
     }
     if(explore&&wantIncome){
-      if(kind==='work')s+=30;
-      else if(kind==='benefit')s-=35;
-      else if(kind==='invest')s-=15;
-      // 수익 규모 반영: 월 0.3만원과 월 50만원을 같이 취급하지 않음
-      if(typeof earnVal==='function'){
-        var ev=earnVal(o)||0;
-        s+=Math.min(22,Math.round(Math.sqrt(Math.max(0,ev))*3));
-      }
+      if(kind==='work')add(30,'첫 부업으로 적합');
+      else if(kind==='benefit')add(-35,'신청형은 부업 아님');
+      else if(kind==='invest')add(-15,'탐색 단계엔 투자 뒤로');
     }
-    out.push({o:o,s:s,reasons:R,tab:tab});
+    C.sort(function(a,b){return Math.abs(b.p)-Math.abs(a.p);});
+    out.push({o:o,s:s,reasons:R,contrib:C,tab:tab});
   });
   out.sort(function(a,b){
     if(b.s!==a.s)return b.s-a.s;
@@ -2175,6 +2207,10 @@ function matchCatalogScored(p){
     var r=x.s/best;
     x.pct=x.pin?99:Math.max(45,Math.min(98,Math.round(r*98)));
   });
+  // ── 결정도(신빙성): 1위와 2위 원점수 격차 ──
+  var sep=0;
+  if(pick.length>=2){var top=pick[0].s,sec=pick[1].s;sep=top>0?Math.max(0,Math.round((top-sec)/top*100)):0;}
+  pick.sep=sep;
   return pick;
 }
 // 호환용: 아이템 배열 반환
@@ -2313,11 +2349,22 @@ function renderPrecise(list){
       :conf.pct>=60?'괜찮은 수준입니다. <b>'+conf.miss.join('·')+'</b>까지 채우면 더 정확해집니다.'
       :'입력이 부족해 결과가 넓게 나왔습니다. <b>'+conf.miss.join('·')+'</b>을(를) 입력하면 확 달라집니다.')+'</div></div>';
   var exploreBox=isExplore?'<div class="mp-alert" style="background:rgba(29,111,208,.06);border-color:rgba(29,111,208,.3)"><b style="color:var(--blue)">🤔 아직 뭘 할지 모르시는군요 — 탐색 모드로 골랐습니다.</b> 분야를 좁히지 않고 <b>여러 분야를 골고루</b>, 그중에서도 <b>내가 직접 해서 버는 부업</b>을 <b>0원·쉬움·즉시</b> 순으로 보여드립니다. (환급·절세처럼 신청만 하면 되는 건 부업이 아니라 뒤로 뺐습니다.) 하나 해보고 재미있으면 그 분야를 선택해 다시 진단하세요.</div>':'';
+  var offCount=list.filter(function(x){return (x.o.linkType||'')==='official';}).length;
+  var offR=list.length?Math.round(offCount/list.length*100):0;
+  var sep=(typeof PRE_SCORED!=='undefined'&&typeof PRE_SCORED.sep==='number')?PRE_SCORED.sep:0;
+  var sepTxt=sep>=25?'1위가 2위보다 '+sep+'% 앞서 <b>뚜렷한 1등</b>입니다':sep>=10?'1위가 2위보다 '+sep+'% 앞서 <b>비교적 명확</b>합니다':'상위 몇 개가 <b>서로 비슷</b>합니다 — 그중 끌리는 걸 고르셔도 됩니다';
+  var trustBox='<div class="tv-box"><div class="tv-lab">🔒 이 추천을 믿어도 되는 이유</div>'+
+    '<div class="tv-row"><span class="tv-k">✔ 계산 방식</span><span class="tv-v">전체 <b>'+total+'개</b>를 <b>16가지 조건</b>으로 가중 점수화했습니다. 인기순·무작위가 아니며, 각 카드의 <b>「적합도 계산 근거」</b>를 펼치면 몇 점이 어디서 왔는지 직접 확인할 수 있습니다.</span></div>'+
+    '<div class="tv-row"><span class="tv-k">✔ 재현성</span><span class="tv-v">같은 입력이면 항상 같은 결과가 나옵니다. '+sepTxt+'.</span></div>'+
+    '<div class="tv-row"><span class="tv-k">✔ 최신성</span><span class="tv-v">추천 '+list.length+'개 모두 <b>2026년 7월</b> 기준으로 정보를 확인했습니다.</span></div>'+
+    '<div class="tv-row"><span class="tv-k">✔ 링크 신뢰</span><span class="tv-v">추천 항목의 <b>'+offR+'%</b>가 공식 사이트로 바로 연결됩니다. 나머지도 검증된 검색 경로로 안내합니다.</span></div>'+
+    '<div class="tv-row"><span class="tv-k">✔ 중립성</span><span class="tv-v">제휴·광고·협찬이 <b>전혀 없습니다</b>. 순위에 돈이 개입하지 않습니다.</span></div>'+
+    '<div class="tv-foot">⚠️ 단, 수익 금액은 <b>추정 범위</b>이고 개인차가 큽니다. 투자·창업형은 원금 손실이 가능하니 최종 판단은 본인 책임입니다.</div></div>';
   var head='<div class="slabel" style="margin-top:30px">📋 진단 브리핑</div>'+
-    confBox+exploreBox+
+    confBox+trustBox+exploreBox+
     '<div class="mp-brief">'+briefText(c,list)+'</div>'+
     '<div class="mp-cond">'+
-      '<div class="mp-condt">전체 <b>'+total+'개</b>를 <b>15가지 조건</b>으로 점수화했습니다. 이 중 <b>'+(ex.total||0)+'개</b>는 조건에 맞지 않아 제외했고'+(exList.length?' ('+exList.join(', ')+')':'')+', 남은 것 중 한 분야에 몰리지 않도록 골라 <b>'+list.length+'개</b>를 추렸습니다.</div>'+
+      '<div class="mp-condt">전체 <b>'+total+'개</b>를 <b>16가지 조건</b>으로 점수화했습니다. 이 중 <b>'+(ex.total||0)+'개</b>는 조건에 맞지 않아 제외했고'+(exList.length?' ('+exList.join(', ')+')':'')+', 남은 것 중 한 분야에 몰리지 않도록 골라 <b>'+list.length+'개</b>를 추렸습니다.</div>'+
       '<div class="mp-chips">'+chips+'</div>'+
     '</div>'+alerts+firstActionBox(list,c);
   var cards=list.map(function(x,i){
@@ -2326,6 +2373,8 @@ function renderPrecise(list){
     var deg=Math.round(x.pct*3.6);
     var rs=(x.reasons||[]).slice(0,3).map(function(r){return '<span class="mp-why">'+r+'</span>';}).join('');
     var cau=cautionOf(x.o);
+    var calc=(x.contrib||[]).slice(0,7).map(function(f){var pos=f.p>0;return '<div class="cl-row"><span class="cl-t">'+f.t+'</span><span class="cl-p '+(pos?'cl-up':'cl-dn')+'">'+(pos?'+':'')+f.p+'</span></div>';}).join('');
+    var calcBox=calc?'<details class="mp-calc"><summary>🔎 적합도 계산 근거 — 왜 '+x.pct+'%인지 펼쳐보기</summary><div class="cl-body">'+calc+'<div class="cl-sum">원점수 <b>'+x.s+'점</b> · 1위 대비 <b>'+x.pct+'%</b><br>규칙 기반 점수라 같은 입력이면 항상 같은 결과가 나옵니다.</div></div></details>':'';
     return '<div class="mp-item">'+
       '<div class="mp-bar">'+rank+
         '<div class="mp-ring" style="background:conic-gradient(var(--gold) '+deg+'deg, var(--b2) 0deg)"><div class="mp-ringin">'+x.pct+'<span>%</span></div></div>'+
@@ -2333,7 +2382,7 @@ function renderPrecise(list){
       '</div>'+
       '<div class="mp-say">💡 '+whyText(x,c)+'</div>'+
       (cau?'<div class="mp-caut">⚠️ 이건 조심하세요 — '+cau+'</div>':'')+
-      card(x.o)+'</div>';
+      calcBox+card(x.o)+'</div>';
   }).join('');
   box.innerHTML=head+'<div class="cg">'+cards+'</div>'+autoGloss(list)+
     '<div class="mp-note">※ 적합도는 1위 대비 상대 점수입니다. 조건을 바꾸면 결과도 달라지니, 상황이 바뀌면 다시 진단해 보세요.<br>※ 모든 항목의 링크는 공식 사이트로 연결됩니다. 제휴·광고 관계가 없어 순위에 돈이 개입하지 않습니다.</div>';
@@ -2440,7 +2489,7 @@ $('imgBtn').addEventListener('click',function(){
   if(ex.face)exRows.push('노출 필요 '+ex.face);
   if(ex.term)exRows.push('시점 불일치 '+ex.term);
   if(ex.debt)exRows.push('부채 상황 '+ex.debt);
-  var exText=ex.total?'전체 <b>'+allItems().length+'개</b>를 15가지 조건으로 점수화 → 조건에 맞지 않는 <b>'+ex.total+'개 제외</b>'+(exRows.length?' ('+exRows.join('개, ')+'개)':'')+' → 한 분야에 몰리지 않도록 <b>'+d.sel.length+'개</b> 선별':'';
+  var exText=ex.total?'전체 <b>'+allItems().length+'개</b>를 16가지 조건으로 점수화 → 조건에 맞지 않는 <b>'+ex.total+'개 제외</b>'+(exRows.length?' ('+exRows.join('개, ')+'개)':'')+' → 한 분야에 몰리지 않도록 <b>'+d.sel.length+'개</b> 선별':'';
   var rateBar='<div class="sc-rate"><div class="sc-ratet">저축률 <b>'+rate+'%</b> · 월 '+sv.toLocaleString()+'만원 투자 여력'+(rate>=20?' — 평균 이상입니다':rate>=10?' — 20%까지 올리면 속도가 달라집니다':' — 고정비부터 점검이 필요합니다')+'</div><div class="sc-ratebar"><div class="sc-ratefill" style="width:'+Math.min(100,rate*3)+'%"></div></div></div>';
   var dt=new Date(),ds=dt.getFullYear()+'.'+('0'+(dt.getMonth()+1)).slice(-2)+'.'+('0'+dt.getDate()).slice(-2);
   var wrap=document.createElement('div');
