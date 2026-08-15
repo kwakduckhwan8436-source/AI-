@@ -101,6 +101,17 @@ body{
 .rrow:first-of-type{border-top:none}
 .rrow>span:first-child{color:var(--t2);font-weight:600}
 .rrow>span:last-child{color:var(--t);font-variant-numeric:tabular-nums}
+.reroll{width:100%;margin-top:11px;border:1px dashed var(--gold);background:var(--gold-bg);color:var(--gold);border-radius:10px;padding:10px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit}
+.reroll:hover{filter:brightness(1.05)}
+.recintro{font-size:12.5px;line-height:1.55;color:var(--t2);background:var(--gold-bg);border:1px solid color-mix(in srgb,var(--gold) 28%,var(--b2));border-radius:11px;padding:10px 13px;margin-top:12px}
+.recintro b{color:var(--t)}
+.sevtag{display:inline-block;color:#fff;font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;margin-left:6px;vertical-align:middle}
+.planbox{margin:12px 0;padding:12px 13px;border:1px solid var(--b2);border-radius:11px;background:var(--bg)}
+.planhd{font-size:12.5px;font-weight:800;color:var(--t);margin-bottom:8px}
+.planrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0;font-size:12.5px;border-top:1px dashed var(--b2)}
+.planrow:first-of-type{border-top:none}
+.planrow span{color:var(--t2);font-weight:600}
+.planrow b{color:var(--t);font-variant-numeric:tabular-nums}
 @media(max-width:520px){.row,.chips{grid-template-columns:1fr}}
 </style>
 </head>
@@ -225,12 +236,67 @@ function helpList(){
 }
 
 /* 추천 미니 카탈로그 (부의 로드맵 카테고리로 연결) */
-var MINI={
- safe:[{n:'배당 ETF 혼합 바스켓',t:'현금흐름',e:'장기 배당',ic:'💵',bg:'var(--gold-bg)',tab:6},{n:'CMA·파킹통장 비상금',t:'안전 마진',e:'연 이자',ic:'🅿️',bg:'rgba(13,150,104,.12)',tab:6},{n:'TDF 자동 자산배분',t:'알아서 배분',e:'장기 복리',ic:'🎯',bg:'rgba(13,150,104,.12)',tab:6},{n:'연금저축펀드 세액공제',t:'확정 절세',e:'연 공제',ic:'🏦',bg:'rgba(21,128,61,.12)',tab:6},{n:'ISA 절세계좌 활용',t:'확정 절세',e:'연 절세',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:6}],
- grow:[{n:'지수 정액 분할매수(DCA)',t:'정석 복리',e:'장기 복리',ic:'📈',bg:'rgba(29,111,208,.12)',tab:6},{n:'인덱스 3분법 포트폴리오',t:'정석 분산',e:'장기 복리',ic:'📊',bg:'rgba(29,111,208,.12)',tab:6},{n:'소수점 해외주식 적립',t:'소액 분산',e:'장기 복리',ic:'🌎',bg:'rgba(29,111,208,.12)',tab:6},{n:'배당성장주 장기 적립',t:'복리 배당',e:'장기 배당',ic:'🌱',bg:'rgba(21,128,61,.12)',tab:6},{n:'소액 리츠 ETF 적립',t:'임대 배당',e:'연 배당',ic:'🏢',bg:'rgba(29,111,208,.12)',tab:7}],
- side:[{n:'영수증 스캔·설문 앱테크',t:'소비 적립',e:'월 1~5만원',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:2},{n:'AI 카피·썸네일 대행',t:'AI 자동화',e:'건당 2~20만원',ic:'🖼️',bg:'rgba(201,56,114,.12)',tab:3},{n:'스마트스토어 셀렉트샵',t:'온라인 판매',e:'월 5~60만원',ic:'🛍️',bg:'rgba(217,112,7,.12)',tab:5},{n:'재택 데이터 입력·검수',t:'비대면 근무',e:'월 10~70만원',ic:'⌨️',bg:'rgba(109,67,196,.12)',tab:8},{n:'리뷰 블로그 애드포스트',t:'글쓰기 수익',e:'월 3~40만원',ic:'✍️',bg:'rgba(21,128,61,.12)',tab:4}]
+/* 상황별 추천 풀 (부의 로드맵 카테고리로 연결) */
+var POOL={
+ save:[
+  {n:'알뜰폰·요금제 전환',t:'통신비 절감',e:'월 2~5만원',ic:'📶',bg:'rgba(13,150,104,.12)',tab:8},
+  {n:'중복 보험 리모델링',t:'고정비 절감',e:'연 수십만원',ic:'🛡️',bg:'rgba(29,111,208,.12)',tab:8},
+  {n:'대환대출 갈아타기',t:'이자 절감',e:'연 수십~수백만원',ic:'🔄',bg:'rgba(29,111,208,.12)',tab:8},
+  {n:'카드 캐시백 최적화',t:'새는 돈 차단',e:'연 수십만원',ic:'💳',bg:'var(--gold-bg)',tab:8},
+  {n:'근로·자녀장려금 신청',t:'현금 환급',e:'연 수십~수백만원',ic:'💰',bg:'rgba(21,128,61,.12)',tab:8},
+  {n:'실손보험 청구 자동화',t:'환급 챙기기',e:'연 수십만원',ic:'🏥',bg:'rgba(13,150,104,.12)',tab:8},
+  {n:'안 쓰는 구독 해지',t:'고정비 절감',e:'월 1~3만원',ic:'🔁',bg:'rgba(217,112,7,.12)',tab:8},
+  {n:'에너지 캐시백·복지할인',t:'공과금 절감',e:'연 수만~수십만원',ic:'💡',bg:'rgba(21,128,61,.12)',tab:8},
+  {n:'지역화폐 캐시백 활용',t:'생활 절약',e:'연 수십만원',ic:'🏦',bg:'rgba(217,112,7,.12)',tab:8}
+ ],
+ cash:[
+  {n:'영수증 스캔·설문 앱테크',t:'소비 적립',e:'월 1~5만원',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:2,m:5},
+  {n:'좌담회(FGI) 참여',t:'고단가 설문',e:'회당 3~10만원',ic:'🗣️',bg:'rgba(109,67,196,.12)',tab:2,m:10},
+  {n:'배달·심부름 긱워크',t:'즉시 현금',e:'시급 1.5~2.5만원',ic:'🛵',bg:'rgba(217,112,7,.12)',tab:2,m:40},
+  {n:'재택 데이터 입력·검수',t:'비대면 근무',e:'월 10~70만원',ic:'⌨️',bg:'rgba(109,67,196,.12)',tab:8,m:70},
+  {n:'중고 물품 판매·정리',t:'정리 현금',e:'건당 1~30만원',ic:'📦',bg:'rgba(217,112,7,.12)',tab:2,m:30},
+  {n:'체험단·리뷰 원고료',t:'평가 수익',e:'건당 1~5만원',ic:'📝',bg:'rgba(201,56,114,.12)',tab:2,m:5},
+  {n:'설문 패널 고정수입',t:'비대면 적립',e:'월 3~15만원',ic:'📋',bg:'rgba(109,67,196,.12)',tab:8,m:15},
+  {n:'앱 사용성 테스트',t:'재택 평가',e:'건당 1~3만원',ic:'🧪',bg:'rgba(8,145,168,.12)',tab:2,m:5}
+ ],
+ side:[
+  {n:'AI 카피·썸네일 대행',t:'AI 자동화',e:'건당 2~20만원',ic:'🖼️',bg:'rgba(201,56,114,.12)',tab:3,m:20},
+  {n:'블로그 애드포스트',t:'글쓰기 수익',e:'월 3~40만원',ic:'✍️',bg:'rgba(21,128,61,.12)',tab:4,m:40},
+  {n:'스마트스토어 셀렉트샵',t:'온라인 판매',e:'월 5~60만원',ic:'🛍️',bg:'rgba(217,112,7,.12)',tab:5,m:60},
+  {n:'전자책·VOD 강의 판매',t:'디지털 자산',e:'월 5~100만원',ic:'🎓',bg:'rgba(13,150,104,.12)',tab:4,m:100},
+  {n:'유튜브 정보 채널',t:'콘텐츠 수익',e:'월 5~100만원',ic:'📺',bg:'rgba(200,54,44,.12)',tab:4,m:100},
+  {n:'노션 템플릿 판매',t:'디지털 자산',e:'월 5~60만원',ic:'🗂️',bg:'rgba(79,70,229,.12)',tab:4,m:60},
+  {n:'크몽 재능 판매',t:'재능 마켓',e:'건당 2~30만원',ic:'💼',bg:'rgba(29,111,208,.12)',tab:5,m:30},
+  {n:'스톡 사진·영상 판매',t:'패시브 자산',e:'월 3~50만원',ic:'📷',bg:'rgba(13,150,104,.12)',tab:4,m:50}
+ ],
+ safe:[
+  {n:'CMA·파킹통장 비상금',t:'안전 마진',e:'연 이자',ic:'🅿️',bg:'rgba(13,150,104,.12)',tab:6},
+  {n:'예적금 특판 갈아타기',t:'안전 이자',e:'연 이자',ic:'🏦',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'배당 ETF 혼합 바스켓',t:'현금흐름',e:'장기 배당',ic:'💵',bg:'var(--gold-bg)',tab:6},
+  {n:'채권형 ETF 방어자산',t:'변동성 완화',e:'연 이자',ic:'🛡️',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'TDF 자동 자산배분',t:'알아서 배분',e:'장기 복리',ic:'🎯',bg:'rgba(13,150,104,.12)',tab:6},
+  {n:'연금저축+IRP 절세',t:'확정 절세',e:'연 공제',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:6},
+  {n:'ISA 절세계좌 활용',t:'확정 절세',e:'연 절세',ic:'📑',bg:'rgba(21,128,61,.12)',tab:6},
+  {n:'물가연동채 방어',t:'인플레 방어',e:'연 이자+물가',ic:'🔒',bg:'rgba(29,111,208,.12)',tab:6}
+ ],
+ grow:[
+  {n:'지수 정액 분할매수(DCA)',t:'정석 복리',e:'장기 복리',ic:'📈',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'인덱스 3분법 포트폴리오',t:'정석 분산',e:'장기 복리',ic:'📊',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'소수점 해외주식 적립',t:'소액 분산',e:'장기 복리',ic:'🌎',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'배당성장주 장기 적립',t:'복리 배당',e:'장기 배당',ic:'🌱',bg:'rgba(21,128,61,.12)',tab:6},
+  {n:'소액 리츠 ETF 적립',t:'임대 배당',e:'연 배당',ic:'🏢',bg:'rgba(29,111,208,.12)',tab:7},
+  {n:'올웨더 자산배분 ETF',t:'전천후',e:'장기 복리',ic:'🌦️',bg:'rgba(29,111,208,.12)',tab:6},
+  {n:'월배당 ETF 조합',t:'매달 현금',e:'월 배당',ic:'📅',bg:'var(--gold-bg)',tab:6},
+  {n:'미국 배당킹 장기투자',t:'배당 성장',e:'장기 배당',ic:'👑',bg:'var(--gold-bg)',tab:6}
+ ]
 };
+var spRot=0;
+function seedOf(ctx){var str=[ctx.sal,ctx.fixed,ctx.style,ctx.age,ctx.debt,ctx.goal,ctx.emerOK,ctx.def,ctx.tier].join('|'),s=0;for(var i=0;i<str.length;i++){s=(s*31+str.charCodeAt(i))>>>0;}return s;}
+function pick(poolName,count,ctx){var arr=POOL[poolName]||[];if(!arr.length)return [];var off=(seedOf(ctx)+spRot*3)%arr.length,out=[];for(var i=0;i<Math.min(count,arr.length);i++){out.push(arr[(off+i)%arr.length]);}return out;}
+function pickEarn(poolName,count,ctx){var arr=(POOL[poolName]||[]).slice().sort(function(a,b){return (b.m||0)-(a.m||0);});var top=arr.slice(0,Math.min(arr.length,count+2));if(!top.length)return [];var off=(seedOf(ctx)+spRot)%top.length,out=[];for(var i=0;i<Math.min(count,top.length);i++){out.push(top[(off+i)%top.length]);}return out;}
 function cards(list){return list.map(function(o){return '<a class="item" href="'+MAIN_URL+'?tab='+o.tab+'" target="_blank" rel="noopener"><span class="ic" style="background:'+o.bg+'">'+o.ic+'</span><span class="itxt"><b>'+o.n+'</b><i>'+o.t+' · '+o.e+'</i></span><span class="go">→</span></a>';}).join('');}
+function reroll(){return '<button class="reroll" onclick="spRot++;calc();">🔄 다른 추천으로 바꾸기</button>';}
+
 
 function calc(){
   var sal=Math.max(0,parseFloat($('salary').value)||0);
@@ -241,17 +307,29 @@ function calc(){
   if(sal<=0){$('result').innerHTML='<div class="card">월 실수령액을 입력하세요.</div>';return;}
   var r=spCompute({salary:sal,fixed:fixed,assets:assets,debtBal:debtBal,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal});
   try{localStorage.setItem('br_portfolio',JSON.stringify({salary:sal,fixed:fixed,assets:assets,debtBal:debtBal,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal,ts:Date.now()}));}catch(_){}
+  var tier=sal<200?'low':sal<400?'mid':'high';
+  var ctx={sal:sal,fixed:fixed,style:style,age:age,debt:debt,goal:goal,emerOK:emerOK,def:(r.deficit>0),rate:r.rate,tier:tier};
 
-  /* ── 적자(지출>수입) 대응 화면 ── */
+  /* ── 적자(지출>수입) 대응 화면 : 부족액 크기에 따라 자동 세분화 ── */
   if(r.deficit>0){
+    var D=r.deficit, dr=sal>0?D/sal:0;
+    var sev=(D<=20||dr<0.10)?'가벼운':(D<=60||dr<0.25)?'중간':'심각한';
+    var sevC=sev==='가벼운'?'#d97007':sev==='중간'?'#c8362c':'#a01c15';
+    var cutT=Math.max(1,Math.round(D*0.4)), earnT=Math.max(1,D-cutT);
+    var saveN=sev==='가벼운'?3:sev==='중간'?5:6, cashN=sev==='가벼운'?3:sev==='중간'?5:6;
+    var planBox='<div class="planbox"><div class="planhd">이번 달 부족액 <b>'+fmt(D)+'만원</b>, 이렇게 메워요</div>'+
+      '<div class="planrow"><span>✂️ 고정비에서 줄이기</span><b>'+fmt(cutT)+'만원</b></div>'+
+      '<div class="planrow"><span>🚀 부업으로 벌기</span><b>'+fmt(earnT)+'만원</b></div>'+
+      '<div class="pnote">부족액이 클수록 더 강하게 조정해야 해요. 이번 달은 <b>'+sev+' 적자</b> 단계입니다.</div></div>';
+    var sevExtra=sev==='심각한'?'<div class="card"><div class="h">🆘 혼자 힘들 땐 — 공식 상담·지원</div>'+helpList()+'<div class="pnote" style="margin-top:9px">부족액이 커요. 고금리로 돌려막기 전에 <b>채무조정·긴급복지</b>를 먼저 알아보세요. 대부분 무료 상담입니다.</div></div>':'';
     $('result').innerHTML=
-      '<div class="card def"><div class="h" style="color:#c8362c">🚨 지출이 수입보다 많아요 — 월 '+fmt(r.deficit)+'만원 부족</div>'+
+      '<div class="card def" style="border-color:'+sevC+'"><div class="h" style="color:'+sevC+'">🚨 지출이 수입보다 많아요 — 월 '+fmt(D)+'만원 부족 <span class="sevtag" style="background:'+sevC+'">'+sev+' 적자</span></div>'+
         '<div class="defnote">지금은 투자보다 <b>적자 해소가 최우선</b>입니다. 부족액을 메우기 전엔 투자 배분을 멈추고, 아래 순서대로 새는 돈을 막고 소득을 늘려보세요.</div>'+
-        deficitSteps(r)+
+        planBox+deficitSteps(r)+
       '</div>'+
-      '<div class="card"><div class="h">💸 먼저: 고정비부터 줄이기</div>'+cutList()+'</div>'+
-      '<div class="card"><div class="h">🚀 그다음: 즉시 현금이 되는 부업</div><div class="list">'+cards(MINI.side)+'</div></div>'+
-      '<div class="card"><div class="h">🆘 혼자 힘들 땐 — 공식 상담·지원</div>'+helpList()+'<div class="pnote" style="margin-top:9px">고금리로 돌려막기 전에 위 기관의 <b>채무조정·긴급복지</b>를 먼저 알아보세요. 대부분 무료 상담입니다.</div></div>'+
+      '<div class="card"><div class="h">🧯 먼저: 새는 돈 막기 — 절약·환급 <span class="order">목표 '+fmt(cutT)+'만원</span></div><div class="list">'+cards(pick('save',saveN,ctx))+'</div></div>'+
+      '<div class="card"><div class="h">🚀 그다음: 즉시 현금이 되는 부업 <span class="order">목표 '+fmt(earnT)+'만원</span></div><div class="list">'+cards(pickEarn('cash',cashN,ctx))+'</div>'+reroll()+'</div>'+
+      sevExtra+
       '<div class="disc">⚠️ 교육·참고용 안내이며 개별 재무·법률 조언이 아닙니다. 정확한 지원 자격은 각 기관에서 확인하세요.</div>';
     try{syncLink();}catch(_){}
     return;
@@ -286,6 +364,16 @@ function calc(){
   /* 자산 예측 (보유자산 포함) */
   var proj=r.iAssets>0?'<div class="card"><div class="h">🔮 이대로 모으면 (안전+성장 '+fmt(r.iAssets)+'만원/월'+(r.curAssets>0?' · 시작자산 '+fmt(r.curAssets)+'만원':'')+')</div><div class="proj"><div class="pcell"><i>1년 뒤</i><b>'+fmt(r.proj.y1)+'</b><span>만원</span></div><div class="pcell"><i>5년 뒤</i><b>'+fmt(r.proj.y5)+'</b><span>만원</span></div><div class="pcell"><i>10년 뒤</i><b>'+fmt(r.proj.y10)+'</b><span>만원</span></div></div><div class="pnote">연 '+(r.blendedR*100).toFixed(1)+'% 복리 가정(안전 3%·성장 7% 혼합)'+(r.curAssets>0?' + 보유자산 복리 성장':'')+'. 실제 수익률은 시장에 따라 달라지는 <b>추정치</b>입니다. 참고: '+r.age+'대 권장 주식비중 약 <b>'+r.eqRec+'%</b>(110−나이).</div></div>':'';
 
+  var I=r.invest;
+  var itier=I<10?'micro':I<30?'small':I<80?'mid':'large';
+  var nInv=itier==='micro'?3:itier==='small'?3:itier==='mid'?4:5;
+  var nSide=itier==='micro'?3:itier==='large'?5:4;
+  var invMsg=itier==='micro'?'투자 여력이 적으니 <b>한두 가지에 집중</b>하는 게 좋아요':itier==='large'?'여력이 넉넉하니 <b>넓게 분산</b>해도 좋아요':'적당히 <b>분산</b>하기 좋은 규모예요';
+  var sideName=(goal==='cash')?'cash':(goal==='side')?'side':((r.rate<12||sal<200)?'cash':(r.rate>=25?'side':'cash'));
+  var sideLabel=sideName==='cash'?'🚀 지금 바로 현금이 되는 부업':'🚀 키우면 커지는 성장형 부업';
+  var sitLabel=r.rate<12?'여력이 빠듯해 <b>0원·즉시형</b> 위주로 골랐어요':(r.rate>=25?'여력이 넉넉해 <b>성장·투자</b> 비중을 높였어요':'상황에 맞춰 <b>균형 있게</b> 골랐어요');
+  var debtExtra=(debt==='high'||debtBal>0)?'<div class="card"><div class="h">🧯 부채·고정비부터 줄이기</div><div class="list">'+cards(pick('save',3,ctx))+'</div></div>':'';
+  var sideCards=(sideName==='cash')?cards(pickEarn('cash',nSide,ctx)):cards(pick('side',nSide,ctx));
   $('result').innerHTML=
     '<div class="card"><div class="h">📊 월 '+fmt(sal)+'만원, 이렇게 나눠요</div>'+barRow(top,sal)+'<div class="legs">'+legend(top,sal)+'</div></div>'+
     '<div class="card"><div class="h">📈 내 저축·투자율</div><div class="rate"><div class="rnum" style="color:'+gradeC+'">'+r.rate+'<span>%</span></div><div style="flex:1"><div class="rgrade" style="background:'+gradeC+'">'+r.grade+'</div><div class="rtxt">월 '+fmt(r.invest)+'만원을 저축·투자에 배분. 30% 이상이면 자산 형성 속도가 빨라집니다.</div></div></div>'+tight+'</div>'+
@@ -293,9 +381,11 @@ function calc(){
     '<div class="card"><div class="h">💰 저축·투자 '+fmt(r.invest)+'만원 세부 배분 <span class="order">부채 → 비상금 → 투자 순</span></div>'+barRow(buckets,r.invest)+'<div class="legs">'+legend(buckets,r.invest)+'</div></div>'+
     debtCard+
     proj+
-    '<div class="card"><div class="h">🛡️ 안전자산에 어울리는 종목</div><div class="list">'+cards(MINI.safe)+'</div></div>'+
-    '<div class="card"><div class="h">🌱 성장자산에 어울리는 종목</div><div class="list">'+cards(MINI.grow)+'</div></div>'+
-    '<div class="card"><div class="h">🚀 부업 종잣돈으로 시작할 종목</div><div class="list">'+cards(MINI.side)+'</div></div>'+
+    '<div class="recintro">💡 '+sitLabel+' · '+invMsg+'. 아래 <b>🔄</b> 버튼으로 매번 새로운 조합을 볼 수 있어요.</div>'+
+    '<div class="card"><div class="h">🛡️ 안전자산에 어울리는 종목</div><div class="list">'+cards(pick('safe',nInv,ctx))+'</div></div>'+
+    '<div class="card"><div class="h">🌱 성장자산에 어울리는 종목</div><div class="list">'+cards(pick('grow',nInv,ctx))+'</div></div>'+
+    debtExtra+
+    '<div class="card"><div class="h">'+sideLabel+' <span class="order">종잣돈 '+fmt(r.side)+'만원</span></div><div class="list">'+sideCards+'</div>'+reroll()+'</div>'+
     '<div class="disc">⚠️ 일반적인 가계·자산배분 가이드이며 개별 투자 조언이 아닙니다. 실제 배분은 부채·목표·시장 상황에 따라 조정하세요. 투자·부동산은 원금 손실이 가능합니다.</div>';
   try{syncLink();}catch(_){}
 }
