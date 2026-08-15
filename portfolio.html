@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💼 월급 포트폴리오 설계 · 부의 로드맵</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#b8860b;--gold2:#d4a017;--gold-bg:rgba(184,134,11,.12);
+  --gold-line:linear-gradient(135deg,#b8860b,#d4a017);
+  --bg:#f6f2e9;--card:#fff;--t:#1a1a1a;--t2:#444;--t3:#8a8a8a;
+  --b:#eee;--b2:#e5e0d5;--green:#15803d;--red:#c8362c;--blue:#1d6fd0;
+  --shadow-sm:0 2px 10px -4px rgba(0,0,0,.12);
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0b0e14;--card:#141922;--t:#f0f0f0;--t2:#c2c2c2;--t3:#8a8a8a;--b:#232a36;--b2:#2b3340;--gold:#e6c35c;--gold2:#d4a017;--gold-bg:rgba(230,195,92,.14);--gold-line:linear-gradient(135deg,#c9a227,#e6c35c);}
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:
+   radial-gradient(900px 520px at 12% -6%, rgba(184,134,11,.11), transparent 60%),
+   radial-gradient(820px 480px at 106% 6%, rgba(212,160,23,.10), transparent 60%),
+   linear-gradient(180deg,#faf9f6 0%,#f6f2e9 58%,#f8f4ec 100%);
+  background-attachment:fixed;color:var(--t);font-family:'Noto Sans KR',sans-serif;line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased}
+@media(prefers-color-scheme:dark){body{background:radial-gradient(900px 540px at 12% -6%, rgba(230,195,92,.11), transparent 60%),radial-gradient(840px 500px at 107% 5%, rgba(201,162,39,.09), transparent 60%),linear-gradient(180deg,#0b0e14 0%,#0e131b 55%,#0b0e14 100%);background-attachment:fixed}}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--gold);text-decoration:none;border:1px solid color-mix(in srgb,var(--gold) 40%,var(--b2));border-radius:9px;padding:7px 12px;background:var(--gold-bg)}
+.back:hover{filter:brightness(1.05)}
+.hero{margin:12px 0 4px}
+.hero h1{font-size:23px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.hero p{font-size:13.5px;color:var(--t2);margin-top:6px}
+.note{font-size:12.5px;color:var(--t2);background:var(--gold-bg);border:1px solid color-mix(in srgb,var(--gold) 30%,var(--b2));border-radius:12px;padding:11px 13px;margin:14px 0;line-height:1.65}
+.note b{color:var(--t);font-weight:700}
+.form{background:var(--card);border:1px solid var(--b2);border-radius:16px;padding:16px;box-shadow:var(--shadow-sm)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12.5px;font-weight:700}
+.field label em{font-style:normal;font-weight:500;color:var(--t3);font-size:11px}
+.field input{padding:11px 12px;border:1.5px solid var(--b2);border-radius:10px;background:var(--bg);color:var(--t);font-size:15px;font-weight:700;font-family:inherit;width:100%}
+.field input:focus{outline:none;border-color:var(--gold)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}
+.cg>label{display:block;font-size:12.5px;font-weight:700;margin-bottom:8px}
+.cr{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:8px 12px;border:1.5px solid var(--b2);border-radius:9px;background:var(--bg);color:var(--t2);font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .13s}
+.chip:hover{border-color:var(--gold)}
+.chip.on{background:var(--gold-line);color:#fff;border-color:transparent}
+.check{display:flex;align-items:center;gap:8px;margin-top:13px;font-size:12.5px;font-weight:600;color:var(--t2);cursor:pointer}
+.check input{width:17px;height:17px;accent-color:var(--gold)}
+.reset{margin-top:13px;width:100%;border:1px solid var(--b2);background:var(--bg);color:var(--t2);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.linked{font-size:12px;font-weight:700;color:var(--green);background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.25);border-radius:9px;padding:8px 12px;margin:14px 0 0}
+.card{background:var(--card);border:1px solid var(--b2);border-radius:14px;padding:15px 16px;margin-top:12px;box-shadow:var(--shadow-sm)}
+.h{font-size:14px;font-weight:800;margin-bottom:12px;letter-spacing:-.01em}
+.h .order{font-size:11px;font-weight:600;color:var(--t3);margin-left:6px}
+.bar{display:flex;height:22px;border-radius:8px;overflow:hidden;background:var(--b2);margin-bottom:13px}
+.seg{height:100%;transition:width .4s ease}
+.legs{display:flex;flex-direction:column;gap:4px}
+.leg{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.lk{font-weight:700;flex:1}
+.lv{font-weight:800;font-variant-numeric:tabular-nums}
+.lv em{font-style:normal;font-weight:600;color:var(--t3);font-size:11px}
+.lv i{font-style:normal;color:var(--gold);font-size:11px}
+.ld{font-size:11.5px;color:var(--t3);line-height:1.5;margin:0 0 6px 19px}
+.rate{display:flex;align-items:center;gap:16px}
+.rnum{font-size:38px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.rnum span{font-size:18px}
+.rgrade{display:inline-block;color:#fff;font-size:12px;font-weight:800;padding:3px 11px;border-radius:20px;margin-bottom:6px}
+.rtxt{font-size:12px;color:var(--t2);line-height:1.55}
+.proj{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.pcell{text-align:center;padding:12px 6px;background:var(--bg);border:1px solid var(--b2);border-radius:11px}
+.pcell i{display:block;font-style:normal;font-size:11px;color:var(--t3);margin-bottom:5px}
+.pcell b{font-size:19px;font-weight:900;color:var(--gold);font-variant-numeric:tabular-nums}
+.pcell span{font-size:11px;color:var(--t3);margin-left:2px}
+.pnote{font-size:11px;color:var(--t3);line-height:1.5;margin-top:9px}
+.pnote b{color:var(--t2)}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--b2);border-radius:11px;background:var(--bg);cursor:pointer;text-decoration:none;transition:border-color .15s,transform .1s}
+.item:hover{border-color:var(--gold);transform:translateX(2px)}
+.ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.itxt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.itxt b{font-size:13px;font-weight:700;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.itxt i{font-style:normal;font-size:11px;color:var(--t3)}
+.go{color:var(--gold);font-weight:800}
+.godiag{width:100%;margin-top:12px;background:var(--gold-line);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;display:block}
+.disc{font-size:11.5px;line-height:1.6;color:var(--t3);background:var(--bg);border:1px solid var(--b2);border-radius:11px;padding:12px 14px;margin-top:14px}
+.foot{text-align:center;font-size:11px;color:var(--t3);margin-top:20px;line-height:1.6}
+@media(max-width:520px){.row,.chips{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" id="backLink" href="index.html">← 부의 로드맵</a>
+    <a class="back" id="diagLink" href="index.html?tab=0">🎯 맞춤진단</a>
+  </div>
+  <div class="hero">
+    <h1>💼 월급 포트폴리오 설계</h1>
+    <p>월 실수령액을 넣으면 <b>부채·비상금·안전·성장·부업 종잣돈</b>까지 황금 비율로 자동 배분합니다.</p>
+  </div>
+  <div class="note">💡 이 페이지는 <b>부의 로드맵</b>과 데이터를 공유해요. 맞춤진단을 먼저 하면 소득·성향·나이가 자동으로 반영되고, 여기서 바꾼 값도 로드맵에 다시 반영됩니다. <span id="srcTag"></span></div>
+  <div class="form">
+    <div class="row">
+      <div class="field"><label>월 실수령액 <em>(만원)</em></label><input type="number" id="salary" value="300" min="0" step="10"></div>
+      <div class="field"><label>월 고정지출 <em>(월세·대출 등 · 선택)</em></label><input type="number" id="fixed" value="0" min="0" step="10" placeholder="모르면 비워두세요"></div>
+    </div>
+    <div class="chips">
+      <div class="cg"><label>투자 성향</label><div class="cr" data-g="style"><button class="chip on" data-v="safe">안전</button><button class="chip" data-v="bal">균형</button><button class="chip" data-v="growth">성장</button></div></div>
+      <div class="cg"><label>나이대</label><div class="cr" data-g="age"><button class="chip" data-v="20">20대</button><button class="chip on" data-v="30">30대</button><button class="chip" data-v="40">40대</button><button class="chip" data-v="50">50대+</button></div></div>
+    </div>
+    <div class="chips">
+      <div class="cg"><label>고금리 부채</label><div class="cr" data-g="debt"><button class="chip on" data-v="none">없음</button><button class="chip" data-v="low">조금(5%↓)</button><button class="chip" data-v="high">있음(10%↑)</button></div></div>
+      <div class="cg"><label>지금 목표</label><div class="cr" data-g="goal"><button class="chip on" data-v="asset">자산 형성</button><button class="chip" data-v="cash">당장 현금</button><button class="chip" data-v="passive">자동 수익</button><button class="chip" data-v="side">부업 키우기</button></div></div>
+    </div>
+    <label class="check"><input type="checkbox" id="emer"> 비상금(3~6개월 생활비) 이미 준비됨</label>
+    <button class="reset" id="resetBtn">기본값으로 초기화</button>
+  </div>
+  <div id="result"></div>
+  <div class="foot">교육·참고용 가이드이며 개별 투자 조언이 아닙니다 · ⓒ AI 재테크 연구소</div>
+</div>
+<script>
+/* 소스 보호(캐주얼): 우클릭·개발자도구 단축키 차단 */
+(function(){try{
+  document.addEventListener('contextmenu',function(e){e.preventDefault();},{capture:true});
+  document.addEventListener('keydown',function(e){var k=(e.key||'').toLowerCase();
+    if(e.keyCode===123){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&(k==='i'||k==='j'||k==='c')){e.preventDefault();}
+    if((e.ctrlKey||e.metaKey)&&(k==='u'||k==='s')){e.preventDefault();}
+  },{capture:true});
+}catch(_){}})();
+
+var MAIN_URL='index.html'; /* 부의 로드맵 파일 경로(같은 폴더 가정). 다른 곳에 올리면 여기만 바꾸세요 */
+function $(id){return document.getElementById(id)}
+function fmt(n){return Number(Math.round(n)).toLocaleString();}
+function gv(g){var el=document.querySelector('.cr[data-g="'+g+'"] .chip.on');return el?el.getAttribute('data-v'):null;}
+function setG(g,v){var row=document.querySelector('.cr[data-g="'+g+'"]');if(!row)return;row.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-v')===v);});}
+document.querySelectorAll('.cr').forEach(function(row){row.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;row.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');calc();});});
+['salary','fixed'].forEach(function(id){$(id).addEventListener('input',calc);});
+$('emer').addEventListener('change',calc);
+$('resetBtn').addEventListener('click',function(){$('salary').value=300;$('fixed').value=0;setG('style','safe');setG('age','30');setG('debt','none');setG('goal','asset');$('emer').checked=false;calc();});
+
+/* 부의 로드맵과 동일한 배분 엔진 */
+function spCompute(p){
+  var sal=Math.max(0,p.salary||0), fixed=Math.max(0,p.fixed||0);
+  var style=p.style||'safe', age=p.age||'30', emerOK=!!p.emerOK, debt=p.debt||'none', goal=p.goal||'asset';
+  var essential=fixed>0?Math.min(fixed,sal):Math.round(sal*0.5);
+  var pool=Math.max(0,sal-essential);
+  var invRate={safe:0.58,bal:0.65,growth:0.72}[style]||0.65;
+  var invest=Math.round(pool*invRate);
+  var freeLife=Math.max(0,sal-essential-invest);
+  var debtAmt=debt==='high'?Math.round(invest*0.45):debt==='low'?Math.round(invest*0.20):0;
+  var afterDebt=invest-debtAmt;
+  var emerTarget=essential*6;
+  var emerAmt=emerOK?0:Math.round(afterDebt*0.40);
+  var rest=Math.max(0,afterDebt-emerAmt);
+  var w=style==='safe'?{safe:0.55,grow:0.20,side:0.15,self:0.10}:style==='growth'?{safe:0.20,grow:0.55,side:0.15,self:0.10}:{safe:0.38,grow:0.37,side:0.15,self:0.10};
+  var tilt=age==='20'?0.10:age==='40'?-0.06:age==='50'?-0.13:0;
+  w.grow+=tilt; w.safe-=tilt;
+  if(goal==='cash'||goal==='side'){w.side+=0.08;w.grow-=0.05;w.self-=0.03;}
+  else if(goal==='passive'){w.safe+=0.05;w.grow+=0.03;w.side-=0.05;w.self-=0.03;}
+  else if(goal==='asset'){w.grow+=0.05;w.side-=0.05;}
+  ['safe','grow','side','self'].forEach(function(k){if(w[k]<0)w[k]=0;});
+  var norm=w.safe+w.grow+w.side+w.self||1;
+  var safe=Math.round(rest*w.safe/norm), grow=Math.round(rest*w.grow/norm), side=Math.round(rest*w.side/norm), self=Math.max(0,rest-safe-grow-side);
+  var rate=sal>0?Math.round(invest/sal*100):0;
+  var grade=rate>=30?'우수':rate>=20?'양호':rate>=10?'보통':'개선 필요';
+  var emerMonths=(!emerOK&&emerAmt>0)?Math.ceil(emerTarget/emerAmt):0;
+  var iAssets=safe+grow;
+  var blendedR=iAssets>0?(safe*0.03+grow*0.07)/iAssets:0.05;
+  function fv(pmt,years){var i=blendedR/12,n=years*12;return i>0?Math.round(pmt*((Math.pow(1+i,n)-1)/i)):pmt*n;}
+  return {sal:sal,essential:essential,freeLife:freeLife,invest:invest,debtAmt:debtAmt,emerAmt:emerAmt,emerTarget:emerTarget,emerMonths:emerMonths,safe:safe,grow:grow,side:side,self:self,rate:rate,grade:grade,blendedR:blendedR,iAssets:iAssets,proj:{y1:fv(iAssets,1),y5:fv(iAssets,5),y10:fv(iAssets,10)}};
+}
+
+/* 추천 미니 카탈로그 (부의 로드맵 카테고리로 연결) */
+var MINI={
+ safe:[{n:'배당 ETF 혼합 바스켓',t:'현금흐름',e:'장기 배당',ic:'💵',bg:'var(--gold-bg)',tab:6},{n:'CMA·파킹통장 비상금',t:'안전 마진',e:'연 이자',ic:'🅿️',bg:'rgba(13,150,104,.12)',tab:6},{n:'TDF 자동 자산배분',t:'알아서 배분',e:'장기 복리',ic:'🎯',bg:'rgba(13,150,104,.12)',tab:6},{n:'연금저축펀드 세액공제',t:'확정 절세',e:'연 공제',ic:'🏦',bg:'rgba(21,128,61,.12)',tab:6},{n:'ISA 절세계좌 활용',t:'확정 절세',e:'연 절세',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:6}],
+ grow:[{n:'지수 정액 분할매수(DCA)',t:'정석 복리',e:'장기 복리',ic:'📈',bg:'rgba(29,111,208,.12)',tab:6},{n:'인덱스 3분법 포트폴리오',t:'정석 분산',e:'장기 복리',ic:'📊',bg:'rgba(29,111,208,.12)',tab:6},{n:'소수점 해외주식 적립',t:'소액 분산',e:'장기 복리',ic:'🌎',bg:'rgba(29,111,208,.12)',tab:6},{n:'배당성장주 장기 적립',t:'복리 배당',e:'장기 배당',ic:'🌱',bg:'rgba(21,128,61,.12)',tab:6},{n:'소액 리츠 ETF 적립',t:'임대 배당',e:'연 배당',ic:'🏢',bg:'rgba(29,111,208,.12)',tab:7}],
+ side:[{n:'영수증 스캔·설문 앱테크',t:'소비 적립',e:'월 1~5만원',ic:'🧾',bg:'rgba(21,128,61,.12)',tab:2},{n:'AI 카피·썸네일 대행',t:'AI 자동화',e:'건당 2~20만원',ic:'🖼️',bg:'rgba(201,56,114,.12)',tab:3},{n:'스마트스토어 셀렉트샵',t:'온라인 판매',e:'월 5~60만원',ic:'🛍️',bg:'rgba(217,112,7,.12)',tab:5},{n:'재택 데이터 입력·검수',t:'비대면 근무',e:'월 10~70만원',ic:'⌨️',bg:'rgba(109,67,196,.12)',tab:8},{n:'리뷰 블로그 애드포스트',t:'글쓰기 수익',e:'월 3~40만원',ic:'✍️',bg:'rgba(21,128,61,.12)',tab:4}]
+};
+function cards(list){return list.map(function(o){return '<a class="item" href="'+MAIN_URL+'?tab='+o.tab+'" target="_blank" rel="noopener"><span class="ic" style="background:'+o.bg+'">'+o.ic+'</span><span class="itxt"><b>'+o.n+'</b><i>'+o.t+' · '+o.e+'</i></span><span class="go">→</span></a>';}).join('');}
+
+function calc(){
+  var sal=Math.max(0,parseFloat($('salary').value)||0);
+  var fixed=Math.max(0,parseFloat($('fixed').value)||0);
+  var style=gv('style')||'safe', age=gv('age')||'30', debt=gv('debt')||'none', goal=gv('goal')||'asset', emerOK=$('emer').checked;
+  if(sal<=0){$('result').innerHTML='<div class="card">월 실수령액을 입력하세요.</div>';return;}
+  var r=spCompute({salary:sal,fixed:fixed,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal});
+  try{localStorage.setItem('br_portfolio',JSON.stringify({salary:sal,fixed:fixed,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal,ts:Date.now()}));}catch(_){}
+  var buckets=[];
+  if(r.debtAmt>0)buckets.push({k:'💳 고금리 부채 상환',amt:r.debtAmt,c:'#c8362c',d:'이자 10%를 갚는 건 연 10% 확정 수익과 같아요. 투자보다 먼저!'});
+  if(r.emerAmt>0)buckets.push({k:'🅿️ 비상금 먼저',amt:r.emerAmt,c:'#0d9668',d:'목표 '+fmt(r.emerTarget)+'만원(6개월). 지금 속도로 약 '+r.emerMonths+'개월이면 완성돼요.'});
+  buckets.push({k:'🛡️ 안전자산',amt:r.safe,c:'#1d6fd0',d:'예적금·채권·배당ETF 등 잃지 않는 자산.'});
+  buckets.push({k:'🌱 성장자산',amt:r.grow,c:'#15803d',d:'지수ETF·우량주 등 장기 복리를 노리는 자산.'});
+  buckets.push({k:'🚀 부업 종잣돈',amt:r.side,c:'#d97007',d:'부업 시작·확장에 쓰는 실탄. 아래 추천으로 바로 시작하세요.'});
+  buckets.push({k:'📚 자기계발',amt:r.self,c:'#6d43c4',d:'강의·자격·책 등 미래의 나에게 투자.'});
+  var top=[{k:'필수 생활비',amt:r.essential,c:'#64748b',d:''},{k:'여유·자유지출',amt:r.freeLife,c:'#c93872',d:''},{k:'저축·투자',amt:r.invest,c:'#b8860b',d:''}];
+  function barRow(list,total){return '<div class="bar">'+list.map(function(b){var pc=total>0?(b.amt/total*100):0;return '<div class="seg" style="width:'+pc+'%;background:'+b.c+'"></div>';}).join('')+'</div>';}
+  function legend(list,total){return list.map(function(b){var pc=total>0?Math.round(b.amt/total*100):0;return '<div class="leg"><span class="dot" style="background:'+b.c+'"></span><span class="lk">'+b.k+'</span><span class="lv">'+fmt(b.amt)+'<em>만원</em> <i>('+pc+'%)</i></span></div>'+(b.d?'<div class="ld">'+b.d+'</div>':'');}).join('');}
+  var gradeC=r.rate>=30?'#15803d':r.rate>=20?'#1d6fd0':r.rate>=10?'#d97007':'#c8362c';
+  var proj=r.iAssets>0?'<div class="card"><div class="h">🔮 이대로 꾸준히 모으면 (안전+성장 '+fmt(r.iAssets)+'만원/월)</div><div class="proj"><div class="pcell"><i>1년 뒤</i><b>'+fmt(r.proj.y1)+'</b><span>만원</span></div><div class="pcell"><i>5년 뒤</i><b>'+fmt(r.proj.y5)+'</b><span>만원</span></div><div class="pcell"><i>10년 뒤</i><b>'+fmt(r.proj.y10)+'</b><span>만원</span></div></div><div class="pnote">연 '+(r.blendedR*100).toFixed(1)+'% 복리 가정(안전 3%·성장 7% 혼합). 실제 수익률은 시장에 따라 달라지는 <b>추정치</b>입니다.</div></div>':'';
+  $('result').innerHTML=
+    '<div class="card"><div class="h">📊 월 '+fmt(sal)+'만원, 이렇게 나눠요</div>'+barRow(top,sal)+'<div class="legs">'+legend(top,sal)+'</div></div>'+
+    '<div class="card"><div class="h">📈 내 저축·투자율</div><div class="rate"><div class="rnum" style="color:'+gradeC+'">'+r.rate+'<span>%</span></div><div style="flex:1"><div class="rgrade" style="background:'+gradeC+'">'+r.grade+'</div><div class="rtxt">월 '+fmt(r.invest)+'만원을 저축·투자에 배분. 30% 이상이면 자산 형성 속도가 빨라집니다.</div></div></div></div>'+
+    '<div class="card"><div class="h">💰 저축·투자 '+fmt(r.invest)+'만원 세부 배분 <span class="order">부채 → 비상금 → 투자 순</span></div>'+barRow(buckets,r.invest)+'<div class="legs">'+legend(buckets,r.invest)+'</div></div>'+
+    proj+
+    '<div class="card"><div class="h">🛡️ 안전자산에 어울리는 종목</div><div class="list">'+cards(MINI.safe)+'</div></div>'+
+    '<div class="card"><div class="h">🌱 성장자산에 어울리는 종목</div><div class="list">'+cards(MINI.grow)+'</div></div>'+
+    '<div class="card"><div class="h">🚀 부업 종잣돈으로 시작할 종목</div><div class="list">'+cards(MINI.side)+'</div><a class="godiag" href="'+MAIN_URL+'?tab=0" target="_blank" rel="noopener">🎯 부의 로드맵에서 내게 맞는 부업 정밀 진단 받기 →</a></div>'+
+    '<div class="disc">⚠️ 일반적인 가계·자산배분 가이드이며 개별 투자 조언이 아닙니다. 실제 배분은 부채·목표·시장 상황에 따라 조정하세요. 투자·부동산은 원금 손실이 가능합니다.</div>';
+}
+
+/* 초기값: URL 파라미터 > 저장된 진단/포트폴리오 */
+(function init(){
+  var q=new URLSearchParams(location.search), src='';
+  function apply(o,label){
+    if(o.salary||o.income)$('salary').value=o.salary||o.income;
+    if(o.fixed!==undefined&&o.fixed!=='')$('fixed').value=o.fixed;
+    if(o.style)setG('style',o.style==='bal'?'bal':(o.style==='growth'?'growth':(o.style==='safe'?'safe':'safe')));
+    if(o.age&&['20','30','40','50'].indexOf(String(o.age))>=0)setG('age',String(o.age));
+    if(o.debt)setG('debt',o.debt);
+    if(o.goal)setG('goal',o.goal);
+    if(o.emer!==undefined)$('emer').checked=(o.emer==='yes'||o.emer===true||o.emer==='true');
+    else if(o.emerOK!==undefined)$('emer').checked=!!o.emerOK;
+    src=label;
+  }
+  if(q.get('salary')){apply({salary:q.get('salary'),fixed:q.get('fixed'),style:q.get('style'),age:q.get('age'),debt:q.get('debt'),goal:q.get('goal'),emer:q.get('emer')},'링크로 전달된 값');}
+  else{try{
+    var pf=localStorage.getItem('br_portfolio'), dg=localStorage.getItem('br_diag');
+    if(pf){apply(JSON.parse(pf),'이전에 저장한 값');}
+    else if(dg){var d=JSON.parse(dg);apply({income:d.income,style:d.style,age:d.age,debt:d.debt,goal:d.goal,emer:d.emer},'맞춤진단 결과');}
+  }catch(_){}}
+  if(src)$('srcTag').innerHTML='<b>('+src+' 반영됨)</b>';
+  // 링크 백에도 tab 유지
+  calc();
+})();
+</script>
+</body>
+</html>
