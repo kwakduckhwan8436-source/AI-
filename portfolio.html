@@ -87,6 +87,20 @@ body{
 .godiag{width:100%;margin-top:12px;background:var(--gold-line);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;text-align:center;text-decoration:none;display:block}
 .disc{font-size:11.5px;line-height:1.6;color:var(--t3);background:var(--bg);border:1px solid var(--b2);border-radius:11px;padding:12px 14px;margin-top:14px}
 .foot{text-align:center;font-size:11px;color:var(--t3);margin-top:20px;line-height:1.6}
+.def{border:1.5px solid #c8362c;background:linear-gradient(180deg,rgba(200,54,44,.08),var(--card))}
+.defnote{font-size:12.5px;line-height:1.6;color:var(--t2);margin-bottom:12px}
+.defnote b{color:var(--t)}
+.dsteps{display:flex;flex-direction:column;gap:9px}
+.dstep{display:flex;gap:10px;align-items:flex-start}
+.dn{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:#c8362c;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.dstep b{display:block;font-size:13px;font-weight:800;color:var(--t)}
+.dstep span{font-size:12px;color:var(--t2);line-height:1.55}
+.dstep b em,.dstep span b{font-style:normal}
+.tightwarn{margin-top:11px;font-size:12px;line-height:1.6;color:#d97007;background:rgba(217,112,7,.1);border:1px solid rgba(217,112,7,.28);border-radius:9px;padding:9px 11px}
+.rrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--b2);font-size:12.5px}
+.rrow:first-of-type{border-top:none}
+.rrow>span:first-child{color:var(--t2);font-weight:600}
+.rrow>span:last-child{color:var(--t);font-variant-numeric:tabular-nums}
 @media(max-width:520px){.row,.chips{grid-template-columns:1fr}}
 </style>
 </head>
@@ -105,6 +119,10 @@ body{
     <div class="row">
       <div class="field"><label>월 실수령액 <em>(만원)</em></label><input type="number" id="salary" value="300" min="0" step="10"></div>
       <div class="field"><label>월 고정지출 <em>(월세·대출 등 · 선택)</em></label><input type="number" id="fixed" value="0" min="0" step="10" placeholder="모르면 비워두세요"></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>현재 보유 자산 <em>(종잣돈·만원 · 선택)</em></label><input type="number" id="assets" value="0" min="0" step="100" placeholder="예: 1000"></div>
+      <div class="field"><label>고금리 부채 잔액 <em>(만원 · 선택)</em></label><input type="number" id="debtBal" value="0" min="0" step="100" placeholder="있으면 입력"></div>
     </div>
     <div class="chips">
       <div class="cg"><label>투자 성향</label><div class="cr" data-g="style"><button class="chip on" data-v="safe">안전</button><button class="chip" data-v="bal">균형</button><button class="chip" data-v="growth">성장</button></div></div>
@@ -146,22 +164,25 @@ function fmt(n){return Number(Math.round(n)).toLocaleString();}
 function gv(g){var el=document.querySelector('.cr[data-g="'+g+'"] .chip.on');return el?el.getAttribute('data-v'):null;}
 function setG(g,v){var row=document.querySelector('.cr[data-g="'+g+'"]');if(!row)return;row.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-v')===v);});}
 document.querySelectorAll('.cr').forEach(function(row){row.addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;row.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');calc();});});
-['salary','fixed'].forEach(function(id){$(id).addEventListener('input',calc);});
+['salary','fixed','assets','debtBal'].forEach(function(id){$(id).addEventListener('input',calc);});
 $('emer').addEventListener('change',calc);
-$('resetBtn').addEventListener('click',function(){$('salary').value=300;$('fixed').value=0;setG('style','safe');setG('age','30');setG('debt','none');setG('goal','asset');$('emer').checked=false;calc();});
+$('resetBtn').addEventListener('click',function(){$('salary').value=300;$('fixed').value=0;$('assets').value=0;$('debtBal').value=0;setG('style','safe');setG('age','30');setG('debt','none');setG('goal','asset');$('emer').checked=false;calc();});
 
-/* 부의 로드맵과 동일한 배분 엔진 */
+/* 부의 로드맵과 동일한 배분 엔진 (정밀화) */
 function spCompute(p){
   var sal=Math.max(0,p.salary||0), fixed=Math.max(0,p.fixed||0);
+  var curAssets=Math.max(0,p.assets||0), debtBal=Math.max(0,p.debtBal||0);
   var style=p.style||'safe', age=p.age||'30', emerOK=!!p.emerOK, debt=p.debt||'none', goal=p.goal||'asset';
-  var essential=fixed>0?Math.min(fixed,sal):Math.round(sal*0.5);
+  var essentialRaw=fixed>0?fixed:Math.round(sal*0.5);
+  var deficit=fixed>0?Math.max(0,fixed-sal):0;              /* 지출>수입 부족액 */
+  var essential=Math.min(essentialRaw,sal);
   var pool=Math.max(0,sal-essential);
   var invRate={safe:0.58,bal:0.65,growth:0.72}[style]||0.65;
   var invest=Math.round(pool*invRate);
   var freeLife=Math.max(0,sal-essential-invest);
   var debtAmt=debt==='high'?Math.round(invest*0.45):debt==='low'?Math.round(invest*0.20):0;
   var afterDebt=invest-debtAmt;
-  var emerTarget=essential*6;
+  var emerTarget=Math.round(essentialRaw*6);
   var emerAmt=emerOK?0:Math.round(afterDebt*0.40);
   var rest=Math.max(0,afterDebt-emerAmt);
   var w=style==='safe'?{safe:0.55,grow:0.20,side:0.15,self:0.10}:style==='growth'?{safe:0.20,grow:0.55,side:0.15,self:0.10}:{safe:0.38,grow:0.37,side:0.15,self:0.10};
@@ -176,10 +197,31 @@ function spCompute(p){
   var rate=sal>0?Math.round(invest/sal*100):0;
   var grade=rate>=30?'우수':rate>=20?'양호':rate>=10?'보통':'개선 필요';
   var emerMonths=(!emerOK&&emerAmt>0)?Math.ceil(emerTarget/emerAmt):0;
+  var payoffMonths=(debtBal>0&&debtAmt>0)?Math.ceil(debtBal/debtAmt):0;
   var iAssets=safe+grow;
   var blendedR=iAssets>0?(safe*0.03+grow*0.07)/iAssets:0.05;
-  function fv(pmt,years){var i=blendedR/12,n=years*12;return i>0?Math.round(pmt*((Math.pow(1+i,n)-1)/i)):pmt*n;}
-  return {sal:sal,essential:essential,freeLife:freeLife,invest:invest,debtAmt:debtAmt,emerAmt:emerAmt,emerTarget:emerTarget,emerMonths:emerMonths,safe:safe,grow:grow,side:side,self:self,rate:rate,grade:grade,blendedR:blendedR,iAssets:iAssets,proj:{y1:fv(iAssets,1),y5:fv(iAssets,5),y10:fv(iAssets,10)}};
+  function fv(pmt,years){var i=blendedR/12,n=years*12;var cont=i>0?pmt*((Math.pow(1+i,n)-1)/i):pmt*n;var prin=curAssets*Math.pow(1+blendedR,years);return Math.round(cont+prin);}
+  var eRatio=sal>0?Math.round(essential/sal*100):0, fRatio=sal>0?Math.round(freeLife/sal*100):0;
+  var eqRec=Math.max(10,Math.min(90,110-parseInt(age||'30',10)));
+  return {sal:sal,essential:essential,essentialRaw:essentialRaw,deficit:deficit,freeLife:freeLife,invest:invest,debtAmt:debtAmt,debtBal:debtBal,payoffMonths:payoffMonths,emerAmt:emerAmt,emerTarget:emerTarget,emerMonths:emerMonths,safe:safe,grow:grow,side:side,self:self,rate:rate,grade:grade,blendedR:blendedR,iAssets:iAssets,curAssets:curAssets,eRatio:eRatio,fRatio:fRatio,iRatio:rate,eqRec:eqRec,proj:{y1:fv(iAssets,1),y5:fv(iAssets,5),y10:fv(iAssets,10)},style:style,age:age,goal:goal,debt:debt,emerOK:emerOK};
+}
+function deficitSteps(r){
+  var steps=[
+    ['1','고정비부터 손보기','통신·구독·보험·이자 등 매달 자동으로 빠지는 돈을 먼저 줄이세요. 목표는 부족액 <b>'+fmt(r.deficit)+'만원</b> 이상 확보.'],
+    ['2','변동비 30% 감축','배달·외식·충동구매를 한 달만 30% 줄여도 큰 차이가 납니다. 지출 앱으로 새는 곳을 찾아보세요.'],
+    ['3','소득 늘리기','즉시 현금이 되는 부업으로 월 <b>'+fmt(r.deficit)+'만원+α</b>를 먼저 메우세요. 아래 추천을 참고하세요.'],
+    ['4','고금리부터 정리','카드론·리볼빙 등 고금리 부채가 있으면 대환·채무조정을 우선 알아보세요.'],
+    ['5','돌려막기 금지','마이너스통장·리볼빙·현금서비스로 메우면 적자가 눈덩이처럼 커집니다. 절대 피하세요.']
+  ];
+  return '<div class="dsteps">'+steps.map(function(s){return '<div class="dstep"><span class="dn">'+s[0]+'</span><div><b>'+s[1]+'</b><span>'+s[2]+'</span></div></div>';}).join('')+'</div>';
+}
+function cutList(){
+  var items=[['📶','알뜰폰·요금제 전환','통신비 월 2~5만원',8],['🛡️','중복 보험 리모델링','월 수만원',8],['🔁','안 쓰는 구독 해지','월 1~3만원',8],['🔄','대환대출로 이자 절감','연 수십만원',8]];
+  return '<div class="list">'+items.map(function(o){return '<a class="item" href="'+MAIN_URL+'?tab='+o[3]+'" target="_blank" rel="noopener"><span class="ic" style="background:rgba(13,150,104,.12)">'+o[0]+'</span><span class="itxt"><b>'+o[1]+'</b><i>절감 '+o[2]+'</i></span><span class="go">→</span></a>';}).join('')+'</div>';
+}
+function helpList(){
+  var h=[['서민금융진흥원 — 채무조정·햇살론','https://www.kinfa.or.kr/'],['신용회복위원회 — 개인워크아웃','https://www.ccrs.or.kr/'],['복지로 — 긴급복지·생계지원','https://www.bokjiro.go.kr/']];
+  return '<div class="list">'+h.map(function(o){return '<a class="item" href="'+o[1]+'" target="_blank" rel="noopener"><span class="ic" style="background:rgba(29,111,208,.12)">🆘</span><span class="itxt"><b>'+o[0]+'</b><i>공식 상담·지원 안내</i></span><span class="go">→</span></a>';}).join('')+'</div>';
 }
 
 /* 추천 미니 카탈로그 (부의 로드맵 카테고리로 연결) */
@@ -193,10 +235,29 @@ function cards(list){return list.map(function(o){return '<a class="item" href="'
 function calc(){
   var sal=Math.max(0,parseFloat($('salary').value)||0);
   var fixed=Math.max(0,parseFloat($('fixed').value)||0);
+  var assets=Math.max(0,parseFloat($('assets').value)||0);
+  var debtBal=Math.max(0,parseFloat($('debtBal').value)||0);
   var style=gv('style')||'safe', age=gv('age')||'30', debt=gv('debt')||'none', goal=gv('goal')||'asset', emerOK=$('emer').checked;
   if(sal<=0){$('result').innerHTML='<div class="card">월 실수령액을 입력하세요.</div>';return;}
-  var r=spCompute({salary:sal,fixed:fixed,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal});
-  try{localStorage.setItem('br_portfolio',JSON.stringify({salary:sal,fixed:fixed,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal,ts:Date.now()}));}catch(_){}
+  var r=spCompute({salary:sal,fixed:fixed,assets:assets,debtBal:debtBal,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal});
+  try{localStorage.setItem('br_portfolio',JSON.stringify({salary:sal,fixed:fixed,assets:assets,debtBal:debtBal,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal,ts:Date.now()}));}catch(_){}
+
+  /* ── 적자(지출>수입) 대응 화면 ── */
+  if(r.deficit>0){
+    $('result').innerHTML=
+      '<div class="card def"><div class="h" style="color:#c8362c">🚨 지출이 수입보다 많아요 — 월 '+fmt(r.deficit)+'만원 부족</div>'+
+        '<div class="defnote">지금은 투자보다 <b>적자 해소가 최우선</b>입니다. 부족액을 메우기 전엔 투자 배분을 멈추고, 아래 순서대로 새는 돈을 막고 소득을 늘려보세요.</div>'+
+        deficitSteps(r)+
+      '</div>'+
+      '<div class="card"><div class="h">💸 먼저: 고정비부터 줄이기</div>'+cutList()+'</div>'+
+      '<div class="card"><div class="h">🚀 그다음: 즉시 현금이 되는 부업</div><div class="list">'+cards(MINI.side)+'</div></div>'+
+      '<div class="card"><div class="h">🆘 혼자 힘들 땐 — 공식 상담·지원</div>'+helpList()+'<div class="pnote" style="margin-top:9px">고금리로 돌려막기 전에 위 기관의 <b>채무조정·긴급복지</b>를 먼저 알아보세요. 대부분 무료 상담입니다.</div></div>'+
+      '<div class="disc">⚠️ 교육·참고용 안내이며 개별 재무·법률 조언이 아닙니다. 정확한 지원 자격은 각 기관에서 확인하세요.</div>';
+    try{syncLink();}catch(_){}
+    return;
+  }
+
+  /* ── 일반 배분 화면 ── */
   var buckets=[];
   if(r.debtAmt>0)buckets.push({k:'💳 고금리 부채 상환',amt:r.debtAmt,c:'#c8362c',d:'이자 10%를 갚는 건 연 10% 확정 수익과 같아요. 투자보다 먼저!'});
   if(r.emerAmt>0)buckets.push({k:'🅿️ 비상금 먼저',amt:r.emerAmt,c:'#0d9668',d:'목표 '+fmt(r.emerTarget)+'만원(6개월). 지금 속도로 약 '+r.emerMonths+'개월이면 완성돼요.'});
@@ -208,17 +269,37 @@ function calc(){
   function barRow(list,total){return '<div class="bar">'+list.map(function(b){var pc=total>0?(b.amt/total*100):0;return '<div class="seg" style="width:'+pc+'%;background:'+b.c+'"></div>';}).join('')+'</div>';}
   function legend(list,total){return list.map(function(b){var pc=total>0?Math.round(b.amt/total*100):0;return '<div class="leg"><span class="dot" style="background:'+b.c+'"></span><span class="lk">'+b.k+'</span><span class="lv">'+fmt(b.amt)+'<em>만원</em> <i>('+pc+'%)</i></span></div>'+(b.d?'<div class="ld">'+b.d+'</div>':'');}).join('');}
   var gradeC=r.rate>=30?'#15803d':r.rate>=20?'#1d6fd0':r.rate>=10?'#d97007':'#c8362c';
-  var proj=r.iAssets>0?'<div class="card"><div class="h">🔮 이대로 꾸준히 모으면 (안전+성장 '+fmt(r.iAssets)+'만원/월)</div><div class="proj"><div class="pcell"><i>1년 뒤</i><b>'+fmt(r.proj.y1)+'</b><span>만원</span></div><div class="pcell"><i>5년 뒤</i><b>'+fmt(r.proj.y5)+'</b><span>만원</span></div><div class="pcell"><i>10년 뒤</i><b>'+fmt(r.proj.y10)+'</b><span>만원</span></div></div><div class="pnote">연 '+(r.blendedR*100).toFixed(1)+'% 복리 가정(안전 3%·성장 7% 혼합). 실제 수익률은 시장에 따라 달라지는 <b>추정치</b>입니다.</div></div>':'';
+  var tight=r.rate<10?'<div class="tightwarn">⚠️ 저축·투자 여력이 적어요. 고정비를 조금 더 줄이거나 부업으로 소득을 늘리면 자산 형성 속도가 확 빨라집니다.</div>':'';
+  /* 50/30/20 진단 */
+  function cmp(actual,rec){var d=actual-rec;return d>5?'<b style="color:#c8362c">'+rec+'% 권장보다 높음</b>':d<-5?'<b style="color:#1d6fd0">'+rec+'% 권장보다 낮음</b>':'<b style="color:#15803d">권장('+rec+'%)에 근접 👍</b>';}
+  var ratioCard='<div class="card"><div class="h">🧮 지출 비율 진단 <span class="order">50 / 30 / 20 원칙</span></div>'+
+    '<div class="rrow"><span>필수 생활비</span><span>'+r.eRatio+'% · '+cmp(r.eRatio,50)+'</span></div>'+
+    '<div class="rrow"><span>여유·자유지출</span><span>'+r.fRatio+'% · '+cmp(r.fRatio,30)+'</span></div>'+
+    '<div class="rrow"><span>저축·투자</span><span>'+r.iRatio+'% · '+cmp(r.iRatio,20)+'</span></div>'+
+    '<div class="pnote">필수 50%·여유 30%·저축 20%가 기본 뼈대예요. 필수가 60%를 넘으면 고정비 구조조정이 필요합니다.</div></div>';
+  /* 부채 상환 시뮬레이션 */
+  var debtCard=(r.debtBal>0)?'<div class="card"><div class="h">💳 고금리 부채 상환 플랜</div>'+
+    '<div class="rrow"><span>남은 잔액</span><span><b>'+fmt(r.debtBal)+'</b> 만원</span></div>'+
+    '<div class="rrow"><span>월 상환 배분</span><span><b>'+fmt(r.debtAmt)+'</b> 만원'+(r.debtAmt<=0?' (성향·부채 설정 확인)':'')+'</span></div>'+
+    (r.payoffMonths>0?'<div class="rrow"><span>예상 완료</span><span><b>약 '+r.payoffMonths+'개월</b> ('+(r.payoffMonths/12).toFixed(1)+'년) 뒤</span></div>':'')+
+    '<div class="pnote">고금리 상환은 <b>확정 수익</b>과 같아요. 다 갚으면 그 금액을 그대로 투자로 옮기면 됩니다. (이자 포함 시 기간은 조금 더 늘어날 수 있어요)</div></div>':'';
+  /* 자산 예측 (보유자산 포함) */
+  var proj=r.iAssets>0?'<div class="card"><div class="h">🔮 이대로 모으면 (안전+성장 '+fmt(r.iAssets)+'만원/월'+(r.curAssets>0?' · 시작자산 '+fmt(r.curAssets)+'만원':'')+')</div><div class="proj"><div class="pcell"><i>1년 뒤</i><b>'+fmt(r.proj.y1)+'</b><span>만원</span></div><div class="pcell"><i>5년 뒤</i><b>'+fmt(r.proj.y5)+'</b><span>만원</span></div><div class="pcell"><i>10년 뒤</i><b>'+fmt(r.proj.y10)+'</b><span>만원</span></div></div><div class="pnote">연 '+(r.blendedR*100).toFixed(1)+'% 복리 가정(안전 3%·성장 7% 혼합)'+(r.curAssets>0?' + 보유자산 복리 성장':'')+'. 실제 수익률은 시장에 따라 달라지는 <b>추정치</b>입니다. 참고: '+r.age+'대 권장 주식비중 약 <b>'+r.eqRec+'%</b>(110−나이).</div></div>':'';
+
   $('result').innerHTML=
     '<div class="card"><div class="h">📊 월 '+fmt(sal)+'만원, 이렇게 나눠요</div>'+barRow(top,sal)+'<div class="legs">'+legend(top,sal)+'</div></div>'+
-    '<div class="card"><div class="h">📈 내 저축·투자율</div><div class="rate"><div class="rnum" style="color:'+gradeC+'">'+r.rate+'<span>%</span></div><div style="flex:1"><div class="rgrade" style="background:'+gradeC+'">'+r.grade+'</div><div class="rtxt">월 '+fmt(r.invest)+'만원을 저축·투자에 배분. 30% 이상이면 자산 형성 속도가 빨라집니다.</div></div></div></div>'+
+    '<div class="card"><div class="h">📈 내 저축·투자율</div><div class="rate"><div class="rnum" style="color:'+gradeC+'">'+r.rate+'<span>%</span></div><div style="flex:1"><div class="rgrade" style="background:'+gradeC+'">'+r.grade+'</div><div class="rtxt">월 '+fmt(r.invest)+'만원을 저축·투자에 배분. 30% 이상이면 자산 형성 속도가 빨라집니다.</div></div></div>'+tight+'</div>'+
+    ratioCard+
     '<div class="card"><div class="h">💰 저축·투자 '+fmt(r.invest)+'만원 세부 배분 <span class="order">부채 → 비상금 → 투자 순</span></div>'+barRow(buckets,r.invest)+'<div class="legs">'+legend(buckets,r.invest)+'</div></div>'+
+    debtCard+
     proj+
     '<div class="card"><div class="h">🛡️ 안전자산에 어울리는 종목</div><div class="list">'+cards(MINI.safe)+'</div></div>'+
     '<div class="card"><div class="h">🌱 성장자산에 어울리는 종목</div><div class="list">'+cards(MINI.grow)+'</div></div>'+
     '<div class="card"><div class="h">🚀 부업 종잣돈으로 시작할 종목</div><div class="list">'+cards(MINI.side)+'</div></div>'+
     '<div class="disc">⚠️ 일반적인 가계·자산배분 가이드이며 개별 투자 조언이 아닙니다. 실제 배분은 부채·목표·시장 상황에 따라 조정하세요. 투자·부동산은 원금 손실이 가능합니다.</div>';
+  try{syncLink();}catch(_){}
 }
+function syncLink(){}
 
 /* 초기값: URL 파라미터 > 저장된 진단/포트폴리오 */
 (function init(){
@@ -226,6 +307,8 @@ function calc(){
   function apply(o,label){
     if(o.salary||o.income)$('salary').value=o.salary||o.income;
     if(o.fixed!==undefined&&o.fixed!=='')$('fixed').value=o.fixed;
+    if(o.assets!==undefined&&o.assets!=='')$('assets').value=o.assets;
+    if(o.debtBal!==undefined&&o.debtBal!=='')$('debtBal').value=o.debtBal;
     if(o.style)setG('style',o.style==='bal'?'bal':(o.style==='growth'?'growth':(o.style==='safe'?'safe':'safe')));
     if(o.age&&['20','30','40','50'].indexOf(String(o.age))>=0)setG('age',String(o.age));
     if(o.debt)setG('debt',o.debt);
@@ -234,7 +317,7 @@ function calc(){
     else if(o.emerOK!==undefined)$('emer').checked=!!o.emerOK;
     src=label;
   }
-  if(q.get('salary')){apply({salary:q.get('salary'),fixed:q.get('fixed'),style:q.get('style'),age:q.get('age'),debt:q.get('debt'),goal:q.get('goal'),emer:q.get('emer')},'링크로 전달된 값');}
+  if(q.get('salary')){apply({salary:q.get('salary'),fixed:q.get('fixed'),assets:q.get('assets'),debtBal:q.get('debtBal'),style:q.get('style'),age:q.get('age'),debt:q.get('debt'),goal:q.get('goal'),emer:q.get('emer')},'링크로 전달된 값');}
   else{try{
     var pf=localStorage.getItem('br_portfolio'), dg=localStorage.getItem('br_diag');
     if(pf){apply(JSON.parse(pf),'이전에 저장한 값');}
