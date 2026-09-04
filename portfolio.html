@@ -115,6 +115,55 @@ body{
 .earnnote{margin-top:10px;font-size:12.5px;line-height:1.55;color:var(--t);background:var(--gold-bg);border:1px solid color-mix(in srgb,var(--gold) 30%,var(--b2));border-radius:10px;padding:9px 12px}
 .earnnote b{color:var(--gold)}
 .earnnote span{color:var(--t3);font-size:11px}
+
+/* ══ 고급 도구 ══ */
+.adv2{margin-top:14px;border:1px solid color-mix(in srgb,var(--gold) 34%,var(--b2));border-radius:16px;background:var(--card);overflow:hidden;box-shadow:var(--shadow-sm)}
+.adv2>summary{cursor:pointer;list-style:none;padding:15px 16px;font-size:14px;font-weight:800;color:var(--t);user-select:none}
+.adv2>summary em{font-style:normal;font-weight:500;color:var(--t3);font-size:12px}
+.adv2>summary::-webkit-details-marker{display:none}
+.adv2>summary::after{content:'▾';float:right;color:var(--gold);transition:transform .2s}
+.adv2[open]>summary::after{transform:rotate(180deg)}
+.adv2[open]>summary{border-bottom:1px solid var(--b2)}
+.adv2body{padding:14px 15px}
+.a2note{font-size:11.5px;line-height:1.55;color:var(--t3);background:var(--bg);border:1px solid var(--b2);border-radius:10px;padding:9px 11px;margin-bottom:13px}
+.a2note b{color:var(--t2)}
+.a2sec{margin-bottom:14px}
+.a2h{font-size:13px;font-weight:800;color:var(--t);margin-bottom:9px}
+.a2h em{font-style:normal;font-weight:500;color:var(--t3);font-size:11px}
+.a2presets{display:flex;gap:7px;margin-bottom:11px;flex-wrap:wrap}
+.a2p{flex:1;min-width:60px;border:1px solid var(--b2);background:var(--bg);color:var(--t2);border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.a2p:hover{border-color:var(--gold);color:var(--gold)}
+.a2slider{margin-bottom:11px}
+.a2slider label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:5px}
+.a2slider label b{color:var(--gold);font-weight:800}
+.a2slider input[type=range]{width:100%;accent-color:var(--gold)}
+.a2row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a2row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.a2field{display:flex;flex-direction:column;gap:5px}
+.a2field label{font-size:11.5px;font-weight:700;color:var(--t2)}
+.a2field label em{font-style:normal;font-weight:500;color:var(--t3);font-size:10px}
+.a2field input{padding:9px 10px;border:1.5px solid var(--b2);border-radius:9px;background:var(--bg);color:var(--t);font-size:14px;font-weight:700;font-family:inherit;width:100%}
+.a2field input:focus{outline:none;border-color:var(--gold)}
+.a2card{background:var(--bg);border:1px solid var(--b2);border-radius:12px;padding:13px 14px;margin-top:11px}
+.a2ch{font-size:12.5px;font-weight:800;color:var(--t);margin-bottom:10px}
+.a2ch .order{font-size:10.5px;font-weight:600;color:var(--t3);margin-left:5px}
+.a2stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:11px}
+.a2st{text-align:center;background:var(--card);border:1px solid var(--b2);border-radius:10px;padding:10px 5px}
+.a2st i{display:block;font-style:normal;font-size:10.5px;color:var(--t3);margin-bottom:4px}
+.a2st b{font-size:16px;font-weight:900;color:var(--t);font-variant-numeric:tabular-nums}
+.a2big{font-size:13px;font-weight:700;color:var(--t2);text-align:center;padding:10px;background:var(--gold-bg);border-radius:10px}
+.a2big b{font-size:19px;font-weight:900;color:var(--gold)}
+.a2note2{font-size:11px;line-height:1.5;color:var(--t3);margin-top:9px}
+.a2note2 b{color:var(--t2)}
+.a2verdict{margin-top:10px;font-size:12.5px;font-weight:700;line-height:1.55;border-radius:10px;padding:10px 12px}
+.a2verdict.ok{color:#15803d;background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.28)}
+.a2verdict.no{color:#c8362c;background:rgba(200,54,44,.08);border:1px solid rgba(200,54,44,.28)}
+.a2cols{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.a2col{text-align:center;background:var(--card);border:1px solid var(--b2);border-radius:10px;padding:11px 5px}
+.a2colh{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.a2colr{font-size:12px;font-weight:700;color:var(--t)}
+.a2colv{font-size:11px;color:var(--t3);margin:2px 0}
+.a2colf{font-size:12px;font-weight:800;color:var(--t);font-variant-numeric:tabular-nums;margin-top:4px}
 @media(max-width:520px){.row,.chips{grid-template-columns:1fr}}
 </style>
 </head>
@@ -150,6 +199,25 @@ body{
     <button class="reset" id="resetBtn">기본값으로 초기화</button>
   </div>
   <div id="result"></div>
+  <details class="adv2" id="advToolBox">
+    <summary>🛠️ 고급 도구 — 인터랙티브 자산배분 & 목표 최적화 <em>(선택)</em></summary>
+    <div class="adv2body">
+      <div class="a2note">💡 아래는 <b>가정 기반 예시</b>예요. 자산군 장기 가정(주식 7%·변동성 15% / 채권·예금 3.5%·5% / 현금 2.5%·1%)으로 계산하며, 실제 수익률은 시장에 따라 다릅니다.</div>
+      <div class="a2sec"><div class="a2h">① 자산 비중 직접 조정</div>
+        <div class="a2presets"><button class="a2p" onclick="advPreset(20,20,60)">안전</button><button class="a2p" onclick="advPreset(40,40,20)">균형</button><button class="a2p" onclick="advPreset(25,65,10)">성장</button><button class="a2p" onclick="advPreset(10,85,5)">공격</button></div>
+        <div class="a2slider"><label>🛡️ 안전자산(채권·예금) <b id="avS">40</b>%</label><input type="range" id="wS" min="0" max="100" value="40" oninput="advCalc()"></div>
+        <div class="a2slider"><label>🌱 성장자산(주식·ETF) <b id="avG">40</b>%</label><input type="range" id="wG" min="0" max="100" value="40" oninput="advCalc()"></div>
+        <div class="a2slider"><label>🅿️ 현금(파킹) <b id="avC">20</b>%</label><input type="range" id="wC" min="0" max="100" value="20" oninput="advCalc()"></div>
+      </div>
+      <div class="a2sec"><div class="a2h">② 목표 역산</div>
+        <div class="a2row"><div class="a2field"><label>목표 금액 <em>(만원)</em></label><input type="number" id="goalAmt" value="10000" min="0" step="100" oninput="advCalc()"></div><div class="a2field"><label>목표 기간 <em>(년)</em></label><input type="number" id="goalYr" value="10" min="1" max="50" oninput="advCalc()"></div></div>
+      </div>
+      <div class="a2sec"><div class="a2h">③ 리밸런싱 <em>(현재 보유를 넣으면 이동액 계산 · 선택)</em></div>
+        <div class="a2row3"><div class="a2field"><label>현재 안전</label><input type="number" id="hS" value="0" min="0" step="100" oninput="advCalc()"></div><div class="a2field"><label>현재 성장</label><input type="number" id="hG" value="0" min="0" step="100" oninput="advCalc()"></div><div class="a2field"><label>현재 현금</label><input type="number" id="hC" value="0" min="0" step="100" oninput="advCalc()"></div></div>
+      </div>
+      <div id="advResult"></div>
+    </div>
+  </details>
   <div class="foot">교육·참고용 가이드이며 개별 투자 조언이 아닙니다 · ⓒ AI 재테크 연구소</div>
 </div>
 <script>
@@ -337,6 +405,7 @@ function calc(){
       sevExtra+
       '<div class="disc">⚠️ 교육·참고용 안내이며 개별 재무·법률 조언이 아닙니다. 정확한 지원 자격은 각 기관에서 확인하세요.</div>';
     try{syncLink();}catch(_){}
+    try{advCalc();}catch(_){}
     return;
   }
 
@@ -394,8 +463,58 @@ function calc(){
     '<div class="card"><div class="h">'+sideLabel+' <span class="order">종잣돈 '+fmt(r.side)+'만원</span></div><div class="list">'+sideCards+'</div>'+earnNote(sidePicked)+reroll()+'</div>'+
     '<div class="disc">⚠️ 일반적인 가계·자산배분 가이드이며 개별 투자 조언이 아닙니다. 실제 배분은 부채·목표·시장 상황에 따라 조정하세요. 투자·부동산은 원금 손실이 가능합니다.</div>';
   try{syncLink();}catch(_){}
+    try{advCalc();}catch(_){}
 }
 function syncLink(){}
+/* ── 고급 도구: 인터랙티브 자산배분 & 최적화 ── */
+var A_RET={g:0.07,s:0.035,c:0.025}, A_VOL={g:0.15,s:0.05,c:0.01}, A_RGS=0.15;
+function advPreset(s,g,c){$('wS').value=s;$('wG').value=g;$('wC').value=c;advCalc();}
+function advPortStat(wS,wG,wC){
+  var R=wG*A_RET.g+wS*A_RET.s+wC*A_RET.c;
+  var v=wG*wG*A_VOL.g*A_VOL.g+wS*wS*A_VOL.s*A_VOL.s+wC*wC*A_VOL.c*A_VOL.c+2*wG*wS*A_VOL.g*A_VOL.s*A_RGS;
+  return {r:R,v:Math.sqrt(Math.max(0,v))};
+}
+function advFV(P,pmt,years,rate){var i=rate/12,m=years*12;var a=i>0?pmt*((Math.pow(1+i,m)-1)/i):pmt*m;return Math.round(P*Math.pow(1+rate,years)+a);}
+function advCalc(){
+  if(!$('wS'))return;
+  var sal=Math.max(0,parseFloat($('salary').value)||0), fixed=Math.max(0,parseFloat($('fixed').value)||0);
+  var assets=Math.max(0,parseFloat($('assets').value)||0), debtBal=Math.max(0,parseFloat($('debtBal').value)||0);
+  var style=gv('style')||'safe',age=gv('age')||'30',debt=gv('debt')||'none',goal=gv('goal')||'asset',emerOK=$('emer').checked;
+  var r=spCompute({salary:sal,fixed:fixed,assets:assets,debtBal:debtBal,style:style,age:age,emerOK:emerOK,debt:debt,goal:goal});
+  var monthly=r.invest, P=assets;
+  var s=+$('wS').value,g=+$('wG').value,c=+$('wC').value,tot=(s+g+c)||1;
+  var wS=s/tot,wG=g/tot,wC=c/tot;
+  $('avS').textContent=Math.round(wS*100);$('avG').textContent=Math.round(wG*100);$('avC').textContent=Math.round(wC*100);
+  var st=advPortStat(wS,wG,wC), R=st.r, vol=st.v, worst=R-2*vol;
+  var y10=advFV(P,monthly,10,R);
+  /* 목표 역산 */
+  var T=Math.max(0,parseFloat($('goalAmt').value)||0), N=Math.max(1,parseFloat($('goalYr').value)||1);
+  var i=R/12,m=N*12, futP=P*Math.pow(1+R,N), need=Math.max(0,T-futP);
+  var annF=i>0?((Math.pow(1+i,m)-1)/i):m;
+  var reqMonthly=need>0?Math.round(need/annF):0;
+  var paceFV=advFV(P,monthly,N,R), pacePct=T>0?Math.round(paceFV/T*100):0;
+  /* 리밸런싱 */
+  var hS=+$('hS').value||0,hG=+$('hG').value||0,hC=+$('hC').value||0,hT=hS+hG+hC, rebal='';
+  if(hT>0){
+    function mv(name,cur,tar){var d=tar-cur,col=d>=0?'#15803d':'#c8362c';return '<div class="rrow"><span>'+name+'</span><span>'+fmt(cur)+' → '+fmt(Math.round(tar))+' <b style="color:'+col+'">('+(d>=0?'+':'')+fmt(Math.round(d))+')</b></span></div>';}
+    rebal='<div class="a2card"><div class="a2ch">🔧 리밸런싱 — 목표 비중으로 맞추려면</div>'+mv('🛡️ 안전',hS,hT*wS)+mv('🌱 성장',hG,hT*wG)+mv('🅿️ 현금',hC,hT*wC)+'<div class="a2note2">보유 '+fmt(hT)+'만원을 위 비중으로. 한 번에 말고 <b>정기적으로 조금씩</b> 맞추면 됩니다.</div></div>';
+  }
+  /* 3배분안 비교 */
+  function colHTML(nm,ws,wg,wc){var x=advPortStat(ws,wg,wc);return '<div class="a2col"><div class="a2colh">'+nm+'</div><div class="a2colr">기대 '+(x.r*100).toFixed(1)+'%</div><div class="a2colv">변동 ±'+(x.v*100).toFixed(0)+'%</div><div class="a2colf">'+fmt(advFV(P,monthly,10,x.r))+'만원</div></div>';}
+  var compare='<div class="a2card"><div class="a2ch">📊 배분안 비교 <span class="order">10년 · 월 '+fmt(monthly)+'만원+보유 '+fmt(P)+'만원</span></div><div class="a2cols">'+colHTML('안전',.2,.2,.6)+colHTML('균형',.4,.4,.2)+colHTML('성장',.25,.65,.10)+'</div></div>';
+  var ok=monthly>=reqMonthly;
+  $('advResult').innerHTML=
+    '<div class="a2card"><div class="a2ch">📈 이 비중의 예상 성적 (연)</div>'+
+      '<div class="a2stats"><div class="a2st"><i>기대수익</i><b>'+(R*100).toFixed(1)+'%</b></div><div class="a2st"><i>예상 변동성</i><b>±'+(vol*100).toFixed(0)+'%</b></div><div class="a2st"><i>안 좋은 해 근사</i><b style="color:'+(worst<0?'#c8362c':'#15803d')+'">'+(worst*100).toFixed(0)+'%</b></div></div>'+
+      '<div class="a2big">10년 뒤 예상 <b>'+fmt(y10)+'</b> 만원</div>'+
+      '<div class="a2note2">성장 비중을 올리면 기대수익도, 위험(변동성)도 함께 커져요. "안 좋은 해 근사"는 한 해에 이 정도까지 빠질 수 있다는 대략치입니다.</div></div>'+
+    '<div class="a2card"><div class="a2ch">🎯 목표 역산 <span class="order">'+fmt(T)+'만원 / '+N+'년</span></div>'+
+      '<div class="rrow"><span>필요한 월 적립</span><span><b>'+fmt(reqMonthly)+'</b> 만원</span></div>'+
+      '<div class="rrow"><span>지금 월 적립</span><span><b>'+fmt(monthly)+'</b> 만원</span></div>'+
+      '<div class="rrow"><span>현재 페이스 결과</span><span><b>'+fmt(paceFV)+'</b> 만원 <i>(목표의 '+pacePct+'%)</i></span></div>'+
+      '<div class="a2verdict '+(ok?'ok':'no')+'">'+(ok?'✅ 지금 페이스면 목표 달성이 가능해요!':'⚠️ 월 '+fmt(Math.max(0,reqMonthly-monthly))+'만원을 더 모으거나, 기간을 늘리거나, 성장 비중을 높여야 해요.')+'</div></div>'+
+    rebal+compare;
+}
 
 /* 초기값: URL 파라미터 > 저장된 진단/포트폴리오 */
 (function init(){
@@ -422,6 +541,7 @@ function syncLink(){}
   if(src)$('srcTag').innerHTML='<b>('+src+' 반영됨)</b>';
   // 링크 백에도 tab 유지
   calc();
+  try{advCalc();}catch(_){}
 })();
 </script>
 </body>
