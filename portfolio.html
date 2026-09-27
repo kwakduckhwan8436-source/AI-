@@ -8,15 +8,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --gold:#b8860b;--gold2:#d4a017;--gold-bg:rgba(184,134,11,.12);
-  --gold-line:linear-gradient(135deg,#b8860b,#d4a017);
-  --bg:#f6f2e9;--card:#fff;--t:#1a1a1a;--t2:#444;--t3:#8a8a8a;
-  --b:#eee;--b2:#e5e0d5;--green:#15803d;--red:#c8362c;--blue:#1d6fd0;
-  --shadow-sm:0 2px 10px -4px rgba(0,0,0,.12);
+  --gold:#e6a817;--gold2:#f0b429;--gold-bg:rgba(230,168,23,.1);
+  --gold-line:linear-gradient(135deg,#3182f6,#1b64da);
+  --point:#3182f6;--point2:#1b64da;--point-bg:rgba(49,130,246,.08);
+  --bg:#f2f4f6;--card:#fff;--t:#191f28;--t2:#4e5968;--t3:#8b95a1;
+  --b:rgba(24,24,27,.06);--b2:rgba(24,24,27,.11);--green:#12b886;--red:#f04452;--blue:#3182f6;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
 }
 @media(prefers-color-scheme:dark){
-  :root{--bg:#0b0e14;--card:#141922;--t:#f0f0f0;--t2:#c2c2c2;--t3:#8a8a8a;--b:#232a36;--b2:#2b3340;--gold:#e6c35c;--gold2:#d4a017;--gold-bg:rgba(230,195,92,.14);--gold-line:linear-gradient(135deg,#c9a227,#e6c35c);}
+  :root{--bg:#17171c;--card:#202127;--t:#e9ecf1;--t2:#a1a8b3;--t3:#6b7480;--b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.14);--gold:#f0c14b;--gold2:#f5cf6b;--gold-bg:rgba(240,193,75,.12);--gold-line:linear-gradient(135deg,#4d90fe,#3182f6);--point:#4d90fe;--point2:#3182f6;--point-bg:rgba(77,144,254,.13);}
 }
+:root[data-theme="dark"]{--bg:#17171c;--card:#202127;--t:#e9ecf1;--t2:#a1a8b3;--t3:#6b7480;--b:rgba(255,255,255,.07);--b2:rgba(255,255,255,.14);--gold:#f0c14b;--gold2:#f5cf6b;--gold-bg:rgba(240,193,75,.12);--gold-line:linear-gradient(135deg,#4d90fe,#3182f6);--point:#4d90fe;--point2:#3182f6;--point-bg:rgba(77,144,254,.13);}
+:root[data-theme="light"]{--bg:#f2f4f6;--card:#fff;--t:#191f28;--t2:#4e5968;--t3:#8b95a1;--b:rgba(24,24,27,.06);--b2:rgba(24,24,27,.11);--point:#3182f6;--point2:#1b64da;--point-bg:rgba(49,130,246,.08);}
+:root[data-theme="dark"] body{background:#17171c}
+body{transition:background-color .3s ease,color .3s ease}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid color-mix(in srgb,var(--point) 55%,transparent);outline-offset:2px;border-radius:8px}
+body{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background:
@@ -52,6 +59,10 @@ body{
 .reset{margin-top:13px;width:100%;border:1px solid var(--b2);background:var(--bg);color:var(--t2);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .linked{font-size:12px;font-weight:700;color:var(--green);background:rgba(21,128,61,.1);border:1px solid rgba(21,128,61,.25);border-radius:9px;padding:8px 12px;margin:14px 0 0}
 .card{background:var(--card);border:1px solid var(--b2);border-radius:14px;padding:15px 16px;margin-top:12px;box-shadow:var(--shadow-sm)}
+.bridge-card{background:linear-gradient(120deg,rgba(49,130,246,.08),var(--card));border-color:var(--point)}
+.bridge-btn{width:100%;margin-top:12px;padding:13px;border-radius:12px;border:none;background:var(--point);color:#fff;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(49,130,246,.28);transition:transform .1s,filter .15s}
+.bridge-btn:hover{filter:brightness(1.05)}
+.bridge-btn:active{transform:scale(.97)}
 .h{font-size:14px;font-weight:800;margin-bottom:12px;letter-spacing:-.01em}
 .h .order{font-size:11px;font-weight:600;color:var(--t3);margin-left:6px}
 .bar{display:flex;height:22px;border-radius:8px;overflow:hidden;background:var(--b2);margin-bottom:13px}
@@ -171,7 +182,9 @@ body{
 <div class="wrap">
   <div class="top">
     <a class="back" id="backLink" href="index.html">← 부의 로드맵</a>
+    <a class="back" href="index.html?tab=0">🎯 진단</a>
     <a class="back" id="cafeLink" href="https://cafe.naver.com/aiprogram1" target="_blank" rel="noopener" style="color:#03c75a;border-color:#03c75a;background:rgba(3,199,90,.1)">☕ 네이버 카페</a>
+    <button class="back" id="pfTheme" aria-label="테마 전환" style="cursor:pointer">🌙</button>
   </div>
   <div class="hero">
     <h1>💼 월급 포트폴리오 설계</h1>
@@ -242,6 +255,12 @@ body{
 
 var MAIN_URL='index.html'; /* 부의 로드맵 파일 경로(같은 폴더 가정). 다른 곳에 올리면 여기만 바꾸세요 */
 function $(id){return document.getElementById(id)}
+/* 다크/라이트 토글 (rr_theme 공유) */
+(function(){var t=null;try{t=localStorage.getItem('rr_theme');}catch(_){}
+  function apply(v){if(v)document.documentElement.setAttribute('data-theme',v);var b=$('pfTheme');if(b)b.textContent=(v==='dark')?'☀️':'🌙';}
+  if(t)apply(t);else{try{apply(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}catch(_){}}
+  var btn=$('pfTheme');if(btn)btn.addEventListener('click',function(){var cur=document.documentElement.getAttribute('data-theme')||'light';var nv=cur==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',nv);try{localStorage.setItem('rr_theme',nv);}catch(_){}btn.textContent=nv==='dark'?'☀️':'🌙';});
+})();
 function fmt(n){return Number(Math.round(n)).toLocaleString();}
 function gv(g){var el=document.querySelector('.cr[data-g="'+g+'"] .chip.on');return el?el.getAttribute('data-v'):null;}
 function setG(g,v){var row=document.querySelector('.cr[data-g="'+g+'"]');if(!row)return;row.querySelectorAll('.chip').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-v')===v);});}
@@ -403,6 +422,8 @@ function calc(){
       '<div class="card"><div class="h">🧯 먼저: 새는 돈 막기 — 절약·환급 <span class="order">목표 '+fmt(cutT)+'만원</span></div><div class="list">'+cards(pick('save',saveN,ctx))+'</div></div>'+
       '<div class="card"><div class="h">🚀 그다음: 즉시 현금이 되는 부업 <span class="order">목표 '+fmt(earnT)+'만원</span></div><div class="list">'+cards(cashList)+'</div>'+earnNote(cashList)+reroll()+'</div>'+
       sevExtra+
+      diagRecoCard()+
+      roadmapBridge(0,style,'cash')+
       '<div class="disc">⚠️ 교육·참고용 안내이며 개별 재무·법률 조언이 아닙니다. 정확한 지원 자격은 각 기관에서 확인하세요.</div>';
     try{syncLink();}catch(_){}
     try{advCalc();}catch(_){}
@@ -460,10 +481,29 @@ function calc(){
     '<div class="card"><div class="h">🛡️ 안전자산에 어울리는 종목</div><div class="list">'+cards(pick('safe',nInv,ctx))+'</div></div>'+
     '<div class="card"><div class="h">🌱 성장자산에 어울리는 종목</div><div class="list">'+cards(pick('grow',nInv,ctx))+'</div></div>'+
     debtExtra+
+    diagRecoCard()+
     '<div class="card"><div class="h">'+sideLabel+' <span class="order">종잣돈 '+fmt(r.side)+'만원</span></div><div class="list">'+sideCards+'</div>'+earnNote(sidePicked)+reroll()+'</div>'+
     '<div class="disc">⚠️ 일반적인 가계·자산배분 가이드이며 개별 투자 조언이 아닙니다. 실제 배분은 부채·목표·시장 상황에 따라 조정하세요. 투자·부동산은 원금 손실이 가능합니다.</div>';
+  $('result').innerHTML+=roadmapBridge(r.side,style,goal);
   try{syncLink();}catch(_){}
     try{advCalc();}catch(_){}
+}
+function diagRecoCard(){
+  try{var raw=localStorage.getItem('br_diag_recos');if(!raw)return '';var d=JSON.parse(raw);var recos=(d&&d.recos)||[];if(!recos.length)return '';
+    var list=recos.slice(0,6).map(function(o){return '<a class="item" href="'+MAIN_URL+'?tab='+(o.tab||3)+'" target="_blank" rel="noopener"><span class="ic" style="background:rgba(49,130,246,.12)">'+(o.ic||'💡')+'</span><span class="itxt"><b>'+o.n+(o.pct?' <i style="color:var(--point);font-style:normal">'+o.pct+'%</i>':'')+'</b><i>'+(o.t?o.t+' · ':'')+(o.e||'')+'</i></span><span class="go">→</span></a>';}).join('');
+    return '<div class="card bridge-card"><div class="h">🎯 부의 로드맵 진단이 뽑은 내 맞춤 부업 <span class="order">종잣돈 활용처</span></div><div class="pnote">방금 맞춤진단에서 나온 상위 추천이에요. 위 <b>부업 종잣돈</b>을 이 항목들에 투입해 시작해 보세요.</div><div class="list">'+list+'</div></div>';
+  }catch(_){return '';}
+}
+function roadmapBridge(seed,style,goal){
+  seed=Math.max(0,Math.round(seed||0));
+  return '<div class="card bridge-card"><div class="h">🎯 이 결과로 부업 추천 이어받기</div>'+
+    '<div class="pnote">위에서 계산된 <b>부업 종잣돈 '+fmt(seed)+'만원</b>과 <b>'+({safe:'안전형',bal:'균형형',growth:'성장형'}[style]||'균형형')+'</b> 성향을 그대로 넘겨, 부의 로드맵 맞춤진단에서 딱 맞는 부업을 받아보세요.</div>'+
+    '<button class="bridge-btn" onclick="goRoadmap('+seed+',\''+style+'\',\''+goal+'\')">🚀 부의 로드맵에서 맞춤 부업 받기 →</button></div>';
+}
+function goRoadmap(seed,style,goal){
+  try{localStorage.setItem('br_portfolio',JSON.stringify(Object.assign(JSON.parse(localStorage.getItem('br_portfolio')||'{}'),{seedForDiag:seed,style:style,goal:goal,from:'portfolio',ts:Date.now()})));}catch(_){}
+  var q='?from=portfolio&tab=0&seed='+seed+'&style='+encodeURIComponent(style||'bal')+'&goal='+encodeURIComponent(goal||'side');
+  window.open(MAIN_URL+q,'_blank','noopener');
 }
 function syncLink(){}
 /* ── 고급 도구: 인터랙티브 자산배분 & 최적화 ── */
